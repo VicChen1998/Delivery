@@ -1,0 +1,9 @@
+#!/bin/sh
+cp -r $1 $1_pkg
+
+find $1_pkg -name '__pycache__' | xargs rm -rf
+find $1_pkg -name '*.pyc' | xargs rm -f
+find $1_pkg -name '.*' | xargs rm -rf
+
+zip -r -q $1.zip $1_pkg
+rm -rf $1_pkg

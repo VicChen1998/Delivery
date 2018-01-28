@@ -1,0 +1,57 @@
+<!--pages/settings.wxml-->
+<view class="container">
+    <view class='topbar'>
+        <image wx:if="{{!hasUserInfo}}" class='userinfo-avatar' src="/images/avatar.jpg"></image>
+        <image wx:else class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image>
+    </view>
+
+    <scroll-view scroll-y class='main_contain'>
+
+        <view class='content_title'>
+            <text>默认收货信息</text>
+        </view>
+
+        <form bindsubmit='submit'>
+            <view class='input_item'>
+                <text class='input_title'>姓名</text>
+                <input wx:if="{{isSetting}}" class='input_value' name='name' value="{{deliveryInfo.name}}" focus='true'></input>
+                <text wx:else class='default_value'>{{deliveryInfo.name}}</text>
+            </view>
+
+            <view class='input_item'>
+                <text class='input_title'>手机号</text>
+                <input wx:if="{{isSetting}}" class='input_value' name='phone' value="{{deliveryInfo.phone}}"></input>
+                <text wx:else class='default_value'>{{deliveryInfo.phone}}</text>
+            </view>
+
+            <view class='input_item'>
+                <text class='input_title'>大学</text>
+                <input wx:if="{{isSetting}}" class='input_value' name='university' value="{{deliveryInfo.university}}"></input>
+                <text wx:else class='default_value'>{{deliveryInfo.university}}</text>
+            </view>
+
+            <view class='input_item'>
+                <text class='input_title'>校区</text>
+                <input wx:if="{{isSetting}}" class='input_value' name='campus' value="{{deliveryInfo.campus}}"></input>
+                <text wx:else class='default_value'>{{deliveryInfo.campus}}</text>
+            </view>
+
+            <view class='input_item'>
+                <text class='input_title'>宿舍区</text>
+                <input wx:if="{{isSetting}}" class='input_value' name='community' value="{{deliveryInfo.community}}"></input>
+                <text wx:else class='default_value'>{{deliveryInfo.community}}</text>
+            </view>
+
+            <view class='input_item'>
+                <text class='input_title'>楼号</text>
+                <input wx:if="{{isSetting}}" class='input_value' name='building' value="{{deliveryInfo.building}}"></input>
+                <text wx:else class='default_value'>{{deliveryInfo.building}}</text>
+            </view>
+
+            <button wx:if="{{!isSetting}}" class='settings_button set' bindtap='start_set'>修改</button>
+            <button wx:else class='settings_button save' form-type='submit'>保存</button>
+
+        </form>
+
+    </scroll-view>
+</view>

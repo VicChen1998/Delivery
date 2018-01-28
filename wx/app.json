@@ -1,0 +1,32 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/logs/logs",
+        "pages/settings/settings"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "轻骑速递",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "grey",
+        "borderStyle": "#aaa",
+        "selectedColor": "#000",
+        "list": [
+            {
+                "text": "下单",
+                "pagePath": "pages/index/index",
+                "iconPath": "images/order.png",
+                "selectedIconPath": "images/order_selected.png"
+            },
+            {
+                "text": "设置",
+                "pagePath": "pages/settings/settings",
+                "iconPath": "images/settings.png",
+                "selectedIconPath": "images/settings_selected.png"
+            }
+        ]
+    }
+}

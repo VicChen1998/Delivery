@@ -1,0 +1,38 @@
+<!--index.wxml-->
+<view class="container">
+
+    <view class='topbar'>
+        <image wx:if="{{!hasUserInfo}}" class='userinfo-avatar' src="/images/avatar.jpg"></image>
+        <image wx:else class="userinfo-avatar" src="{{userInfo.avatarUrl}}" bindtap='viewtap'></image>
+    </view>
+
+    <view class='main_contain'>
+
+        <form bindsubmit='submit'>
+
+            <view class='input_item'>
+                <text class='input_title'>快递位置</text>
+                <picker bindchange='pkg_position_onchange' value="{{pkg_position_index}}" range="{{pkg_position_array}}">
+                    <text class='input_value'>{{pkg_position_array[pkg_position_index]}}</text>
+                </picker>
+            </view>
+
+            <view class='input_item'>
+                <text class='input_title'>快递信息</text>
+                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea'></textarea>
+            </view>
+
+            <view class='separate_line' style='margin: 180rpx auto 30rpx;'></view>
+
+            <view class='input_item'>
+                <text class='input_title'>宿舍区</text>
+                <picker bindchange='community_onchange' value="{{community_index}}" range="{{community_array}}">
+                    <text class='input_value'>{{community_array[community_index]}}</text>
+                </picker>
+            </view>
+
+            <button class='order_button' bindtap='order'>一键下单</button>
+        </form>
+
+    </view>
+</view>

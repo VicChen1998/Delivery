@@ -1,7 +1,7 @@
 {
     "pages": [
-        "pages/index/index",
-        "pages/logs/logs",
+        "pages/order/order",
+        "pages/record/record",
         "pages/settings/settings"
     ],
     "window": {
@@ -17,9 +17,16 @@
         "list": [
             {
                 "text": "下单",
-                "pagePath": "pages/index/index",
+                "pagePath": "pages/order/order",
                 "iconPath": "images/order.png",
                 "selectedIconPath": "images/order_selected.png"
+            },
+            {
+                "text":"订单",
+                "pagePath":"pages/record/record",
+                "iconPath": "images/record.png",
+                "selectedIconPath": "images/record_selected.png"
+
             },
             {
                 "text": "设置",

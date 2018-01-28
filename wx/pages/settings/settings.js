@@ -53,6 +53,7 @@ Page({
     submit: function (e) {
         wx.showLoading({title: ' '})
         e.detail.value.openid = this.data.deliveryInfo.openid
+        console.log(e.detail.value)
         wx.request({
             url: 'https://www.vicchen.club/upload_delivery_info',
             method: 'POST',

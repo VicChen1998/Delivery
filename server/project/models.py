@@ -4,6 +4,50 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+# 大学表
+class University(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+    province = models.CharField(max_length=16)
+
+    class Meta:
+        db_table = 'University'
+
+
+class Campus(models.Model):
+    name =models.CharField(max_length=32)
+    university = models.ForeignKey(University)
+
+    class Meta:
+        db_table = 'Campus'
+
+    def fullname(self):
+        return self.university.name + ' ' + self.name
+
+
+class Community(models.Model):
+    name = models.CharField(max_length=16)
+    campus = models.ForeignKey(Campus)
+    university = models.ForeignKey(University)
+
+    class Meta:
+        db_table = 'Community'
+
+    def fullname(self):
+        return self.campus.fullname() + ' ' + self.name
+
+
+class Building(models.Model):
+    name = models.CharField(max_length=16)
+    community = models.ForeignKey(Community)
+    campus = models.ForeignKey(Campus)
+    university = models.ForeignKey(University)
+
+    class Meta:
+        db_table = 'Building'
+
+    def fullname(self):
+        return self.community.fullname() + ' ' + self.name
+
 
 # 用户信息表
 class UserProfile(models.Model):
@@ -28,20 +72,20 @@ class UserProfile(models.Model):
 
     # 本应用数据
     # 名字
-    name = models.CharField(max_length=32, null=True)
+    name = models.CharField(max_length=32, null=True, default='')
     # 手机号
-    phone = models.CharField(max_length=11, null=True)
+    phone = models.CharField(max_length=11, null=True, default='')
     # 大学
-    university = models.CharField(max_length=64, null=True)
+    university = models.ForeignKey(University, null=True, default=None)
     # 校区
-    campus = models.CharField(max_length=32, null=True)
+    campus = models.ForeignKey(Campus, null=True, default=None)
     # 宿舍区
-    community = models.CharField(max_length=32, null=True)
+    community = models.ForeignKey(Community, null=True, default=None)
     # 楼号
-    building = models.CharField(max_length=8, null=True)
+    building = models.ForeignKey(Building, null=True, default=None)
 
     class Meta:
-        db_table = 'user_profile'
+        db_table = 'UserProfile'
 
 
 # 订单
@@ -60,9 +104,7 @@ class Order(models.Model):
     # 快递短信
     pkg_info = models.CharField(max_length=256)
     # 送货地址
-    # 宿舍区
-    community = models.CharField(max_length=32)
-    # 楼号
+    # 楼号 包括 大学/校区/宿舍区
     building = models.CharField(max_length=8)
     # 价格
     price = models.DecimalField(max_digits=4, decimal_places=2)
@@ -70,4 +112,4 @@ class Order(models.Model):
     comment = models.CharField(max_length=128)
 
     class Meta:
-        db_table = 'order'
+        db_table = 'Order'

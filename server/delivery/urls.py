@@ -16,17 +16,30 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from project.auth import *
+from project.upload import *
+from project.getdata import *
 from project.views import *
 
 urlpatterns = [
+    # 管理
     url(r'^admin', admin.site.urls),
 
+    # 登录
     url(r'^signin', signin),
+
+    # 上传数据
     url(r'^upload_userinfo', upload_userinfo),
     url(r'^upload_delivery_info$', upload_delivery_info),
 
+    # 获取数据
     url(r'^resource', resource),
+    url(r'^get_university', get_university),
+    url(r'^get_campus', get_campus),
+    url(r'^get_community', get_community),
+    url(r'^get_building', get_building),
 
+    # 测试接口
     url(r'^test$', test),
     url(r'^test0$', test0)
 ]

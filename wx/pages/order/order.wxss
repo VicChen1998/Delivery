@@ -1,0 +1,42 @@
+/**index.wxss**/
+
+.separate_line{
+    width: 80%;
+    border-bottom: 2rpx solid #ccc;
+}
+
+.input_item {
+    width: 100%;
+    height: 150rpx;
+    margin: 0 auto 10rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input_title {
+    width: 100%;
+    margin: 0 auto 15rpx;
+    text-align: center;
+    font-size: 35rpx;
+}
+
+.input_value {
+    width: 100%;
+    border-bottom: 3rpx solid #aaa;
+    font-size: 40rpx;
+}
+
+.input_textarea{
+    position: absolute;
+    width: 80%;
+    height: 200rpx;
+    padding: 10rpx;
+    margin: 65rpx auto 0;
+    border: 3rpx solid #ccc;
+    font-size: 28rpx;
+}
+
+.order_button{
+    width: 30%;
+}

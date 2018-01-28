@@ -1,9 +1,9 @@
 <!--pages/settings.wxml-->
 <view class="container">
-    <view class='topbar'>
+    <!-- <view class='topbar'>
         <image wx:if="{{!hasUserInfo}}" class='userinfo-avatar' src="/images/avatar.jpg"></image>
         <image wx:else class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image>
-    </view>
+    </view> -->
 
     <scroll-view scroll-y class='main_contain'>
 
@@ -48,10 +48,34 @@
                 <text wx:else class='default_value'>{{deliveryInfo.building}}</text>
             </view>
 
-            <button wx:if="{{!isSetting}}" class='settings_button set' bindtap='start_set'>修改</button>
-            <button wx:else class='settings_button save' form-type='submit'>保存</button>
+            <button wx:if="{{!isSetting}}" class='settings_button' bindtap='start_set'>修改</button>
+            <button wx:else class='settings_button' form-type='submit'>保存</button>
 
         </form>
 
+
+         <view wx:if="{{debug}}" style='margin-top: 500rpx'>
+            <text>debug info:</text>
+            <block wx:if="{{!hasDeliveryInfo}}">
+                <text>Connecting Server...</text>
+            </block>
+            <block wx:else>
+                <view>
+                    <text>signin_status: </text>
+                    <text>{{deliveryInfo.signin_status}}</text>
+                </view>
+
+                <view>
+                    <text>openid: </text>
+                    <text>{{deliveryInfo.openid}}</text>
+                </view>
+
+                <view>
+                    <text>first_signin: </text>
+                    <text>{{deliveryInfo.first_signin}}</text>
+                </view>
+
+            </block>
+        </view> 
     </scroll-view>
 </view>

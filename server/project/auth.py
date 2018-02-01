@@ -4,7 +4,7 @@ import requests
 from django.http import HttpResponse
 
 from delivery.settings import AppID, AppSecret
-from project.models import *
+from project.models import User, UserProfile
 
 
 def get_openid(js_code):
@@ -23,11 +23,10 @@ def get_openid(js_code):
 
 def signin(request):
     if 'js_code' not in request.GET:
-        return HttpResponse('expect js_code.')
+        response = {'signin_status': 'fail', 'errMsg': 'expect js_code'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
 
-    js_code = request.GET['js_code']
-
-    openid = get_openid(js_code)
+    openid = get_openid(request.GET['js_code'])
     if not openid:
         response = {'signin_status': 'fail'}
         return HttpResponse(json.dumps(response), content_type='application/json')
@@ -42,15 +41,26 @@ def signin(request):
 
     profile = UserProfile.objects.get(user=user)
 
+    university, campus, community, building = '', '', '', ''
+
+    if profile.university:
+        university = profile.university.name
+    if profile.campus:
+        campus = profile.campus.name
+    if profile.community:
+        community = profile.community.name
+    if profile.building:
+        building = profile.building.name
+
     response = {'signin_status': 'success',
                 'openid': openid,
                 'first_signin': first_signin,
                 'name': profile.name,
                 'phone': profile.phone,
-                'university': profile.university,
-                'campus': profile.campus,
-                'community': profile.community,
-                'building': profile.building}
+                'university': university,
+                'campus': campus,
+                'community': community,
+                'building': building}
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 

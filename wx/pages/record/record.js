@@ -1,66 +1,99 @@
 // pages/history.js
+const app = getApp()
+
 Page({
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
-  
-  },
+    data: {
+        userInfo: {},
+        deliveryInfo: {},
+        hasUserInfo: false,
+        hasDeliveryInfo: false,
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-  
-  },
+        finish_get_order: false,
+        hasOrder: false,
+        order_count: 0,
+        order_list: {},
+    },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
+    clear: function () {
+        this.setData({
+            hasOrder: false,
+            order_count: 0,
+            order_list: {}
+        })
+    },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
+    onLoad: function (options) {
+        if (app.globalData.userInfo) {
+            this.setData({
+                userInfo: app.globalData.userInfo,
+                hasUserInfo: true
+            })
+        }
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
+        if (app.globalData.deliveryInfo) {
+            this.setData({
+                deliveryInfo: app.globalData.deliveryInfo,
+                hasDeliveryInfo: true
+            })
+        } else {
+            // 登录
+            wx.login({
+                success: response => {
+                    // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                    wx.request({
+                        url: 'https://www.vicchen.club/signin',
+                        data: { js_code: response.code, },
+                        method: 'GET',
+                        success: response => {
+                            if (response.data.signin_status == 'success') {
+                                this.setData({
+                                    deliveryInfo: response.data,
+                                    hasDeliveryInfo: true
+                                })
+                                app.globalData.deliveryInfo = response.data
+                            } else {
+                                wx.showToast({
+                                    title: 'login fail:' + response.data.errMsg,
+                                    icon: 'none'
+                                })
+                            }
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
+                        }
+                    })
+                }
+            })
+        }
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
+    },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
+    onShow: function () {
+        this.get_order()
+    },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
+    onPullDownRefresh: function () {
+        this.get_order()
+    },
+
+    get_order: function () {
+        wx.showNavigationBarLoading()
+        wx.request({
+            url: 'https://www.vicchen.club/get_order',
+            data: { 'openid': this.data.deliveryInfo.openid },
+            success: response => {
+                if (response.data.get_order_status == 'success') {
+                    this.setData({
+                        order_list: response.data.order_list,
+                        order_count: response.data.order_count,
+                        hasOrder: true
+                    })
+                }
+            },
+            complete: response => {
+                this.setData({ finish_get_order: true })
+                wx.stopPullDownRefresh()
+                wx.hideNavigationBarLoading()
+            }
+        })
+    },
 })

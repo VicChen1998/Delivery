@@ -2,36 +2,63 @@
 <view class="container">
 
     <view class='topbar'>
-        <image wx:if="{{!hasUserInfo}}" class='userinfo-avatar' src="/images/avatar.jpg"></image>
-        <image wx:else class="userinfo-avatar" src="{{userInfo.avatarUrl}}" bindtap='viewtap'></image>
+        <block>
+            <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
+            <image wx:else class="avatar" src="{{userInfo.avatarUrl}}" bindtap='viewtap'></image>
+        </block>
+
+        <view wx:if="{{hasDeliveryInfo}}" class='location' bindtap='toSettings'>
+            <image class='location_icon' src="/images/location.png"></image>
+            <text> {{deliveryInfo.university}}</text>
+            <text> {{deliveryInfo.campus}}</text>
+        </view>
     </view>
 
-    <view class='main_contain'>
+    <view class='main_content' style='margin-top:30rpx;'>
 
-        <form bindsubmit='submit'>
+        <form bindsubmit='order'>
 
             <view class='input_item'>
-                <text class='input_title'>快递位置</text>
-                <picker bindchange='pkg_position_onchange' value="{{pkg_position_index}}" range="{{pkg_position_array}}">
-                    <text class='input_value'>{{pkg_position_array[pkg_position_index]}}</text>
-                </picker>
+                <text class='input_title'>姓名</text>
+                <input class='input_value' placeholder='快递上的收货人姓名' name='name' value='{{deliveryInfo.name}}'></input>
             </view>
 
             <view class='input_item'>
-                <text class='input_title'>快递信息</text>
-                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea'></textarea>
+                <text class='input_title'>手机号</text>
+                <input class='input_value' placeholder='快递上的收货人手机' name='phone' value='{{deliveryInfo.phone}}'></input>
             </view>
-
-            <view class='separate_line' style='margin: 180rpx auto 30rpx;'></view>
 
             <view class='input_item'>
                 <text class='input_title'>宿舍区</text>
-                <picker bindchange='community_onchange' value="{{community_index}}" range="{{community_array}}">
-                    <text class='input_value'>{{community_array[community_index]}}</text>
+                <view class='two_picker_item'>
+                    <picker bindchange='community_onchange' value="{{community_index}}" range="{{community_range}}" name='community'>
+                        <text class='input_picker'>{{community_range[community_index]}}</text>
+                    </picker>
+                    <picker bindchange='building_onchange' value="{{building_index}}" range="{{building_range}}" name='building'>
+                        <text class='input_picker'>{{building_range[building_index]}}</text>
+                    </picker>
+                </view>
+            </view>
+
+            <view class='input_item'>
+                <text class='input_title'>快递位置</text>
+                <picker bindchange='pkg_position_onchange' value="{{pkg_position_index}}" range="{{pkg_position_range}}" name='pkg_position'>
+                    <text class='input_picker'>{{pkg_position_range[pkg_position_index]}}</text>
                 </picker>
             </view>
 
-            <button class='order_button' bindtap='order'>一键下单</button>
+            <view class='input_item' style='height: 60rpx;'>
+                <text class='input_title'>快递信息</text>
+            </view>
+
+            <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info'></textarea>
+
+            <view class='input_item'>
+                <text class='input_title'>备注</text>
+                <input class='input_value' name='comment'></input>
+            </view>
+
+            <button class='order_button' form-type='submit'>一键下单</button>
         </form>
 
     </view>

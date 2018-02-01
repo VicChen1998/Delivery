@@ -6,6 +6,8 @@ from delivery.settings import BASE_DIR
 from project.models import *
 
 
+# 开放端口 获取公共数据
+
 def resource(request):
     name = request.GET['name']
     file = open(BASE_DIR + '/static/resource/' + name, 'rb')
@@ -34,10 +36,10 @@ def get_campus(request):
 
 def get_community(request):
     university = University.objects.get(name=request.GET['university'])
-    campus = Campus.objects.get(name=request.GET['campus'])
+    campus = Campus.objects.get(name=request.GET['campus'], university=university)
     community_list = Community.objects.filter(university=university, campus=campus)
 
-    response = {'community_list':[]}
+    response = {'community_list': []}
     for community in community_list:
         response['community_list'].append(community.name)
     return HttpResponse(json.dumps(response), content_type='application/json')
@@ -45,9 +47,13 @@ def get_community(request):
 
 def get_building(request):
     university = University.objects.get(name=request.GET['university'])
-    campus = Campus.objects.get(name=request.GET['campus'])
-    community = Community.objects.get(name=request.GET['community'])
-    building_list = Building.objects.filter(university=university, campus=campus, community=community)
+    campus = Campus.objects.get(name=request.GET['campus'], university=university)
+    community = Community.objects.get(name=request.GET['community'],
+                                      university=university,
+                                      campus=campus)
+    building_list = Building.objects.filter(university=university,
+                                            campus=campus,
+                                            community=community)
 
     response = {'building_list': []}
     for building in building_list:
@@ -55,4 +61,32 @@ def get_building(request):
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
+def get_pkg_position(request):
+    university = University.objects.get(name=request.GET['university'])
+    campus = Campus.objects.get(name=request.GET['campus'], university=university)
+    pkg_position_list = PkgPosition.objects.filter(university=university, campus=campus)
+
+    response = {'pkg_position_list': []}
+    for pkg_position in pkg_position_list:
+        response['pkg_position_list'].append(pkg_position.name)
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+# 私密端口 获取个人数据
+
+def get_order(request):
+    if 'openid' not in request.GET:
+        response = {'get_order_status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.GET['openid'])
+    order_list = Order.objects.filter(user=user).order_by('-id')
+
+    response = {'get_order_status': 'success',
+                'order_count': order_list.count(),
+                'order_list': []}
+
+    for order in order_list:
+        response['order_list'].append(order.dict())
+    return HttpResponse(json.dumps(response), content_type='application/json')
 

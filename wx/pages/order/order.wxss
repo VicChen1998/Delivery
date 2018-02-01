@@ -1,42 +1,50 @@
 /**index.wxss**/
 
-.separate_line{
-    width: 80%;
-    border-bottom: 2rpx solid #ccc;
-}
-
 .input_item {
     width: 100%;
-    height: 150rpx;
-    margin: 0 auto 10rpx;
+    height: 80rpx;
     display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .input_title {
-    width: 100%;
-    margin: 0 auto 15rpx;
-    text-align: center;
-    font-size: 35rpx;
+    width: 30%;
+    text-align: right;
 }
 
 .input_value {
-    width: 100%;
+    width: 400rpx;
+    margin: 0 auto;
+    padding: 0 0 0 10rpx;
     border-bottom: 3rpx solid #aaa;
-    font-size: 40rpx;
+    text-align: center;
 }
 
-.input_textarea{
-    position: absolute;
+picker {
+    display: flex;
+    justify-content: center;
+    width: 70%;
+}
+
+.input_picker {
+    border-bottom: 3rpx solid #aaa;
+}
+
+.two_picker_item {
+    width: 40%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.input_textarea {
     width: 80%;
     height: 200rpx;
     padding: 10rpx;
-    margin: 65rpx auto 0;
+    margin: 0 auto 30rpx;
     border: 3rpx solid #ccc;
-    font-size: 28rpx;
+    font-size: 30rpx;
 }
 
-.order_button{
-    width: 30%;
+.order_button {
+    width: 35%;
+    margin: 30rpx auto 0;
 }

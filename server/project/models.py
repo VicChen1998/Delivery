@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 # 大学表
 class University(models.Model):
+    id = models.CharField(max_length=4, primary_key=True)
     name = models.CharField(max_length=64, unique=True)
     province = models.CharField(max_length=16)
 
@@ -13,8 +14,10 @@ class University(models.Model):
         db_table = 'University'
 
 
+# 校区表
 class Campus(models.Model):
-    name =models.CharField(max_length=32)
+    id = models.CharField(max_length=6, primary_key=True)
+    name = models.CharField(max_length=32)
     university = models.ForeignKey(University)
 
     class Meta:
@@ -24,7 +27,9 @@ class Campus(models.Model):
         return self.university.name + ' ' + self.name
 
 
+# 宿舍区表
 class Community(models.Model):
+    id = models.CharField(max_length=8, primary_key=True)
     name = models.CharField(max_length=16)
     campus = models.ForeignKey(Campus)
     university = models.ForeignKey(University)
@@ -36,7 +41,9 @@ class Community(models.Model):
         return self.campus.fullname() + ' ' + self.name
 
 
+# 宿舍楼表
 class Building(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=16)
     community = models.ForeignKey(Community)
     campus = models.ForeignKey(Campus)
@@ -47,6 +54,18 @@ class Building(models.Model):
 
     def fullname(self):
         return self.community.fullname() + ' ' + self.name
+
+
+# 快递点表
+class PkgPosition(models.Model):
+    id = models.CharField(max_length=8, primary_key=True)
+    name = models.CharField(max_length=32)
+    campus = models.ForeignKey(Campus)
+    university = models.ForeignKey(University)
+    is_baimi = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'PkgPosition'
 
 
 # 用户信息表
@@ -94,22 +113,53 @@ class Order(models.Model):
     id = models.CharField(max_length=64, primary_key=True, unique=True)
     # 日期
     date = models.DateField()
-    # 状态 (下单/取货/送达/完成)
-    status = models.IntegerField(4)
+    # 状态 (下单/取件/送达/完成)
+    status = models.IntegerField(4, default=0)
     # 用户
     user = models.ForeignKey(User)
     # 快递信息
+    # 姓名
+    name = models.CharField(max_length=32)
+    # 手机
+    phone = models.CharField(max_length=11)
     # 快递位置
-    pkg_position = models.CharField(max_length=64)
+    pkg_position = models.ForeignKey(PkgPosition)
     # 快递短信
     pkg_info = models.CharField(max_length=256)
     # 送货地址
     # 楼号 包括 大学/校区/宿舍区
-    building = models.CharField(max_length=8)
+    building = models.ForeignKey(Building)
     # 价格
     price = models.DecimalField(max_digits=4, decimal_places=2)
     # 备注
-    comment = models.CharField(max_length=128)
+    comment = models.CharField(max_length=128, null=True)
 
     class Meta:
         db_table = 'Order'
+
+    def dict(self):
+        status = ''
+        if self.status == 0:
+            status = '等待取件'
+        elif self.status == 1:
+            status = '已取件，等待配送'
+        elif self.status == 2:
+            status = '已送达，请下楼取件'
+        elif self.status == 3:
+            status = '已完成'
+
+        order_dict = {'id': self.id,
+                      'date': str(self.date),
+                      'status': status,
+                      'user': self.user.username,
+                      'name': self.name,
+                      'phone': self.phone,
+                      'pkg_position': self.pkg_position.name,
+                      'pkg_info': self.pkg_info,
+                      'university': self.building.university.name,
+                      'campus': self.building.campus.name,
+                      'community': self.building.community.name,
+                      'building': self.building.name,
+                      'price': '%.2f' % self.price,
+                      'comment': self.comment}
+        return order_dict

@@ -18,21 +18,26 @@ page {
     height: 128rpx;
 }
 
-.userinfo-avatar {
+.avatar {
     width: 108rpx;
     height: 108rpx;
-    margin: 0 0 0 30rpx;
+    margin: 0 5rpx 20rpx 30rpx;
     border-radius: 50%;
+    float: left;
+}
+
+.location {
+    height: 50rpx;
+    margin: 55rpx auto 0;
+}
+
+.location_icon {
+    width: 50rpx;
+    height: 50rpx;
+    margin: 0 10rpx 0;
+    float: left;
 }
 
 .main_content {
     width: 100%;
-    margin: 20rpx 0;
-    display: flex;
-}
-
-.content_title {
-    width: 180rpx;
-    margin: 0 auto 30rpx;
-    font-size: 30rpx;
 }

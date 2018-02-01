@@ -1,11 +1,11 @@
 <!--pages/settings.wxml-->
 <view class="container">
-    <!-- <view class='topbar'>
-        <image wx:if="{{!hasUserInfo}}" class='userinfo-avatar' src="/images/avatar.jpg"></image>
-        <image wx:else class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image>
-    </view> -->
+     <view class='topbar'>
+        <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
+        <image wx:else class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    </view> 
 
-    <scroll-view scroll-y class='main_contain'>
+    <scroll-view scroll-y class='main_content'>
 
         <view class='content_title'>
             <text>默认收货信息</text>
@@ -14,37 +14,45 @@
         <form bindsubmit='submit'>
             <view class='input_item'>
                 <text class='input_title'>姓名</text>
-                <input wx:if="{{isSetting}}" class='input_value' name='name' value="{{deliveryInfo.name}}" focus='true'></input>
+                <input wx:if="{{isSetting}}" class='input_value' value="{{deliveryInfo.name}}" name='name' focus='true'></input>
                 <text wx:else class='default_value'>{{deliveryInfo.name}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>手机号</text>
-                <input wx:if="{{isSetting}}" class='input_value' name='phone' value="{{deliveryInfo.phone}}"></input>
+                <input wx:if="{{isSetting}}" class='input_value' value="{{deliveryInfo.phone}}" name='phone' maxlength='11'></input>
                 <text wx:else class='default_value'>{{deliveryInfo.phone}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>大学</text>
-                <input wx:if="{{isSetting}}" class='input_value' name='university' value="{{deliveryInfo.university}}"></input>
+                <picker wx:if="{{isSetting}}" bindchange='university_onchange' value="{{university_index}}" range="{{university_range}}" name='university'>
+                    <text class='input_picker'>{{university_range[university_index]}}</text>
+                </picker>
                 <text wx:else class='default_value'>{{deliveryInfo.university}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>校区</text>
-                <input wx:if="{{isSetting}}" class='input_value' name='campus' value="{{deliveryInfo.campus}}"></input>
+                <picker wx:if="{{isSetting}}" bindchange='campus_onchange' value="{{campus_index}}" range="{{campus_range}}" name='campus'>
+                    <text class='input_picker'>{{campus_range[campus_index]}}</text>
+                </picker>
                 <text wx:else class='default_value'>{{deliveryInfo.campus}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>宿舍区</text>
-                <input wx:if="{{isSetting}}" class='input_value' name='community' value="{{deliveryInfo.community}}"></input>
+                <picker wx:if="{{isSetting}}" bindchange='community_onchange' value="{{community_index}}" range="{{community_range}}" name='community'>
+                    <text class='input_picker'>{{community_range[community_index]}}</text>
+                </picker>
                 <text wx:else class='default_value'>{{deliveryInfo.community}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>楼号</text>
-                <input wx:if="{{isSetting}}" class='input_value' name='building' value="{{deliveryInfo.building}}"></input>
+                <picker wx:if="{{isSetting}}" bindchange='building_onchange' value="{{building_index}}" range="{{building_range}}" name='building'>
+                    <text class='input_picker'>{{building_range[building_index]}}</text>
+                </picker>
                 <text wx:else class='default_value'>{{deliveryInfo.building}}</text>
             </view>
 
@@ -54,7 +62,7 @@
         </form>
 
 
-         <view wx:if="{{debug}}" style='margin-top: 500rpx'>
+         <view style='margin-top: 500rpx'>
             <text>debug info:</text>
             <block wx:if="{{!hasDeliveryInfo}}">
                 <text>Connecting Server...</text>

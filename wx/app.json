@@ -2,7 +2,8 @@
     "pages": [
         "pages/order/order",
         "pages/record/record",
-        "pages/settings/settings"
+        "pages/settings/settings",
+        "pages/record/detail/detail"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -22,11 +23,10 @@
                 "selectedIconPath": "images/order_selected.png"
             },
             {
-                "text":"订单",
-                "pagePath":"pages/record/record",
+                "text": "订单",
+                "pagePath": "pages/record/record",
                 "iconPath": "images/record.png",
                 "selectedIconPath": "images/record_selected.png"
-
             },
             {
                 "text": "设置",

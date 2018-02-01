@@ -16,30 +16,34 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from project.auth import *
-from project.upload import *
-from project.getdata import *
-from project.views import *
+from project import auth, order, upload, getdata, views
 
 urlpatterns = [
     # 管理
     url(r'^admin', admin.site.urls),
 
     # 登录
-    url(r'^signin', signin),
+    url(r'^signin', auth.signin),
+
+    # 订单
+    url(r'^order', order.order),
 
     # 上传数据
-    url(r'^upload_userinfo', upload_userinfo),
-    url(r'^upload_delivery_info$', upload_delivery_info),
+    url(r'^upload_userinfo', upload.upload_userinfo),
+    url(r'^upload_delivery_info$', upload.upload_delivery_info),
 
-    # 获取数据
-    url(r'^resource', resource),
-    url(r'^get_university', get_university),
-    url(r'^get_campus', get_campus),
-    url(r'^get_community', get_community),
-    url(r'^get_building', get_building),
+    # 获取公共数据
+    url(r'^resource', getdata.resource),
+    url(r'^get_university', getdata.get_university),
+    url(r'^get_campus', getdata.get_campus),
+    url(r'^get_community', getdata.get_community),
+    url(r'^get_building', getdata.get_building),
+    url(r'^get_pkgPosition', getdata.get_pkg_position),
+
+    # 获取个人数据
+    url(r'^get_order', getdata.get_order),
 
     # 测试接口
-    url(r'^test$', test),
-    url(r'^test0$', test0)
+    url(r'^test$', views.test),
+    url(r'^test0$', views.test0)
 ]

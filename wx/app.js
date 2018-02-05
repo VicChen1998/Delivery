@@ -1,32 +1,59 @@
 //app.js
 App({
+    globalData: {
+        host: 'https://www.vicchen.club/',
+        userInfo: null,
+        userAddress: null,
+        pkg_position_range: null,
+        order: null,    // 查看订单详情时用全局数据传递参数
+        hasChangeAddress: false
+    },
+
     onLaunch: function () {
-        // 展示本地存储能力
-        // var logs = wx.getStorageSync('logs') || []
-        // logs.unshift(Date.now())
-        // wx.setStorageSync('logs', logs)
 
         // 获取用户信息
         wx.getSetting({
-            success: res => {
+            success: response => {
                 wx.getUserInfo({
-                    success: res => {
-                        // 可以将 res 发送给后台解码出 unionId
-                        this.globalData.userInfo = res.userInfo
+                    success: response => {
+                        this.globalData.userInfo = response.userInfo
+                        if (this.userInfoReadyCallback)
+                            this.userInfoReadyCallback(response)
+                    }
+                })
+            }
+        })
 
-                        // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-                        // 所以此处加入 callback 以防止这种情况
-                        if (this.userInfoReadyCallback) {
-                            this.userInfoReadyCallback(res)
-                        }
+        // 登录
+        wx.login({
+            success: response => {
+                wx.request({
+                    url: this.globalData.host + 'signin',
+                    data: { js_code: response.code, },
+                    method: 'GET',
+                    success: response => {
+                        this.globalData.userAddress = response.data
+                        if (this.userAddressReadyCallback)
+                            this.userAddressReadyCallback(response)
+
+                        this.get_pkg_position(this.globalData.userAddress.campus.id)
                     }
                 })
             }
         })
 
     },
-    globalData: {
-        userInfo: null,
-        deliveryInfo: null,
+
+    get_pkg_position: function(campus_id){
+        wx.request({
+            url: this.globalData.host + '/get_pkgPosition',
+            data: { 'campus_id': campus_id},
+            success: response => {
+                this.globalData.pkg_position_range = response.data.pkg_position_list
+                if (this.pkg_position_range_ReadyCallback)
+                    this.pkg_position_range_ReadyCallback(response)
+            }
+        })
     }
+
 })

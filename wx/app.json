@@ -2,8 +2,11 @@
     "pages": [
         "pages/order/order",
         "pages/record/record",
+        "pages/record/detail/detail",
         "pages/settings/settings",
-        "pages/record/detail/detail"
+        "pages/deliverer/deliverer",
+        "pages/deliverer/delivery_list/delivery_list",
+        "pages/deliverer/pickup_list/pickup_list"
     ],
     "window": {
         "backgroundTextStyle": "light",

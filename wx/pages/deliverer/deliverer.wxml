@@ -1,0 +1,22 @@
+<!--pages/deliverer/deliverer.wxml-->
+<view class='container'>
+    <view class='main_content'>
+
+        <view class='deliverer_item'>
+            <text class='title'>取件</text>
+
+            <block wx:for="{{pkg_position_list}}" wx:for-item="pkg_position">
+                <button class='half_button' bindtap='to_pickup_list' id='{{pkg_position.id}}'>{{pkg_position.name}}</button>
+            </block>
+        </view>
+
+        <view class='deliverer_item'>
+            <text class='title' style='color: #fff;'>- - - - - - - - - - - -</text>
+            <text class='title'>配送</text>
+
+            <block wx:for="{{community_list}}" wx:for-item="community">
+                <button class='community_button' bindtap='to_delivery_list' id='{{community.id}}'>{{community.name}}</button>
+            </block>
+        </view>
+    </view>
+</view>

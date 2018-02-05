@@ -27,10 +27,11 @@ urlpatterns = [
 
     # 订单
     url(r'^order', order.order),
+    url(r'pickup', order.pickup),
 
     # 上传数据
     url(r'^upload_userinfo', upload.upload_userinfo),
-    url(r'^upload_delivery_info$', upload.upload_delivery_info),
+    url(r'^upload_address$', upload.upload_address),
 
     # 获取公共数据
     url(r'^resource', getdata.resource),
@@ -42,6 +43,10 @@ urlpatterns = [
 
     # 获取个人数据
     url(r'^get_order', getdata.get_order),
+
+    # 配送员获取数据
+    url(r'^get_pickup_list', getdata.get_pickup_list),
+    url(r'^get_delivery_list', getdata.get_delivery_list),
 
     # 测试接口
     url(r'^test$', views.test),

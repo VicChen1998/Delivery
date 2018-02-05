@@ -47,3 +47,7 @@ picker {
     margin: 50rpx auto 0;
     width: 30%;
 }
+
+.deliverer{
+    margin: 300rpx auto 0;
+}

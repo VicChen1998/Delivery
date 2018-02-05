@@ -95,16 +95,18 @@ class UserProfile(models.Model):
     # 手机号
     phone = models.CharField(max_length=11, null=True, default='')
     # 大学
-    university = models.ForeignKey(University, null=True, default=None)
+    university = models.ForeignKey(University, default='0000')
     # 校区
-    campus = models.ForeignKey(Campus, null=True, default=None)
+    campus = models.ForeignKey(Campus, default='000000')
     # 宿舍区
-    community = models.ForeignKey(Community, null=True, default=None)
+    community = models.ForeignKey(Community, default='00000000')
     # 楼号
-    building = models.ForeignKey(Building, null=True, default=None)
+    building = models.ForeignKey(Building, default='0000000000')
 
     class Meta:
         db_table = 'UserProfile'
+
+    
 
 
 # 订单
@@ -113,7 +115,7 @@ class Order(models.Model):
     id = models.CharField(max_length=64, primary_key=True, unique=True)
     # 日期
     date = models.DateField()
-    # 状态 (下单/取件/送达/完成)
+    # 状态 (0123 下单/取件/送达/完成) (-1 未取到 / -2取消 / -3关闭)
     status = models.IntegerField(4, default=0)
     # 用户
     user = models.ForeignKey(User)
@@ -127,7 +129,9 @@ class Order(models.Model):
     # 快递短信
     pkg_info = models.CharField(max_length=256)
     # 送货地址
-    # 楼号 包括 大学/校区/宿舍区
+    university = models.ForeignKey(University)
+    campus = models.ForeignKey(Campus)
+    community = models.ForeignKey(Community)
     building = models.ForeignKey(Building)
     # 价格
     price = models.DecimalField(max_digits=4, decimal_places=2)
@@ -147,6 +151,13 @@ class Order(models.Model):
             status = '已送达，请下楼取件'
         elif self.status == 3:
             status = '已完成'
+
+        elif self.status == -1:
+            status = '未取到'
+        elif self.status == -2:
+            status = '已取消'
+        elif self.status == -3:
+            status = '已关闭'
 
         order_dict = {'id': self.id,
                       'date': str(self.date),

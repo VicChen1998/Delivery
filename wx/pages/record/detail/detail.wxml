@@ -1,2 +1,53 @@
 <!--pages/record/detail/detail.wxml-->
-<text>pages/record/detail/detail.wxml</text>
+
+<view class='main_contain'>
+
+    <view class='order_item' style='border: none'>
+        <view class='order_detail order_detail_top'>
+            <text class='order_status'>{{order.status}}</text>
+            <text class='order_price'>￥{{order.price}}</text>
+        </view>
+
+        <view class='order_detail'>
+            <text style='margin-left: 30rpx;'>快递位置:</text>
+            <text style='margin-left: 30rpx'>{{order.pkg_position}}</text>
+        </view>
+
+        <view class='order_detail'>
+            <text style='margin-left: 30rpx'>收件人:</text>
+            <text style='margin-left: 30rpx'> {{order.name}}</text>
+            <text> {{order.phone}}</text>
+        </view>
+
+        <view class='order_detail'>
+            <text  style='margin-left: 190rpx;'> {{order.community}}</text>
+            <text> {{order.building}}</text>
+        </view>
+
+        <view class='order_detail'>
+            <text style='margin-left: 30rpx'>备注:</text>
+            <text wx:if="{{order.comment}}" style='margin-left: 30rpx'> {{order.comment}}</text>
+            <text wx:else style='margin-left: 30rpx'>无</text>
+        </view>
+
+        <view class='order_detail' style='width: 90%; margin-left:30rpx'>
+            <text>快递信息:</text>
+            <text class='order_pkg_info'> {{order.pkg_info}}</text>
+        </view>
+
+        <view class='order_detail order_last'>
+            <text class='order_date'>{{order.date}}</text>
+        </view>
+
+        <view class='foot_buttons'>
+            <block wx:if="{{order.status != '已完成'}}">
+                <button>修改</button>
+                <button type='warn'>退单</button>
+            </block>
+            <block wx:else>
+                <button>售后</button>
+            </block>
+        </view>
+    </view>
+
+</view>

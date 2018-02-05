@@ -19,21 +19,11 @@ def order(request):
 
     order_id = timestamp + '$u=' + user.username
 
-    university = University.objects.get(name=request.POST['university'])
-    campus = Campus.objects.get(name=request.POST['campus'], university=university)
-    community = Community.objects.get(name=request.POST['community'],
-                                      university=university,
-                                      campus=campus)
-    building = Building.objects.get(name=request.POST['building'],
-                                    university=university,
-                                    campus=campus,
-                                    community=community)
+    building = Building.objects.get(id=request.POST['building_id'])
 
-    pkg_position = PkgPosition.objects.get(name=request.POST['pkg_position'],
-                                           university=university,
-                                           campus=campus)
+    pkg_position = PkgPosition.objects.get(id=request.POST['pkg_position_id'])
 
-    # TODO: 价格和备注
+    # TODO: 价格
     Order.objects.create(
         id=order_id,
         date=date,
@@ -41,6 +31,9 @@ def order(request):
         user=user,
         name=request.POST['name'],
         phone=request.POST['phone'],
+        university=building.university,
+        campus=building.campus,
+        community=building.community,
         building=building,
         pkg_position=pkg_position,
         pkg_info=request.POST['pkg_info'],
@@ -51,3 +44,31 @@ def order(request):
     response = {'order_status': 'success'}
     return HttpResponse(json.dumps(response), content_type='application/json')
 
+
+def pickup(request):
+    if 'openid' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    pickup_status = request.POST['pickup_status']
+    response = {'status': 'success'}
+
+    if pickup_status == 'success':
+        order.status = 1
+    elif pickup_status == 'fail':
+        order.status = -1
+    else:
+        response = {'status':'fail'}
+
+    order.save()
+
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+    

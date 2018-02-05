@@ -1,4 +1,5 @@
 import json
+import time
 
 from django.http import HttpResponse
 
@@ -20,55 +21,48 @@ def get_university(request):
 
     response = {'university_list': []}
     for university in university_list:
-        response['university_list'].append(university.name)
+        item = {'id': university.id, 'name': university.name}
+        response['university_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def get_campus(request):
-    university = University.objects.get(name=request.GET['university'])
-    campus_list = Campus.objects.filter(university=university)
+    campus_list = Campus.objects.filter(university_id=request.GET['university_id'])
 
     response = {'campus_list': []}
     for campus in campus_list:
-        response['campus_list'].append(campus.name)
+        item = {'id':campus.id, 'name': campus.name}
+        response['campus_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def get_community(request):
-    university = University.objects.get(name=request.GET['university'])
-    campus = Campus.objects.get(name=request.GET['campus'], university=university)
-    community_list = Community.objects.filter(university=university, campus=campus)
+    community_list = Community.objects.filter(campus_id=request.GET['campus_id'])
 
     response = {'community_list': []}
     for community in community_list:
-        response['community_list'].append(community.name)
+        item = {'id':community.id, 'name': community.name}
+        response['community_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def get_building(request):
-    university = University.objects.get(name=request.GET['university'])
-    campus = Campus.objects.get(name=request.GET['campus'], university=university)
-    community = Community.objects.get(name=request.GET['community'],
-                                      university=university,
-                                      campus=campus)
-    building_list = Building.objects.filter(university=university,
-                                            campus=campus,
-                                            community=community)
+    building_list = Building.objects.filter(community_id=request.GET['community_id'])
 
     response = {'building_list': []}
     for building in building_list:
-        response['building_list'].append(building.name)
+        item = {'id':building.id,'name':building.name}
+        response['building_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def get_pkg_position(request):
-    university = University.objects.get(name=request.GET['university'])
-    campus = Campus.objects.get(name=request.GET['campus'], university=university)
-    pkg_position_list = PkgPosition.objects.filter(university=university, campus=campus)
+    pkg_position_list = PkgPosition.objects.filter(campus_id=request.GET['campus_id'])
 
     response = {'pkg_position_list': []}
     for pkg_position in pkg_position_list:
-        response['pkg_position_list'].append(pkg_position.name)
+        item = {'id':pkg_position.id, 'name':pkg_position.name}
+        response['pkg_position_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
@@ -90,3 +84,58 @@ def get_order(request):
         response['order_list'].append(order.dict())
     return HttpResponse(json.dumps(response), content_type='application/json')
 
+
+# 私密端口 获取配送清单
+
+def get_pickup_list(request):
+    if 'openid' not in request.GET:
+        response = {'get_pickup_list_status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.GET['openid'])
+    if not user.is_staff:
+        response = {'get_pickup_list_status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    current_time = time.localtime(time.time())
+    date = time.strftime('%Y-%m-%d', current_time)
+
+    pkg_position = PkgPosition.objects.get(id=request.GET['pkg_position_id'])
+
+    pickup_list = Order.objects.filter(date=date, pkg_position=pkg_position)
+
+    response = {'get_pickup_list_status': 'success',
+                'pkg_position_name':pkg_position.name,
+                'pickup_list_count': pickup_list.count(),
+                'pickup_list': []}
+
+    for order in pickup_list:
+        response['pickup_list'].append(order.dict())
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def get_delivery_list(request):
+    if 'openid' not in request.GET:
+        response = {'get_delivery_list_status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.GET['openid'])
+    if not user.is_staff:
+        response = {'get_delivery_list_status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    current_time = time.localtime(time.time())
+    date = time.strftime('%Y-%m-%d', current_time)
+
+    community = Community.objects.get(id=request.GET['community_id'])
+
+    delivery_list = Order.objects.filter(community=community).order_by('building_id')
+
+    response = {'get_delivery_list_status': 'success',
+                'community_name':community.name,
+                'delivery_list_count': delivery_list.count(),
+                'delivery_list': []}
+
+    for order in delivery_list:
+        response['delivery_list'].append(order.dict())
+    return HttpResponse(json.dumps(response), content_type='application/json')

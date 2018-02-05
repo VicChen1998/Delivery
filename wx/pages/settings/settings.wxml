@@ -1,11 +1,11 @@
 <!--pages/settings.wxml-->
 <view class="container">
-     <view class='topbar'>
+    <view class='topbar'>
         <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
         <image wx:else class="avatar" src="{{userInfo.avatarUrl}}"></image>
-    </view> 
+    </view>
 
-    <scroll-view scroll-y class='main_content'>
+    <view class='main_content'>
 
         <view class='content_title'>
             <text>默认收货信息</text>
@@ -14,46 +14,46 @@
         <form bindsubmit='submit'>
             <view class='input_item'>
                 <text class='input_title'>姓名</text>
-                <input wx:if="{{isSetting}}" class='input_value' value="{{deliveryInfo.name}}" name='name' focus='true'></input>
-                <text wx:else class='default_value'>{{deliveryInfo.name}}</text>
+                <input wx:if="{{isSetting}}" class='input_value' value="{{userAddress.name}}" name='name' focus='true'></input>
+                <text wx:else class='default_value'>{{userAddress.name}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>手机号</text>
-                <input wx:if="{{isSetting}}" class='input_value' value="{{deliveryInfo.phone}}" name='phone' maxlength='11'></input>
-                <text wx:else class='default_value'>{{deliveryInfo.phone}}</text>
+                <input wx:if="{{isSetting}}" class='input_value' value="{{userAddress.phone}}" name='phone' maxlength='11'></input>
+                <text wx:else class='default_value'>{{userAddress.phone}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>大学</text>
-                <picker wx:if="{{isSetting}}" bindchange='university_onchange' value="{{university_index}}" range="{{university_range}}" name='university'>
-                    <text class='input_picker'>{{university_range[university_index]}}</text>
+                <picker wx:if="{{isSetting}}" bindchange='university_onchange' value="{{university_index}}" range="{{university_range}}" range-key='name' name='university'>
+                    <text class='input_picker'>{{university_range[university_index].name}}</text>
                 </picker>
-                <text wx:else class='default_value'>{{deliveryInfo.university}}</text>
+                <text wx:else class='default_value'>{{userAddress.university.name}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>校区</text>
-                <picker wx:if="{{isSetting}}" bindchange='campus_onchange' value="{{campus_index}}" range="{{campus_range}}" name='campus'>
-                    <text class='input_picker'>{{campus_range[campus_index]}}</text>
+                <picker wx:if="{{isSetting}}" bindchange='campus_onchange' value="{{campus_index}}" range="{{campus_range}}" range-key='name' name='campus'>
+                    <text class='input_picker'>{{campus_range[campus_index].name}}</text>
                 </picker>
-                <text wx:else class='default_value'>{{deliveryInfo.campus}}</text>
+                <text wx:else class='default_value'>{{userAddress.campus.name}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>宿舍区</text>
-                <picker wx:if="{{isSetting}}" bindchange='community_onchange' value="{{community_index}}" range="{{community_range}}" name='community'>
-                    <text class='input_picker'>{{community_range[community_index]}}</text>
+                <picker wx:if="{{isSetting}}" bindchange='community_onchange' value="{{community_index}}" range="{{community_range}}" range-key='name'  name='community'>
+                    <text class='input_picker'>{{community_range[community_index].name}}</text>
                 </picker>
-                <text wx:else class='default_value'>{{deliveryInfo.community}}</text>
+                <text wx:else class='default_value'>{{userAddress.community.name}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>楼号</text>
-                <picker wx:if="{{isSetting}}" bindchange='building_onchange' value="{{building_index}}" range="{{building_range}}" name='building'>
-                    <text class='input_picker'>{{building_range[building_index]}}</text>
+                <picker wx:if="{{isSetting}}" bindchange='building_onchange' value="{{building_index}}" range="{{building_range}}" range-key='name' name='building'>
+                    <text class='input_picker'>{{building_range[building_index].name}}</text>
                 </picker>
-                <text wx:else class='default_value'>{{deliveryInfo.building}}</text>
+                <text wx:else class='default_value'>{{userAddress.building.name}}</text>
             </view>
 
             <button wx:if="{{!isSetting}}" class='settings_button' bindtap='start_set'>修改</button>
@@ -61,29 +61,7 @@
 
         </form>
 
+        <button wx:if="{{userAddress.is_staff}}" class='deliverer' bindtap='IamDeliverer'>我是配送员</button>
 
-         <view style='margin-top: 500rpx'>
-            <text>debug info:</text>
-            <block wx:if="{{!hasDeliveryInfo}}">
-                <text>Connecting Server...</text>
-            </block>
-            <block wx:else>
-                <view>
-                    <text>signin_status: </text>
-                    <text>{{deliveryInfo.signin_status}}</text>
-                </view>
-
-                <view>
-                    <text>openid: </text>
-                    <text>{{deliveryInfo.openid}}</text>
-                </view>
-
-                <view>
-                    <text>first_signin: </text>
-                    <text>{{deliveryInfo.first_signin}}</text>
-                </view>
-
-            </block>
-        </view> 
-    </scroll-view>
+    </view>
 </view>

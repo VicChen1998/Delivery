@@ -7,10 +7,15 @@
             <image wx:else class="avatar" src="{{userInfo.avatarUrl}}" bindtap='viewtap'></image>
         </block>
 
-        <view wx:if="{{hasDeliveryInfo}}" class='location' bindtap='toSettings'>
+        <view class='location' bindtap='toSettings'>
             <image class='location_icon' src="/images/location.png"></image>
-            <text> {{deliveryInfo.university}}</text>
-            <text> {{deliveryInfo.campus}}</text>
+            <block wx:if="{{hasUserAddress && userAddress.university.id!='0000'}}">
+                <text> {{userAddress.university.name}}</text>
+                <text> {{userAddress.campus.name}}</text>
+            </block>
+            <block wx:else>
+                <text> 请先点我填写收货信息</text>
+            </block>
         </view>
     </view>
 
@@ -20,30 +25,30 @@
 
             <view class='input_item'>
                 <text class='input_title'>姓名</text>
-                <input class='input_value' placeholder='快递上的收货人姓名' name='name' value='{{deliveryInfo.name}}'></input>
+                <input class='input_value' placeholder='快递上的收货人姓名' name='name' value='{{userAddress.name}}'></input>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>手机号</text>
-                <input class='input_value' placeholder='快递上的收货人手机' name='phone' value='{{deliveryInfo.phone}}'></input>
+                <input class='input_value' placeholder='快递上的收货人手机' name='phone' value='{{userAddress.phone}}'></input>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>宿舍区</text>
                 <view class='two_picker_item'>
-                    <picker bindchange='community_onchange' value="{{community_index}}" range="{{community_range}}" name='community'>
-                        <text class='input_picker'>{{community_range[community_index]}}</text>
+                    <picker bindchange='community_onchange' value="{{community_index}}" range="{{community_range}}" range-key='name' name='community'>
+                        <text class='input_picker'>{{community_range[community_index].name}}</text>
                     </picker>
-                    <picker bindchange='building_onchange' value="{{building_index}}" range="{{building_range}}" name='building'>
-                        <text class='input_picker'>{{building_range[building_index]}}</text>
+                    <picker bindchange='building_onchange' value="{{building_index}}" range="{{building_range}}" range-key='name' name='building'>
+                        <text class='input_picker'>{{building_range[building_index].name}}</text>
                     </picker>
                 </view>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>快递位置</text>
-                <picker bindchange='pkg_position_onchange' value="{{pkg_position_index}}" range="{{pkg_position_range}}" name='pkg_position'>
-                    <text class='input_picker'>{{pkg_position_range[pkg_position_index]}}</text>
+                <picker bindchange='pkg_position_onchange' value="{{pkg_position_index}}" range="{{pkg_position_range}}" range-key='name' name='pkg_position'>
+                    <text class='input_picker'>{{pkg_position_range[pkg_position_index].name}}</text>
                 </picker>
             </view>
 
@@ -51,11 +56,11 @@
                 <text class='input_title'>快递信息</text>
             </view>
 
-            <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info'></textarea>
+            <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}'></textarea>
 
             <view class='input_item'>
                 <text class='input_title'>备注</text>
-                <input class='input_value' name='comment'></input>
+                <input class='input_value' name='comment' value='{{comment}}'></input>
             </view>
 
             <button class='order_button' form-type='submit'>一键下单</button>

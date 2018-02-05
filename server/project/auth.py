@@ -41,26 +41,17 @@ def signin(request):
 
     profile = UserProfile.objects.get(user=user)
 
-    university, campus, community, building = '', '', '', ''
-
-    if profile.university:
-        university = profile.university.name
-    if profile.campus:
-        campus = profile.campus.name
-    if profile.community:
-        community = profile.community.name
-    if profile.building:
-        building = profile.building.name
-
     response = {'signin_status': 'success',
                 'openid': openid,
                 'first_signin': first_signin,
+                'is_staff': user.is_staff,
                 'name': profile.name,
                 'phone': profile.phone,
-                'university': university,
-                'campus': campus,
-                'community': community,
-                'building': building}
+                'university': {'id':profile.university.id,'name':profile.university.name},
+                'campus': {'id':profile.campus.id,'name':profile.campus.name},
+                'community': {'id':profile.community.id,'name':profile.community.name},
+                'building': {'id':profile.building.id,'name':profile.building.name}
+                }
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 

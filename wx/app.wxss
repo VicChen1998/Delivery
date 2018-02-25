@@ -109,7 +109,6 @@ page {
 
 /* pickup_list.wxml delivery_list.wxml */
 
-
 .title {
     display: block;
     width: 100%;
@@ -123,14 +122,4 @@ page {
     height: 70rpx;
     line-height: 70rpx;
     float: left;
-}
-
-.float_left{
-    width: 50%;
-    /* float: left; */
-}
-
-.float_right{
-    width: 50%;
-    /* float: right; */
 }

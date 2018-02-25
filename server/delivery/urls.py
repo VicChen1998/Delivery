@@ -27,7 +27,13 @@ urlpatterns = [
 
     # 订单
     url(r'^order', order.order),
-    url(r'pickup', order.pickup),
+    url(r'^modify', order.modify),
+    url(r'^cancel', order.cancel),
+    url(r'^receive', order.receive),
+
+    # 配送
+    url(r'^pickup', order.pickup),
+    url(r'^delivery', order.delivery),
 
     # 上传数据
     url(r'^upload_userinfo', upload.upload_userinfo),
@@ -47,6 +53,9 @@ urlpatterns = [
     # 配送员获取数据
     url(r'^get_pickup_list', getdata.get_pickup_list),
     url(r'^get_delivery_list', getdata.get_delivery_list),
+
+    # 消息接口
+    url(r'^message', auth.message),
 
     # 测试接口
     url(r'^test$', views.test),

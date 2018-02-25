@@ -45,6 +45,10 @@ def order(request):
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
+def modify(request):
+    pass
+
+
 def pickup(request):
     if 'openid' not in request.POST:
         response = {'status': 'fail', 'errMsg': 'expect openid'}
@@ -71,4 +75,54 @@ def pickup(request):
 
     return HttpResponse(json.dumps(response), content_type='application/json')
 
+
+def delivery(request):
+    if 'openid' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order = Order.objects.get(id=request.POST['order_id'])
+    order.status = 2
+    order.save()
+
+    response = {'status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def cancel(request):
+    if 'order_id' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect order_id'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    if order.status == 0:
+        order.status = -2
+        order.save()
+        response = {'status': 'success'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+    else:
+        response = {'status': 'fail', 'errMsg': 'can not cancel'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def receive(request):
+    if 'order_id' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect order_id'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
     
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    if order.status == 2:
+        order.status = 3
+        order.save()
+        response = {'status': 'success'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+    else:
+        response = {'status': 'fail', 'errMsg': 'can not receive'}
+        return HttpResponse(json.dumps(response), content_type='application/json')

@@ -3,69 +3,68 @@ const app = getApp()
 
 Page({
 
-    /**
-     * 页面的初始数据
-     */
     data: {
         order: {}
     },
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad: function (options) {
-        if(app.globalData.order)
-        this.setData({
-            order: app.globalData.order
+        if (app.globalData.order)
+            this.setData({
+                order: app.globalData.order
+            })
+    },
+
+    modify: function (e) {
+        wx.showToast({
+            title: '还没写',
         })
     },
 
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
+    cancel: function (e) {
+        wx.request({
+            url: app.globalData.host + 'cancel',
+            method: 'POST',
+            header: { 'content-type': 'application/x-www-form-urlencoded' },
+            data: { 'order_id': this.data.order.id },
+            success: response => {
+                if (response.data.status == 'success') {
+                    wx.showToast({ title: '已取消' })
+                    setTimeout(function () {
+                        wx.navigateBack()
+                    }, 1500)
+                }
+            }
+        })
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
+    press: function (e) {
+        wx.showToast({
+            title: '急什么，等着！',
+        })
     },
 
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
+    receive: function (e) {
+        wx.request({
+            url: app.globalData.host + 'receive',
+            method: 'POST',
+            header: { 'content-type': 'application/x-www-form-urlencoded' },
+            data: { 'order_id': this.data.order.id },
+            success: response => {
+                if (response.data.status == 'success') {
+                    this.data.order.status = 3
+                    this.data.order.status_describe = '已完成'
+                    this.setData({ order: this.data.order })
+                    wx.showToast({
+                        title: '开箱愉快！',
+                    })
+                }
+            }
+        })
     },
 
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
+    after_sale: function (e) {
+        wx.showToast({
+            title: '不存在的(划掉)',
+        })
     },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
-    }
 })

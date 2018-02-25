@@ -97,12 +97,9 @@ def get_pickup_list(request):
         response = {'get_pickup_list_status': 'fail', 'errMsg': 'you are not staff'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    current_time = time.localtime(time.time())
-    date = time.strftime('%Y-%m-%d', current_time)
-
     pkg_position = PkgPosition.objects.get(id=request.GET['pkg_position_id'])
 
-    pickup_list = Order.objects.filter(date=date, pkg_position=pkg_position)
+    pickup_list = Order.objects.filter(pkg_position=pkg_position, status=0)
 
     response = {'get_pickup_list_status': 'success',
                 'pkg_position_name':pkg_position.name,
@@ -124,12 +121,9 @@ def get_delivery_list(request):
         response = {'get_delivery_list_status': 'fail', 'errMsg': 'you are not staff'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    current_time = time.localtime(time.time())
-    date = time.strftime('%Y-%m-%d', current_time)
-
     community = Community.objects.get(id=request.GET['community_id'])
 
-    delivery_list = Order.objects.filter(community=community).order_by('building_id')
+    delivery_list = Order.objects.filter(community=community, status=1).order_by('building_id')
 
     response = {'get_delivery_list_status': 'success',
                 'community_name':community.name,

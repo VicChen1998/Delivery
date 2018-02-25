@@ -5,9 +5,9 @@
 
     <view class='main_content'>
 
-        <view wx:for="{{pickup_list}}" wx:for-item="order" wx:key="*this" class='order_item'>
+        <view wx:for="{{pickup_list}}" wx:for-item="order" class='order_item'>
             <view class='order_detail order_detail_top'>
-                <text class='order_status'>{{order.status}}</text>
+                <text class='order_status'>{{order.status_describe}}</text>
                 <text class='order_price'>￥{{order.price}}</text>
             </view>
 

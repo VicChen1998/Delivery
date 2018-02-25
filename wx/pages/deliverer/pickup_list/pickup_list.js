@@ -39,8 +39,10 @@ Page({
                 if (response.data.status == 'success') {
                     for (var i in this.data.pickup_list)
                         if (this.data.pickup_list[i].id == e.target.dataset.order_id) {
-                            this.data.pickup_list[i].status = '已取件，等待配送'
+                            this.data.pickup_list[i].status = 1
+                            this.data.pickup_list[i].status_describe = '已取件，等待配送'
                             this.setData({ pickup_list: this.data.pickup_list })
+                            break
                         }
                 }
             }
@@ -62,8 +64,10 @@ Page({
                 if (response.data.status == 'success') {
                     for (var i in this.data.pickup_list)
                         if (this.data.pickup_list[i].id == e.target.dataset.order_id) {
-                            this.data.pickup_list[i].status = '未取到'
+                            this.data.pickup_list[i].status = -1
+                            this.data.pickup_list[i].status_describe = '未取到'
                             this.setData({ pickup_list: this.data.pickup_list })
+                            break
                         }
                 }
             }

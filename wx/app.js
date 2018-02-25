@@ -1,4 +1,5 @@
 //app.js
+
 App({
     globalData: {
         host: 'https://www.vicchen.club/',
@@ -19,6 +20,8 @@ App({
                         this.globalData.userInfo = response.userInfo
                         if (this.userInfoReadyCallback)
                             this.userInfoReadyCallback(response)
+
+                        this.upload_userInfo(this.globalData)
                     }
                 })
             }
@@ -37,6 +40,7 @@ App({
                             this.userAddressReadyCallback(response)
 
                         this.get_pkg_position(this.globalData.userAddress.campus.id)
+                        this.upload_userInfo(this.globalData)
                     }
                 })
             }
@@ -44,16 +48,28 @@ App({
 
     },
 
-    get_pkg_position: function(campus_id){
+    get_pkg_position: function (campus_id) {
         wx.request({
             url: this.globalData.host + '/get_pkgPosition',
-            data: { 'campus_id': campus_id},
+            data: { 'campus_id': campus_id },
             success: response => {
                 this.globalData.pkg_position_range = response.data.pkg_position_list
                 if (this.pkg_position_range_ReadyCallback)
                     this.pkg_position_range_ReadyCallback(response)
             }
         })
+    },
+
+    upload_userInfo: function (globalData) {
+        if (globalData.userAddress != null && globalData.userInfo != null && globalData.userAddress.first_signin) {
+            globalData.userInfo.openid = globalData.userAddress.openid
+            wx.request({
+                url: this.globalData.host + 'upload_userinfo',
+                data: globalData.userInfo,
+                method: 'POST',
+                header: { 'content-type': 'application/x-www-form-urlencoded' },
+            })
+        }
     }
 
 })

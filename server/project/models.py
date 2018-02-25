@@ -142,26 +142,27 @@ class Order(models.Model):
         db_table = 'Order'
 
     def dict(self):
-        status = ''
+        status_describe = ''
         if self.status == 0:
-            status = '等待取件'
+            status_describe = '等待取件'
         elif self.status == 1:
-            status = '已取件，等待配送'
+            status_describe = '已取件，等待配送'
         elif self.status == 2:
-            status = '已送达，请下楼取件'
+            status_describe = '已送达，请下楼取件'
         elif self.status == 3:
-            status = '已完成'
+            status_describe = '已完成'
 
         elif self.status == -1:
-            status = '未取到'
+            status_describe = '未取到'
         elif self.status == -2:
-            status = '已取消'
+            status_describe = '已取消'
         elif self.status == -3:
-            status = '已关闭'
+            status_describe = '已关闭'
 
         order_dict = {'id': self.id,
                       'date': str(self.date),
-                      'status': status,
+                      'status': self.status,
+                      'status_describe': status_describe,
                       'user': self.user.username,
                       'name': self.name,
                       'phone': self.phone,

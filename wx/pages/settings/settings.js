@@ -230,7 +230,7 @@ Page({
         })
 
         wx.request({
-            url: 'https://www.vicchen.club/upload_address',
+            url: app.globalData.host + 'upload_address',
             method: 'POST',
             data: upload_info,
             header: { 'content-type': 'application/x-www-form-urlencoded' },

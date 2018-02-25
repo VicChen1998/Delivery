@@ -59,3 +59,7 @@ def signup(openid):
     user = User.objects.create(username=openid)
     UserProfile.objects.create(user=user, username=openid)
     return user
+
+
+def message(request):
+    pass

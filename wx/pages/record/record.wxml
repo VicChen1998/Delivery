@@ -14,7 +14,7 @@
 
             <view class='order_item' id='{{order.id}}' bindtap='show_detail'>
                 <view class='order_detail order_detail_top'>
-                    <text class='order_status'>{{order.status}}</text>
+                    <text class='order_status'>{{order.status_describe}}</text>
                     <text class='order_price'>￥{{order.price}}</text>
                 </view>
 

@@ -1,6 +1,8 @@
 //index.js
 const app = getApp()
 
+var util = require('../../utils/util.js')
+
 Page({
     data: {
         hasUserInfo: false,
@@ -90,10 +92,14 @@ Page({
         }
 
         if (app.globalData.pkg_position_range) {
-            this.setData({ pkg_position_range: app.globalData.pkg_position_range })
+            var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
+            pkg_position_range.unshift({'id':'0000000000','name': '请选择'})
+            this.setData({ pkg_position_range: pkg_position_range })
         } else {
             app.pkg_position_range_ReadyCallback = response => {
-                this.setData({ pkg_position_range: app.globalData.pkg_position_range })
+                var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
+                pkg_position_range.unshift({'id': '0000000000', 'name': '请选择' })
+                this.setData({ pkg_position_range: pkg_position_range })
             }
         }
 
@@ -167,7 +173,6 @@ Page({
 
         for (var i in order_info) {
             var value = order_info[i]
-            console.log(value)
             if (value.length == 0 || value == '0000000000' || value == undefined) {
                 wx.showToast({
                     title: '请完整填写订单',

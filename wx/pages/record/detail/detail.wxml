@@ -4,7 +4,7 @@
 
     <view class='order_item' style='border: none'>
         <view class='order_detail order_detail_top'>
-            <text class='order_status'>{{order.status}}</text>
+            <text class='order_status'>{{order.status_describe}}</text>
             <text class='order_price'>￥{{order.price}}</text>
         </view>
 
@@ -20,7 +20,7 @@
         </view>
 
         <view class='order_detail'>
-            <text  style='margin-left: 190rpx;'> {{order.community}}</text>
+            <text style='margin-left: 190rpx;'> {{order.community}}</text>
             <text> {{order.building}}</text>
         </view>
 
@@ -40,12 +40,22 @@
         </view>
 
         <view class='foot_buttons'>
-            <block wx:if="{{order.status != '已完成'}}">
-                <button>修改</button>
-                <button type='warn'>退单</button>
+            <!-- 等待取件 -->
+             <block wx:if="{{order.status == '0'}}">  
+                <button bindtap='modify'>修改</button>
+                <button bindtap='cancel' type='warn'>退单</button>
             </block>
-            <block wx:else>
-                <button>售后</button>
+            <!-- 已取件，等待配送 -->
+            <block wx:if="{{order.status == '1'}}">
+                <button bindtap='press'>催单</button>
+            </block>
+            <!-- 已送达，请下楼取件 -->
+            <block wx:if="{{order.status == '2'}}">
+                <button bindtap='receive' type='primary'>确认收货</button>
+            </block>
+            <!-- 已完成/未取到/已关闭/已取消 -->
+            <block wx:if="{{order.status == '3' || order.status == '-1' || order.status == '-2' || order.status == '-3'}}">
+                <button bindtap='after_sale'>售后服务</button>
             </block>
         </view>
     </view>

@@ -37,7 +37,7 @@ picker {
 
 .input_textarea {
     width: 80%;
-    height: 200rpx;
+    height: 180rpx;
     padding: 10rpx;
     margin: 0 auto 30rpx;
     border: 3rpx solid #ccc;
@@ -46,5 +46,5 @@ picker {
 
 .order_button {
     width: 35%;
-    margin: 30rpx auto 0;
+    margin: 20rpx auto 0;
 }

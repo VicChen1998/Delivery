@@ -4,14 +4,23 @@ const app = getApp()
 Page({
 
     data: {
-        pkg_position_list: [],
+        pkg_position_by_time_list: [],
         community_list: [],
 
     },
 
     onLoad: function (options) {
 
-        this.setData({pkg_position_list: app.globalData.pkg_position_range})
+        wx.request({
+            url: app.globalData.host + 'get_pkg_position_by_time',
+            data: {
+                'openid': app.globalData.userAddress.openid,
+                'campus_id': app.globalData.userAddress.campus.id,
+            },
+            success: response => {
+                this.setData({ pkg_position_by_time_list: response.data.pkg_position_by_time_list })
+            }
+        })
 
         wx.request({
             url: app.globalData.host + 'get_community',

@@ -10,15 +10,20 @@ Page({
         userInfo: {},
         userAddress: {},
 
-        pkg_position_range: [{ 'id': '', 'name': '- - -' }],
-        pkg_position_index: 0,
         community_range: [{ 'id': '', 'name': '- - -' }],
         community_index: 0,
         building_range: [{ 'id': '', 'name': '- - -' }],
         building_index: 0,
+        pkg_position_range: [{ 'id': '', 'name': '- - -' }],
+        pkg_position_index: 0,
+        pickup_time_range: ['13:30之前', '14:00之前', '18:30之前', '15:00之前', '18:00之前', '20:00之前'],
+        pickup_time_index: 5,
 
         pkg_info: '',
-        comment: ''
+        comment: '',
+
+        isModifying: false,
+        modifying_order: {}
     },
 
     init_community: function () {
@@ -93,12 +98,12 @@ Page({
 
         if (app.globalData.pkg_position_range) {
             var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
-            pkg_position_range.unshift({'id':'0000000000','name': '请选择'})
+            pkg_position_range.unshift({ 'id': '0000000000', 'name': '请选择' })
             this.setData({ pkg_position_range: pkg_position_range })
         } else {
             app.pkg_position_range_ReadyCallback = response => {
                 var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
-                pkg_position_range.unshift({'id': '0000000000', 'name': '请选择' })
+                pkg_position_range.unshift({ 'id': '0000000000', 'name': '请选择' })
                 this.setData({ pkg_position_range: pkg_position_range })
             }
         }
@@ -116,14 +121,47 @@ Page({
             this.init_community()
             app.get_pkg_position(this.data.userAddress.campus.id)
         }
-    },
 
-    pkg_position_onchange: function (e) {
-        if (this.data.pkg_position_range[e.detail.value].name == '请选择')
-            return false;
-        this.setData({
-            pkg_position_index: e.detail.value
-        })
+        if (app.globalData.isModifying) {
+            this.setData({
+                isModifying: true,
+                modifying_order: app.globalData.modifying_order
+            })
+            app.globalData.isModifying = false
+
+            // 宿舍区
+            for (var i in this.data.community_range) {
+                if (this.data.community_range[i].id == this.data.modifying_order.community.id) {
+                    this.setData({ community_index: i })
+                    wx.request({
+                        url: app.globalData.host + 'get_building',
+                        data: { 'community_id': this.data.community_range[this.data.community_index].id },
+                        success: response => {
+                            this.setData({ building_range: response.data.building_list })
+                            for (var j in this.data.building_range) {
+                                if (this.data.building_range[j].id == this.data.modifying_order.building.id) {
+                                    this.setData({ building_index: j })
+                                    break
+                                }
+                            }
+                        }
+                    })
+                    break
+                }
+            }
+            // 领取位置
+            for (var i in this.data.pkg_position_range) {
+                if (this.data.pkg_position_range[i].id == this.data.modifying_order.pkg_position.id) {
+                    this.setData({ pkg_position_index: i })
+                }
+            }
+            // 领取时限
+            for (var i in this.data.pickup_time_range) {
+                if (this.data.pickup_time_range[i] == (this.data.modifying_order.pickup_time + '之前')) {
+                    this.setData({ pickup_time_index: i })
+                }
+            }
+        }
     },
 
     community_onchange: function (e) {
@@ -160,7 +198,22 @@ Page({
         })
     },
 
+    pkg_position_onchange: function (e) {
+        if (this.data.pkg_position_range[e.detail.value].name == '请选择')
+            return false;
+        this.setData({
+            pkg_position_index: e.detail.value
+        })
+    },
+
+    pickup_time_onchange: function (e) {
+        this.setData({
+            pickup_time_index: e.detail.value
+        })
+    },
+
     order: function (e) {
+        var formtype = e.detail.target.dataset.formtype
 
         var order_info = {
             'openid': this.data.userAddress.openid,
@@ -168,6 +221,7 @@ Page({
             'phone': e.detail.value.phone,
             'building_id': this.data.building_range[e.detail.value.building].id,
             'pkg_position_id': this.data.pkg_position_range[e.detail.value.pkg_position].id,
+            'pickup_time': this.data.pickup_time_range[e.detail.value.pickup_time],
             'pkg_info': e.detail.value.pkg_info
         }
 
@@ -191,30 +245,60 @@ Page({
             duration: 9999
         })
 
-        wx.request({
-            url: app.globalData.host + 'order',
-            data: order_info,
-            method: 'POST',
-            header: { 'content-type': 'application/x-www-form-urlencoded' },
-            success: response => {
-                if (response.data.order_status == 'success') {
-                    wx.switchTab({
-                        url: '/pages/record/record',
-                        success: response => { wx.showToast({ title: '下单成功' }) }
-                    })
-                    this.setData({
-                        pkg_info: '',
-                        comment: ''
-                    })
-                } else {
-                    wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })
+        if (formtype == 'submit') {
+            wx.request({
+                url: app.globalData.host + 'order',
+                data: order_info,
+                method: 'POST',
+                header: { 'content-type': 'application/x-www-form-urlencoded' },
+                success: response => {
+                    if (response.data.order_status == 'success') {
+                        wx.switchTab({
+                            url: '/pages/record/record',
+                            success: response => { wx.showToast({ title: '下单成功' }) }
+                        })
+                        this.setData({
+                            pkg_info: '',
+                            comment: '',
+                        })
+                    } else {
+                        wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })
+                    }
+                },
+                fail: response => {
+                    wx.showToast({ title: '连接服务器失败' })
+                    console.log(response)
                 }
-            },
-            fail: response => {
-                wx.showToast({ title: '连接服务器失败' })
-                console.log(response)
-            }
-        })
+            })
+        }
+        else if (formtype == 'modify') {
+            order_info.order_id = this.data.modifying_order.id
+            wx.request({
+                url: app.globalData.host + 'modify',
+                data: order_info,
+                method: 'POST',
+                header: { 'content-type': 'application/x-www-form-urlencoded' },
+                success: response => {
+                    if (response.data.modify_status == 'success') {
+                        wx.switchTab({
+                            url: '/pages/record/record',
+                            success: response => { wx.showToast({ title: '修改成功' }) }
+                        })
+                        this.setData({
+                            pkg_info: '',
+                            comment: '',
+                            isModifying: false,
+                        })
+                    } else {
+                        wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })
+                    }
+                },
+                fail: response => {
+                    wx.showToast({ title: '连接服务器失败' })
+                    console.log(response)
+                }
+            })
+        }
     },
 
     toSettings: function () {

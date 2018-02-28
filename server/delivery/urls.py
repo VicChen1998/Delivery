@@ -51,6 +51,7 @@ urlpatterns = [
     url(r'^get_order', getdata.get_order),
 
     # 配送员获取数据
+    url(r'^get_pkg_position_by_time', getdata.get_pkg_position_by_time),
     url(r'^get_pickup_list', getdata.get_pickup_list),
     url(r'^get_delivery_list', getdata.get_delivery_list),
 

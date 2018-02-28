@@ -61,7 +61,7 @@ def get_pkg_position(request):
 
     response = {'pkg_position_list': []}
     for pkg_position in pkg_position_list:
-        item = {'id':pkg_position.id, 'name':pkg_position.name}
+        item = {'id':pkg_position.id, 'name':pkg_position.name, 'pickup_time': pkg_position.pickup_time.split(',')}
         response['pkg_position_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -86,6 +86,45 @@ def get_order(request):
 
 
 # 私密端口 获取配送清单
+
+
+def get_pkg_position_by_time(request):
+    if 'openid' not in request.GET:
+        response = {'get_pickup_list_status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.GET['openid'])
+    if not user.is_staff:
+        response = {'get_pickup_list_status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    
+    pkg_position_list = PkgPosition.objects.filter(campus_id=request.GET['campus_id'])
+
+
+    pickup_time_list = []
+    pkg_position_by_time_list = []
+
+    for position in pkg_position_list:
+        pickup_time_option = position.pickup_time.split(',')
+        for pickup_time in pickup_time_option:
+            if pickup_time not in pickup_time_list:
+                pickup_time_list.append(pickup_time)
+                pkg_position_by_time_list.append({'pickup_time': pickup_time})
+
+            for item in pkg_position_by_time_list:
+                if item['pickup_time'] == pickup_time:
+                    if 'pkg_position_list' not in item:
+                        item['pkg_position_list'] = []
+                    item['pkg_position_list'].append({'id': position.id, 'name': position.name})
+                    break
+
+    pkg_position_by_time_list = sorted(pkg_position_by_time_list, key=lambda x:x['pickup_time'])
+
+    response = {'pkg_position_by_time_list': pkg_position_by_time_list}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
 
 def get_pickup_list(request):
     if 'openid' not in request.GET:

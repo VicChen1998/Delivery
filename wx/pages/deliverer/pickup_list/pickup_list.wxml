@@ -23,8 +23,8 @@
             </view>
 
             <view class='order_detail'>
-                <text style='margin-left: 190rpx;'> {{order.community}}</text>
-                <text> {{order.building}}</text>
+                <text style='margin-left: 190rpx;'> {{order.community.name}}</text>
+                <text> {{order.building.name}}</text>
             </view>
 
             <view wx:if="{{order.comment}}" class='order_detail'>

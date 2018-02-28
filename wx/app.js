@@ -7,7 +7,10 @@ App({
         userAddress: null,
         pkg_position_range: null,
         order: null,    // 查看订单详情时用全局数据传递参数
-        hasChangeAddress: false
+        hasChangeAddress: false,
+
+        isModifying: false,
+        modifying_order: {},
     },
 
     onLaunch: function () {

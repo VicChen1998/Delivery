@@ -62,7 +62,7 @@ class PkgPosition(models.Model):
     name = models.CharField(max_length=32)
     campus = models.ForeignKey(Campus)
     university = models.ForeignKey(University)
-    is_baimi = models.BooleanField(default=True)
+    pickup_time = models.CharField(max_length=32, default='20:00')
 
     class Meta:
         db_table = 'PkgPosition'
@@ -126,6 +126,8 @@ class Order(models.Model):
     phone = models.CharField(max_length=11)
     # 快递位置
     pkg_position = models.ForeignKey(PkgPosition)
+    # 领取时限
+    pickup_time = models.CharField(max_length=8)
     # 快递短信
     pkg_info = models.CharField(max_length=256)
     # 送货地址
@@ -166,12 +168,13 @@ class Order(models.Model):
                       'user': self.user.username,
                       'name': self.name,
                       'phone': self.phone,
-                      'pkg_position': self.pkg_position.name,
+                      'pkg_position': {'id': self.pkg_position.id, 'name': self.pkg_position.name},
+                      'pickup_time': self.pickup_time,
                       'pkg_info': self.pkg_info,
-                      'university': self.building.university.name,
-                      'campus': self.building.campus.name,
-                      'community': self.building.community.name,
-                      'building': self.building.name,
+                      'university': {'id': self.building.university.id, 'name': self.building.university.name},
+                      'campus': {'id': self.building.campus.id, 'name': self.building.campus.name},
+                      'community': {'id': self.building.community.id, 'name': self.building.community.name},
+                      'building': {'id': self.building.id, 'name': self.building.name},
                       'price': '%.2f' % self.price,
                       'comment': self.comment}
         return order_dict

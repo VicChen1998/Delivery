@@ -49,5 +49,5 @@ picker {
 }
 
 .deliverer{
-    margin: 300rpx auto 0;
+    margin: 350rpx auto 0;
 }

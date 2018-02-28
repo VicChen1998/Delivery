@@ -79,7 +79,7 @@ page {
     right: 30rpx;
 }
 
-.order_pkg_info{
+.order_pkg_info {
     font-size: 30rpx;
 }
 
@@ -115,6 +115,12 @@ page {
     font-size: 40rpx;
     text-align: center;
     margin: 30rpx auto;
+}
+
+.sub_title {
+    text-align: center;
+    width: 200rpx;
+    line-height: 100rpx;
 }
 
 .half_button {

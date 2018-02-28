@@ -11,7 +11,7 @@
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "轻骑速递",
+        "navigationBarTitleText": "轻骑快递",
         "navigationBarTextStyle": "black"
     },
     "tabBar": {

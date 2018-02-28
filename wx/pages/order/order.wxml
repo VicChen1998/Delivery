@@ -19,18 +19,28 @@
         </view>
     </view>
 
-    <view class='main_content' style='margin-top:30rpx;'>
+    <view class='main_content' style='margin-top:20rpx;'>
 
-        <form bindsubmit='order'>
+        <form bindsubmit='order' report-submit='true'>
 
             <view class='input_item'>
                 <text class='input_title'>姓名</text>
-                <input class='input_value' placeholder='快递上的收货人姓名' name='name' value='{{userAddress.name}}'></input>
+                <block wx:if="{{isModifying}}">
+                    <input class='input_value' placeholder='快递上的收货人姓名' name='name' value='{{modifying_order.name}}'></input>
+                </block>
+                <block wx:else>
+                    <input class='input_value' placeholder='快递上的收货人姓名' name='name' value='{{userAddress.name}}'></input>
+                </block>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>手机号</text>
-                <input class='input_value' placeholder='快递上的收货人手机' name='phone' value='{{userAddress.phone}}'></input>
+                <block wx:if="{{isModifying}}">
+                    <input class='input_value' placeholder='快递上的收货人手机' name='phone' value='{{modifying_order.phone}}'></input>
+                </block>
+                <block wx:else>
+                    <input class='input_value' placeholder='快递上的收货人手机' name='phone' value='{{userAddress.phone}}'></input>
+                </block>
             </view>
 
             <view class='input_item'>
@@ -52,18 +62,40 @@
                 </picker>
             </view>
 
+            <view class='input_item'>
+                <text class='input_title'>领取时限</text>
+                <picker bindchange='pickup_time_onchange' value="{{pickup_time_index}}" range="{{pickup_time_range}}" name='pickup_time'>
+                    <text class='input_picker'>{{pickup_time_range[pickup_time_index]}}</text>
+                </picker>
+            </view>
+
             <view class='input_item' style='height: 60rpx;'>
                 <text class='input_title'>快递信息</text>
             </view>
 
-            <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}'></textarea>
+            <block wx:if="{{isModifying}}">
+                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{modifying_order.pkg_info}}'></textarea>
+            </block>
+            <block wx:else>
+                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}'></textarea>
+            </block>
 
             <view class='input_item'>
                 <text class='input_title'>备注</text>
-                <input class='input_value' name='comment' value='{{comment}}'></input>
+                <block wx:if="{{isModifying}}">
+                    <input class='input_value' name='comment' value='{{modifying_order.comment}}'></input>
+                </block>
+                <block wx:else>
+                    <input class='input_value' name='comment' value='{{comment}}'></input>
+                </block>
             </view>
 
-            <button class='order_button' form-type='submit'>一键下单</button>
+            <block wx:if="{{isModifying}}">
+                <button class='order_button' form-type='submit' data-formtype='modify' type='primary'>确认修改</button>
+            </block>
+            <block wx:else>
+                <button class='order_button' form-type='submit' data-formtype='submit' type='primary'>一键下单</button>
+            </block>
         </form>
 
     </view>

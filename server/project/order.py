@@ -36,6 +36,7 @@ def order(request):
         community=building.community,
         building=building,
         pkg_position=pkg_position,
+        pickup_time=request.POST['pickup_time'][:5],
         pkg_info=request.POST['pkg_info'],
         price=10,
         comment=request.POST['comment'],
@@ -46,7 +47,39 @@ def order(request):
 
 
 def modify(request):
-    pass
+    if 'openid' not in request.POST:
+        response = {'modify_status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if 'order_id' not in request.POST:
+        response = {'modify_status': 'fail', 'errMsg': 'expect order_id'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])    
+
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    if user.id != order.user.id:
+        response = {'modify_status': 'fail', 'errMsg': 'not your order'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    building = Building.objects.get(id=request.POST['building_id'])
+
+    pkg_position = PkgPosition.objects.get(id=request.POST['pkg_position_id'])
+
+
+    order.name = request.POST['name']
+    order.phone = request.POST['phone']
+    order.community = building.community
+    order.building = building
+    order.pkg_position = pkg_position
+    order.pickup_time=request.POST['pickup_time'][:5]
+    order.pkg_info = request.POST['pkg_info']
+    order.comment = request.POST['comment']
+    order.save()
+
+    response = {'modify_status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def pickup(request):

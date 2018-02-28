@@ -10,7 +10,8 @@
 
         <view class='order_detail'>
             <text style='margin-left: 30rpx;'>快递位置:</text>
-            <text style='margin-left: 30rpx'>{{order.pkg_position}}</text>
+            <text style='margin-left: 30rpx'>{{order.pkg_position.name}}</text>
+            <text style='margin-left: 30rpx'>{{order.pickup_time}}之前</text>
         </view>
 
         <view class='order_detail'>
@@ -20,8 +21,8 @@
         </view>
 
         <view class='order_detail'>
-            <text style='margin-left: 190rpx;'> {{order.community}}</text>
-            <text> {{order.building}}</text>
+            <text style='margin-left: 190rpx;'> {{order.community.name}}</text>
+            <text> {{order.building.name}}</text>
         </view>
 
         <view class='order_detail'>

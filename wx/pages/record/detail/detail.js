@@ -15,8 +15,11 @@ Page({
     },
 
     modify: function (e) {
-        wx.showToast({
-            title: '还没写',
+        app.globalData.isModifying = true
+        app.globalData.modifying_order = this.data.order
+
+        wx.switchTab({
+            url: '/pages/order/order',
         })
     },
 

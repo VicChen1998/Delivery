@@ -12,7 +12,7 @@ Page({
     onLoad: function (options) {
 
         wx.request({
-            url: app.globalData.host + 'get_pkg_position_by_time',
+            url: app.globalData.host + 'deliverer_get_pkg_position',
             data: {
                 'openid': app.globalData.userAddress.openid,
                 'campus_id': app.globalData.userAddress.campus.id,
@@ -23,8 +23,11 @@ Page({
         })
 
         wx.request({
-            url: app.globalData.host + 'get_community',
-            data: { 'campus_id': app.globalData.userAddress.campus.id },
+            url: app.globalData.host + 'deliverer_get_community',
+            data: {
+                'openid': app.globalData.userAddress.openid,
+                'campus_id': app.globalData.userAddress.campus.id
+            },
             success: response => {
                 this.setData({ community_list: response.data.community_list })
             }
@@ -38,9 +41,11 @@ Page({
         })
     },
 
-    to_delivery_list: function (e) {
+    to_building_list: function (e) {
         wx.navigateTo({
-            url: '/pages/deliverer/delivery_list/delivery_list?community_id=' + e.target.id,
+            url: '/pages/deliverer/delivery_list/building_list?community_id=' + e.target.id + '&community_name=' + e.target.dataset.community_name,
         })
-    }
+    },
+
+
 })

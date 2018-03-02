@@ -115,8 +115,11 @@ class Order(models.Model):
     id = models.CharField(max_length=64, primary_key=True, unique=True)
     # 日期
     date = models.DateField()
-    # 状态 (0123 下单/取件/送达/完成) (-1 未取到 / -2取消 / -3关闭)
-    status = models.IntegerField(4, default=0)
+    # 状态码
+    # 0-6   取件
+    # 7-12  配送
+    # 13-16 订单
+    status = models.IntegerField(16, default=0)
     # 用户
     user = models.ForeignKey(User)
     # 快递信息
@@ -138,28 +141,41 @@ class Order(models.Model):
     # 价格
     price = models.DecimalField(max_digits=4, decimal_places=2)
     # 备注
-    comment = models.CharField(max_length=128, null=True)
+    comment = models.CharField(max_length=256, null=True)
+    # 错误信息
+    errMsg = models.CharField(max_length=64, null=True)
 
     class Meta:
         db_table = 'Order'
 
     def dict(self):
+        # 0-6   取件
         status_describe = ''
         if self.status == 0:
             status_describe = '等待取件'
         elif self.status == 1:
             status_describe = '已取件，等待配送'
         elif self.status == 2:
-            status_describe = '已送达，请下楼取件'
-        elif self.status == 3:
-            status_describe = '已完成'
-
-        elif self.status == -1:
             status_describe = '未取到'
-        elif self.status == -2:
+        # 7-12  配送
+        elif self.status == 7:
+            status_describe = '已送达，请下楼取件'
+        elif self.status == 8:
+            status_describe = '次日再送'
+        elif self.status == 9:
+            status_describe = '联系不上，次日再送'
+        
+        # 13-16 订单
+        elif self.status == 13:
+            status_describe = '已完成' 
+        elif self.status == 14:
             status_describe = '已取消'
-        elif self.status == -3:
+        elif self.status == 15:
             status_describe = '已关闭'
+
+        # -1 错误
+        elif self.status == -1:
+            status_describe = self.errMsg
 
         order_dict = {'id': self.id,
                       'date': str(self.date),

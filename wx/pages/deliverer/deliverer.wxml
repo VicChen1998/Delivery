@@ -8,7 +8,7 @@
                 <view class='sub_title'>{{time_item.pickup_time}}之前</view>
                 <view>
                     <block wx:for="{{time_item.pkg_position_list}}" wx:for-item="pkg_position">
-                        <button class='half_button' bindtap='to_pickup_list' id='{{pkg_position.id}}'>{{pkg_position.name}}</button>
+                        <button class='half_button' bindtap='to_pickup_list' id='{{pkg_position.id}}'>{{pkg_position.name}} ({{pkg_position.order_count}})</button>
                     </block>
                 </view>
             </block>
@@ -16,10 +16,11 @@
 
         <view>
             <view class='title' style='color:#fff'>配送</view>
+            <view class='title' style='color:#fff'>配送</view>
             <view class='title'>配送</view>
 
             <block wx:for="{{community_list}}" wx:for-item="community">
-                <button class='community_button' bindtap='to_delivery_list' id='{{community.id}}'>{{community.name}}</button>
+                <button class='community_button' bindtap='to_building_list' id='{{community.id}}' data-community_name='{{community.name}}'>{{community.name}} ({{community.order_count}})</button>
             </block>
         </view>
     </view>

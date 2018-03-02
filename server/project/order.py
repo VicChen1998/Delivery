@@ -63,10 +63,13 @@ def modify(request):
         response = {'modify_status': 'fail', 'errMsg': 'not your order'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
+    if order.status not in [0,2]:
+        response = {'modify_status': 'fail', 'errMsg': 'can not modify'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
     building = Building.objects.get(id=request.POST['building_id'])
 
     pkg_position = PkgPosition.objects.get(id=request.POST['pkg_position_id'])
-
 
     order.name = request.POST['name']
     order.phone = request.POST['phone']
@@ -76,6 +79,7 @@ def modify(request):
     order.pickup_time=request.POST['pickup_time'][:5]
     order.pkg_info = request.POST['pkg_info']
     order.comment = request.POST['comment']
+    order.status = 0
     order.save()
 
     response = {'modify_status': 'success'}
@@ -100,7 +104,7 @@ def pickup(request):
     if pickup_status == 'success':
         order.status = 1
     elif pickup_status == 'fail':
-        order.status = -1
+        order.status = 2
     else:
         response = {'status':'fail'}
 
@@ -120,7 +124,35 @@ def delivery(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     order = Order.objects.get(id=request.POST['order_id'])
-    order.status = 2
+    order.status = 7
+    order.save()
+
+    response = {'status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def not_delivery(request):
+    if 'openid' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    errMsg = request.POST['errMsg']
+
+    if errMsg == '次日再送':
+        order.status = 8
+    elif errMsg == '联系不上':
+        order.status = 9
+    else:
+        order.status = -1
+        order.errMsg = errMsg
+
     order.save()
 
     response = {'status': 'success'}
@@ -134,14 +166,14 @@ def cancel(request):
 
     order = Order.objects.get(id=request.POST['order_id'])
 
-    if order.status == 0:
-        order.status = -2
-        order.save()
-        response = {'status': 'success'}
-        return HttpResponse(json.dumps(response), content_type='application/json')
-    else:
+    if order.status != 0:
         response = {'status': 'fail', 'errMsg': 'can not cancel'}
         return HttpResponse(json.dumps(response), content_type='application/json')
+    
+    order.status = 14
+    order.save()
+    response = {'status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def receive(request):
@@ -151,8 +183,8 @@ def receive(request):
     
     order = Order.objects.get(id=request.POST['order_id'])
 
-    if order.status == 2:
-        order.status = 3
+    if order.status == 7:
+        order.status = 13
         order.save()
         response = {'status': 'success'}
         return HttpResponse(json.dumps(response), content_type='application/json')

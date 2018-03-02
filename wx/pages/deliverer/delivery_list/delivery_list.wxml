@@ -31,7 +31,10 @@
                 <text style='margin-left: 30rpx'> {{order.comment}}</text>
             </view>
 
-            <button bindtap='has_deliver' data-order_id='{{order.id}}'>送达</button>
+            <view style='display:flex;'>
+                <button style='width:50%;' bindtap='has_deliver' data-order_id='{{order.id}}'>已送达</button>
+                <button style='width:50%;' bindtap='not_deliver' data-order_id='{{order.id}}'>未送达</button>
+            </view>
         </view>
 
         <view style='width:100%;border-top: 3rpx solid #aaa;'></view>

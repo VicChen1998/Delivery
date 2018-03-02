@@ -24,7 +24,7 @@ App({
                         if (this.userInfoReadyCallback)
                             this.userInfoReadyCallback(response)
 
-                        this.upload_userInfo(this.globalData)
+                        this.checkIsFirstSignin(this.globalData)
                     }
                 })
             }
@@ -43,7 +43,7 @@ App({
                             this.userAddressReadyCallback(response)
 
                         this.get_pkg_position(this.globalData.userAddress.campus.id)
-                        this.upload_userInfo(this.globalData)
+                        this.checkIsFirstSignin(this.globalData)
                     }
                 })
             }
@@ -53,7 +53,7 @@ App({
 
     get_pkg_position: function (campus_id) {
         wx.request({
-            url: this.globalData.host + '/get_pkgPosition',
+            url: this.globalData.host + 'get_pkgPosition',
             data: { 'campus_id': campus_id },
             success: response => {
                 this.globalData.pkg_position_range = response.data.pkg_position_list
@@ -63,8 +63,12 @@ App({
         })
     },
 
-    upload_userInfo: function (globalData) {
+    checkIsFirstSignin: function (globalData) {
         if (globalData.userAddress != null && globalData.userInfo != null && globalData.userAddress.first_signin) {
+            wx.switchTab({
+                url: '/pages/settings/settings',
+            })
+
             globalData.userInfo.openid = globalData.userAddress.openid
             wx.request({
                 url: this.globalData.host + 'upload_userinfo',

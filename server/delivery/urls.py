@@ -34,6 +34,7 @@ urlpatterns = [
     # 配送
     url(r'^pickup', order.pickup),
     url(r'^delivery', order.delivery),
+    url(r'^not_delivery', order.not_delivery),
 
     # 上传数据
     url(r'^upload_userinfo', upload.upload_userinfo),
@@ -51,7 +52,9 @@ urlpatterns = [
     url(r'^get_order', getdata.get_order),
 
     # 配送员获取数据
-    url(r'^get_pkg_position_by_time', getdata.get_pkg_position_by_time),
+    url(r'^deliverer_get_pkg_position', getdata.deliverer_get_pkg_position),
+    url(r'^deliverer_get_community', getdata.deliverer_get_community),
+    url(r'^deliverer_get_building', getdata.deliverer_get_building),
     url(r'^get_pickup_list', getdata.get_pickup_list),
     url(r'^get_delivery_list', getdata.get_delivery_list),
 

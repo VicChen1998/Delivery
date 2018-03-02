@@ -9,7 +9,7 @@
 
         <view class='location' bindtap='toSettings'>
             <image class='location_icon' src="/images/location.png"></image>
-            <block wx:if="{{hasUserAddress && userAddress.university.id!='0000'}}">
+            <block wx:if="{{hasUserAddress && (userAddress.university.id!='0000' || userAddress.campus.id!='000000')}}">
                 <text> {{userAddress.university.name}}</text>
                 <text> {{userAddress.campus.name}}</text>
             </block>
@@ -69,6 +69,16 @@
                 </picker>
             </view>
 
+            <view class='input_item'>
+                <text class='input_title'>代取价格</text>
+                <picker bindchange='price_onchange' value='{{price_index}}' range='{{price_range}}' name='price'>
+                    <text class='input_picker'>{{price_range[price_index]}} 元</text>
+                </picker>
+            </view>
+            <view class='input_item' style='height: 40rpx;'>
+                <text class='price_comment'>中小件2-3元，大件3-5元，超大件5-10元</text>
+            </view>
+
             <view class='input_item' style='height: 60rpx;'>
                 <text class='input_title'>快递信息</text>
             </view>
@@ -77,7 +87,7 @@
                 <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{modifying_order.pkg_info}}'></textarea>
             </block>
             <block wx:else>
-                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}'></textarea>
+                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}' maxlength='128'></textarea>
             </block>
 
             <view class='input_item'>
@@ -90,9 +100,10 @@
                 </block>
             </view>
 
-            <block wx:if="{{isModifying}}">
+            <view wx:if="{{isModifying}}" style='display:flex;'>
                 <button class='order_button' form-type='submit' data-formtype='modify' type='primary'>确认修改</button>
-            </block>
+                <button class='order_button' form-type='reset' bindtap='cancel_modify'>取消</button>
+            </view>
             <block wx:else>
                 <button class='order_button' form-type='submit' data-formtype='submit' type='primary'>一键下单</button>
             </block>

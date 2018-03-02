@@ -6,7 +6,8 @@
         "pages/settings/settings",
         "pages/deliverer/deliverer",
         "pages/deliverer/delivery_list/delivery_list",
-        "pages/deliverer/pickup_list/pickup_list"
+        "pages/deliverer/pickup_list/pickup_list",
+        "pages/deliverer/delivery_list/building_list"
     ],
     "window": {
         "backgroundTextStyle": "light",

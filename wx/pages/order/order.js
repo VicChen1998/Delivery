@@ -16,8 +16,10 @@ Page({
         building_index: 0,
         pkg_position_range: [{ 'id': '', 'name': '- - -' }],
         pkg_position_index: 0,
-        pickup_time_range: ['13:30之前', '14:00之前', '18:30之前', '15:00之前', '18:00之前', '20:00之前'],
-        pickup_time_index: 5,
+        pickup_time_range: [],
+        pickup_time_index: 0,
+        price_range: [2, 3, 4, 5, 6, 7, 8, 9, 10],
+        price_index: 1,
 
         pkg_info: '',
         comment: '',
@@ -28,7 +30,7 @@ Page({
 
     init_community: function () {
         wx.request({
-            url: app.globalData.host + '/get_community',
+            url: app.globalData.host + 'get_community',
             data: { 'campus_id': this.data.userAddress.campus.id },
             success: response => {
                 this.setData({ community_range: response.data.community_list })
@@ -47,7 +49,7 @@ Page({
 
     init_building: function () {
         wx.request({
-            url: app.globalData.host + '/get_building',
+            url: app.globalData.host + 'get_building',
             data: { 'community_id': this.data.userAddress.community.id },
             success: response => {
                 this.setData({ building_range: response.data.building_list })
@@ -61,6 +63,25 @@ Page({
                 }
             }
         })
+    },
+
+    init_pickup_time: function () {
+        var all_pickup_time = [], pickup_time_range = []
+        for(var i in this.data.pkg_position_range)
+            for(var j in this.data.pkg_position_range[i].pickup_time)
+                all_pickup_time.push(this.data.pkg_position_range[i].pickup_time[j])
+
+        for(var i in all_pickup_time)
+            if(!pickup_time_range.includes(all_pickup_time[i]))
+                pickup_time_range.push(all_pickup_time[i])
+
+        pickup_time_range.sort((a,b) => {return a>b})
+
+        for (var i in pickup_time_range)
+            pickup_time_range[i] += '之前'
+
+        this.setData({pickup_time_range: pickup_time_range})
+
     },
 
     onLoad: function () {
@@ -100,14 +121,15 @@ Page({
             var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
             pkg_position_range.unshift({ 'id': '0000000000', 'name': '请选择' })
             this.setData({ pkg_position_range: pkg_position_range })
+            this.init_pickup_time()
         } else {
             app.pkg_position_range_ReadyCallback = response => {
                 var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
                 pkg_position_range.unshift({ 'id': '0000000000', 'name': '请选择' })
                 this.setData({ pkg_position_range: pkg_position_range })
+                this.init_pickup_time()
             }
         }
-
 
     },
 
@@ -201,14 +223,25 @@ Page({
     pkg_position_onchange: function (e) {
         if (this.data.pkg_position_range[e.detail.value].name == '请选择')
             return false;
+
+        var pickup_time = this.data.pkg_position_range[e.detail.value].pickup_time[0]
+        var pickup_time_index = this.data.pickup_time_range.indexOf(pickup_time+'之前')
+
         this.setData({
-            pkg_position_index: e.detail.value
+            pkg_position_index: e.detail.value,
+            pickup_time_index: pickup_time_index
         })
     },
 
     pickup_time_onchange: function (e) {
         this.setData({
             pickup_time_index: e.detail.value
+        })
+    },
+
+    price_onchange: function (e) {
+        this.setData({
+            price_index: e.detail.value
         })
     },
 
@@ -288,6 +321,7 @@ Page({
                             pkg_info: '',
                             comment: '',
                             isModifying: false,
+                            modifying_order: {}
                         })
                     } else {
                         wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })
@@ -299,6 +333,23 @@ Page({
                 }
             })
         }
+    },
+
+    cancel_modify: function () {
+        this.setData({
+            pkg_info: '',
+            comment: '',
+            isModifying: false,
+            modifying_order: {}
+        })
+        this.init_community();
+
+        var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
+        pkg_position_range.unshift({ 'id': '0000000000', 'name': '请选择' })
+        this.setData({
+            pkg_position_range: pkg_position_range,
+            pkg_position_index: 0,
+        })
     },
 
     toSettings: function () {

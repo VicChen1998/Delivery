@@ -38,7 +38,7 @@ Page({
                             university_index: index
                         })
                     }
-                    // TODO: 先这样吧，等下重写逻辑
+
                     else {
                         response.data.university_list.unshift({ 'id': '0000', 'name': '请选择' })
                         this.setData({ university_range: response.data.university_list })
@@ -159,6 +159,12 @@ Page({
             this.get_community(this.data.userAddress.campus.id)
         if (this.data.userAddress.community.id != '00000000')
             this.get_building(this.data.userAddress.community.id)
+
+        if(this.data.userAddress.first_signin){
+            this.setData({
+                isSetting: true
+            })
+        }
     },
 
     start_set: function () {

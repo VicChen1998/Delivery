@@ -67,20 +67,20 @@ Page({
 
     init_pickup_time: function () {
         var all_pickup_time = [], pickup_time_range = []
-        for(var i in this.data.pkg_position_range)
-            for(var j in this.data.pkg_position_range[i].pickup_time)
+        for (var i in this.data.pkg_position_range)
+            for (var j in this.data.pkg_position_range[i].pickup_time)
                 all_pickup_time.push(this.data.pkg_position_range[i].pickup_time[j])
 
-        for(var i in all_pickup_time)
-            if(!pickup_time_range.includes(all_pickup_time[i]))
+        for (var i in all_pickup_time)
+            if (!pickup_time_range.includes(all_pickup_time[i]))
                 pickup_time_range.push(all_pickup_time[i])
 
-        pickup_time_range.sort((a,b) => {return a>b})
+        pickup_time_range.sort((a, b) => { return a > b })
 
         for (var i in pickup_time_range)
             pickup_time_range[i] += '之前'
 
-        this.setData({pickup_time_range: pickup_time_range})
+        this.setData({ pickup_time_range: pickup_time_range })
 
     },
 
@@ -225,7 +225,7 @@ Page({
             return false;
 
         var pickup_time = this.data.pkg_position_range[e.detail.value].pickup_time[0]
-        var pickup_time_index = this.data.pickup_time_range.indexOf(pickup_time+'之前')
+        var pickup_time_index = this.data.pickup_time_range.indexOf(pickup_time + '之前')
 
         this.setData({
             pkg_position_index: e.detail.value,

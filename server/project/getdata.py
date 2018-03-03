@@ -140,7 +140,7 @@ def deliverer_get_community(request):
 
     response = {'community_list': []}
     for community in community_list:
-        order_count = Order.objects.filter(community=community, status__in=[7,8,9]).count()
+        order_count = Order.objects.filter(community=community, status__in=[1,7,8,9]).count()
         item = {'id':community.id, 'name': community.name, 'order_count': order_count}
         response['community_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
@@ -160,7 +160,7 @@ def deliverer_get_building(request):
 
     response = {'building_list': []}
     for building in building_list:
-        order_count = Order.objects.filter(building=building, status__in=[7,8,9]).count()
+        order_count = Order.objects.filter(building=building, status__in=[1,7,8,9]).count()
         if order_count != 0:
             item = {'id':building.id, 'name': building.name, 'order_count': order_count}
             response['building_list'].append(item)
@@ -203,7 +203,7 @@ def get_delivery_list(request):
 
     building = Building.objects.get(id=request.GET['building_id'])
 
-    delivery_list = Order.objects.filter(building=building, status__in=[7,8,9])
+    delivery_list = Order.objects.filter(building=building, status__in=[1,7,8,9])
 
     response = {'get_delivery_list_status': 'success', 'delivery_list': []}
 

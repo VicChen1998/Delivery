@@ -131,3 +131,10 @@ page {
     line-height: 70rpx;
     float: left;
 }
+
+.status_png{
+    width: 80rpx;
+    height: 80rpx;
+    margin: 0 15rpx;
+    position: absolute;
+}

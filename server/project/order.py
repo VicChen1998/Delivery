@@ -1,5 +1,6 @@
 import json
 import time
+from decimal import getcontext, Decimal
 
 from django.http import HttpResponse
 
@@ -23,7 +24,12 @@ def order(request):
 
     pkg_position = PkgPosition.objects.get(id=request.POST['pkg_position_id'])
 
-    # TODO: 价格
+    price = request.POST['price']
+    if Decimal(price) < 2:
+        response = {'order_status': 'fail', 'errMsg': 'price error'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+
     Order.objects.create(
         id=order_id,
         date=date,
@@ -38,7 +44,7 @@ def order(request):
         pkg_position=pkg_position,
         pickup_time=request.POST['pickup_time'][:5],
         pkg_info=request.POST['pkg_info'],
-        price=10,
+        price=Decimal(price),
         comment=request.POST['comment'],
     )
 
@@ -166,6 +172,16 @@ def cancel(request):
 
     order = Order.objects.get(id=request.POST['order_id'])
 
+    if 'openid' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+
+    if order.user.username != user.username:
+        response = {'status': 'fail', 'errMsg': 'not your order'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
     if order.status != 0:
         response = {'status': 'fail', 'errMsg': 'can not cancel'}
         return HttpResponse(json.dumps(response), content_type='application/json')
@@ -183,6 +199,16 @@ def receive(request):
     
     order = Order.objects.get(id=request.POST['order_id'])
 
+    if 'openid' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+
+    if order.user.username != user.username:
+        response = {'status': 'fail', 'errMsg': 'not your order'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
     if order.status == 7:
         order.status = 13
         order.save()
@@ -191,3 +217,17 @@ def receive(request):
     else:
         response = {'status': 'fail', 'errMsg': 'can not receive'}
         return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def deliver_next_day():
+
+    date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    print('\n\n# # # # # ' + date + ' # # # # #\n')
+
+    order_list = Order.objects.filter(status__in=[8,9])
+
+    for order in order_list:
+        order.status = 1
+        order.save()
+        print(order.dict())
+        print('\n')

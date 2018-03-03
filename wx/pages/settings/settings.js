@@ -258,6 +258,14 @@ Page({
                     })
 
                     wx.showToast({ title: '修改成功' })
+
+                    if(app.globalData.userAddress.first_signin){
+                        setTimeout(function (){
+                            wx.switchTab({
+                                url: '/pages/order/order',
+                            })
+                        }, 1500)
+                    }
                 } else {
                     wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })
                 }

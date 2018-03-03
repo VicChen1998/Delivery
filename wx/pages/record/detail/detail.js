@@ -24,17 +24,31 @@ Page({
     },
 
     cancel: function (e) {
-        wx.request({
-            url: app.globalData.host + 'cancel',
-            method: 'POST',
-            header: { 'content-type': 'application/x-www-form-urlencoded' },
-            data: { 'order_id': this.data.order.id },
+        wx.showModal({
+            title: 'QAQ',
+            content: '你确定要退单吗？',
+            confirmText: '是的',
+            confirmColor: '#FF0000',
+            cancelText: '绝不！！',
             success: response => {
-                if (response.data.status == 'success') {
-                    wx.showToast({ title: '已取消' })
-                    setTimeout(function () {
-                        wx.navigateBack()
-                    }, 1500)
+                if (response.confirm) {
+                    wx.request({
+                        url: app.globalData.host + 'cancel',
+                        method: 'POST',
+                        header: { 'content-type': 'application/x-www-form-urlencoded' },
+                        data: {
+                            'openid': app.globalData.userAddress.openid,
+                            'order_id': this.data.order.id
+                        },
+                        success: response => {
+                            if (response.data.status == 'success') {
+                                wx.showToast({ title: '已退单' })
+                                setTimeout(function () {
+                                    wx.navigateBack()
+                                }, 1500)
+                            }
+                        }
+                    })
                 }
             }
         })
@@ -51,10 +65,13 @@ Page({
             url: app.globalData.host + 'receive',
             method: 'POST',
             header: { 'content-type': 'application/x-www-form-urlencoded' },
-            data: { 'order_id': this.data.order.id },
+            data: {
+                'openid': app.globalData.userAddress.openid,
+                'order_id': this.data.order.id
+            },
             success: response => {
                 if (response.data.status == 'success') {
-                    this.data.order.status = 3
+                    this.data.order.status = 13
                     this.data.order.status_describe = '已完成'
                     this.setData({ order: this.data.order })
                     wx.showToast({

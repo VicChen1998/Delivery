@@ -255,7 +255,8 @@ Page({
             'building_id': this.data.building_range[e.detail.value.building].id,
             'pkg_position_id': this.data.pkg_position_range[e.detail.value.pkg_position].id,
             'pickup_time': this.data.pickup_time_range[e.detail.value.pickup_time],
-            'pkg_info': e.detail.value.pkg_info
+            'pkg_info': e.detail.value.pkg_info,
+            'price': this.data.price_range[e.detail.value.price]
         }
 
         for (var i in order_info) {

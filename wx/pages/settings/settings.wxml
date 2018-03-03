@@ -14,13 +14,13 @@
         <form bindsubmit='submit'>
             <view class='input_item'>
                 <text class='input_title'>姓名</text>
-                <input wx:if="{{isSetting}}" class='input_value' value="{{userAddress.name}}" name='name' focus='true'></input>
+                <input wx:if="{{isSetting}}" class='input_value' value="{{userAddress.name}}" name='name' focus='true' placeholder='快递上的收货人姓名'></input>
                 <text wx:else class='default_value'>{{userAddress.name}}</text>
             </view>
 
             <view class='input_item'>
                 <text class='input_title'>手机号</text>
-                <input wx:if="{{isSetting}}" class='input_value' value="{{userAddress.phone}}" name='phone' maxlength='11'></input>
+                <input wx:if="{{isSetting}}" class='input_value' value="{{userAddress.phone}}" name='phone' maxlength='11' placeholder='快递上的收货人手机'></input>
                 <text wx:else class='default_value'>{{userAddress.phone}}</text>
             </view>
 
@@ -57,7 +57,7 @@
             </view>
 
             <button wx:if="{{!isSetting}}" class='settings_button' bindtap='start_set'>修改</button>
-            <button wx:else class='settings_button' form-type='submit'>保存</button>
+            <button wx:else class='settings_button' form-type='submit' type='primary'>保存</button>
 
         </form>
 

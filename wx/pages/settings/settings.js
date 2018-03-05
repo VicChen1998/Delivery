@@ -282,5 +282,11 @@ Page({
         wx.navigateTo({
             url: '/pages/deliverer/deliverer',
         })
+    },
+
+    IamSuperuser: function () {
+        wx.navigateTo({
+            url: '/pages/manager/manager',
+        })
     }
 })

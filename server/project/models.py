@@ -157,6 +157,8 @@ class Order(models.Model):
             status_describe = '已取件，等待配送'
         elif self.status == 2:
             status_describe = '未取到'
+        elif self.status == 3:
+            status_describe = '次日取件'
         # 7-12  配送
         elif self.status == 7:
             status_describe = '已送达，请下楼取件'

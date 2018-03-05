@@ -19,6 +19,10 @@ Page({
             },
             success: response => {
                 this.setData({ pkg_position_by_time_list: response.data.pkg_position_by_time_list })
+            },
+            complete: response => {
+                wx.stopPullDownRefresh()
+                wx.hideNavigationBarLoading()
             }
         })
 
@@ -45,6 +49,11 @@ Page({
         wx.navigateTo({
             url: '/pages/deliverer/delivery_list/building_list?community_id=' + e.target.id + '&community_name=' + e.target.dataset.community_name,
         })
+    },
+
+    onPullDownRefresh: function () {
+        wx.showNavigationBarLoading()
+        this.onLoad()
     },
 
 

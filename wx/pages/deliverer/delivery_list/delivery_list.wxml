@@ -7,8 +7,8 @@
         <view wx:for="{{delivery_list}}" wx:for-item="order" class='order_item'>
 
             <block>
-                <!-- 等待取件 -->
-                <image wx:if="{{order.status == 0}}" class='status_png' src='/images/waiting.png'></image>
+                <!-- 等待取件/次日取件 -->
+                <image wx:if="{{order.status == 0 || order.status == 3}}" class='status_png' src='/images/waiting.png'></image>
                 <!-- 已取件/次日再送 -->
                 <image wx:if="{{order.status == 1 || order.status == 8}}" class='status_png' src='/images/ok.png'></image>
                 <!-- 已送达 -->

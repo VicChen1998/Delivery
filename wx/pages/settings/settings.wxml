@@ -61,7 +61,8 @@
 
         </form>
 
-        <button wx:if="{{userAddress.is_staff}}" class='deliverer' bindtap='IamDeliverer'>我是配送员</button>
+        <button wx:if="{{userAddress.is_staff}}" style='margin: 350rpx auto 0;' bindtap='IamDeliverer'>我是配送员</button>
+        <button wx:if="{{userAddress.is_superuser}}" bindtap='IamSuperuser'>我是管理员</button>
 
     </view>
 </view>

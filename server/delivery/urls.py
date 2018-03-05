@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from project import auth, order, upload, getdata, views
+from project import auth, order, upload, getdata, stat, views
 
 urlpatterns = [
     # 管理
@@ -57,6 +57,9 @@ urlpatterns = [
     url(r'^deliverer_get_building', getdata.deliverer_get_building),
     url(r'^get_pickup_list', getdata.get_pickup_list),
     url(r'^get_delivery_list', getdata.get_delivery_list),
+
+    # 管理员获取统计数据
+    url(r'^stat', stat.stat),
 
     # 消息接口
     url(r'^message', auth.message),

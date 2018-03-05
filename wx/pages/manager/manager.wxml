@@ -1,0 +1,12 @@
+<!--pages/manager.wxml-->
+<view class='container'>
+    <view class='main_content'>
+
+        <view class='title'>{{date}}</view>
+
+        <view style='margin: 0 30rpx;'>
+            <text>接单数：{{stat.today_order_count}}</text>
+        </view>
+
+    </view>
+</view>

@@ -45,6 +45,7 @@ def signin(request):
                 'openid': openid,
                 'first_signin': first_signin,
                 'is_staff': user.is_staff,
+                'is_superuser': user.is_superuser,
                 'name': profile.name,
                 'phone': profile.phone,
                 'university': {'id':profile.university.id,'name':profile.university.name},

@@ -245,7 +245,7 @@ Page({
         })
     },
 
-    order: function (e) {
+    check_order: function (e) {
         var formtype = e.detail.target.dataset.formtype
 
         var order_info = {
@@ -256,7 +256,8 @@ Page({
             'pkg_position_id': this.data.pkg_position_range[e.detail.value.pkg_position].id,
             'pickup_time': this.data.pickup_time_range[e.detail.value.pickup_time],
             'pkg_info': e.detail.value.pkg_info,
-            'price': this.data.price_range[e.detail.value.price]
+            'price': this.data.price_range[e.detail.value.price],
+            'pickup_next_day': 'False',
         }
 
         for (var i in order_info) {
@@ -272,6 +273,31 @@ Page({
         }
 
         order_info.comment = e.detail.value.comment
+
+        var date = new Date()
+        var current_time = (Array(2).join(0) + date.getHours()).slice(-2) + ':' + date.getMinutes()
+        var pickup_time = order_info.pickup_time.substring(0, order_info.pickup_time.length - 2)
+
+        if (pickup_time < current_time) {
+            wx.showModal({
+                title: '已超过领取时限',
+                content: '轻骑小兵明天去帮您取可以吗',
+                confirmText: '好的',
+                cancelText: '取消',
+                success: response => {
+                    if (response.cancel)
+                        return false
+                    else
+                        order_info.pickup_next_day = 'True'
+                        this.order(formtype, order_info)
+                }
+            })
+        } else {
+            this.order(formtype, order_info)
+        }
+    },
+
+    order: function (formtype, order_info) {
 
         wx.showToast({
             title: ' ',
@@ -334,6 +360,8 @@ Page({
                 }
             })
         }
+
+
     },
 
     cancel_modify: function () {

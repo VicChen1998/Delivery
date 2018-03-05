@@ -7,7 +7,7 @@
     </view>
 
     <view wx:if="{{order_count==0 && finish_get_order}}" class='tip' style='margin: 50rpx auto;'>还没有订单记录哦，快去下单吧！</view>
-    <view wx:else class='tip' style='margin: 10rpx auto;'>晚上9点进行配送，请耐心等待哦</view>
+    <view wx:else class='tip' style='margin: 0 auto 10rpx;'>晚上9点进行配送，请耐心等待哦</view>
 
     <view class='main_content'>
 
@@ -16,8 +16,8 @@
             <view class='order_item' id='{{order.id}}' bindtap='show_detail'>
 
                 <block>
-                    <!-- 等待取件 -->
-                    <image wx:if="{{order.status == 0}}" class='status_png' src='/images/waiting.png'></image>
+                    <!-- 等待取件/次日取件 -->
+                    <image wx:if="{{order.status == 0 || order.status == 3}}" class='status_png' src='/images/waiting.png'></image>
                     <!-- 已取件/次日再送 -->
                     <image wx:if="{{order.status == 1 || order.status == 8}}" class='status_png' src='/images/ok.png'></image>
                     <!-- 已送达 -->

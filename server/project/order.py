@@ -24,6 +24,10 @@ def order(request):
 
     pkg_position = PkgPosition.objects.get(id=request.POST['pkg_position_id'])
 
+    status = 0
+    if request.POST['pickup_next_day'] == 'True':
+        status = 3
+
     price = request.POST['price']
     if Decimal(price) < 2:
         response = {'order_status': 'fail', 'errMsg': 'price error'}
@@ -33,7 +37,7 @@ def order(request):
     Order.objects.create(
         id=order_id,
         date=date,
-        status=0,
+        status=status,
         user=user,
         name=request.POST['name'],
         phone=request.POST['phone'],
@@ -69,13 +73,17 @@ def modify(request):
         response = {'modify_status': 'fail', 'errMsg': 'not your order'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    if order.status not in [0,2]:
+    if order.status not in [0,2,3]:
         response = {'modify_status': 'fail', 'errMsg': 'can not modify'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     building = Building.objects.get(id=request.POST['building_id'])
 
     pkg_position = PkgPosition.objects.get(id=request.POST['pkg_position_id'])
+
+    status = 0
+    if request.POST['pickup_next_day'] == 'True':
+        status = 3
 
     order.name = request.POST['name']
     order.phone = request.POST['phone']
@@ -85,7 +93,7 @@ def modify(request):
     order.pickup_time=request.POST['pickup_time'][:5]
     order.pkg_info = request.POST['pkg_info']
     order.comment = request.POST['comment']
-    order.status = 0
+    order.status = status
     order.save()
 
     response = {'modify_status': 'success'}
@@ -219,15 +227,27 @@ def receive(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
 
-def deliver_next_day():
-
+def pickup_next_day():
     date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    print('\n\n# # # # # ' + date + ' # # # # #\n')
+    print('\n\n# # # # # ' + date + 'pickup_next_day # # # # #\n')
+
+    order_list = Order.objects.filter(status=3)
+
+    for order in order_list:
+        print(order.dict())
+        print('\n')
+        order.status = 0
+        order.save()
+
+
+def deliver_next_day():
+    date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    print('\n\n# # # # # ' + date + 'deliver_next_day # # # # #\n')
 
     order_list = Order.objects.filter(status__in=[8,9])
 
     for order in order_list:
-        order.status = 1
-        order.save()
         print(order.dict())
         print('\n')
+        order.status = 1
+        order.save()

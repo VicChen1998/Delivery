@@ -21,7 +21,7 @@
 
     <view class='main_content' style='margin-top:20rpx;'>
 
-        <form bindsubmit='order' report-submit='true'>
+        <form bindsubmit='check_order' report-submit='true'>
 
             <view class='input_item'>
                 <text class='input_title'>姓名</text>
@@ -75,8 +75,11 @@
                     <text class='input_picker'>{{price_range[price_index]}} 元</text>
                 </picker>
             </view>
-            <view class='input_item' style='height: 40rpx;'>
+            <view class='input_item' style='height: 40rpx;' wx:if='{{!isModifying}}'>
                 <text class='price_comment'>中小件2-3元，大件3-5元，超大件5-10元</text>
+            </view>
+            <view class='input_item' style='height: 40rpx;' wx:if='{{isModifying}}'>
+                <text class='price_comment' style='color: #ff0000'>暂不支持修改价格</text>
             </view>
 
             <view class='input_item' style='height: 60rpx;'>

@@ -7,6 +7,7 @@ App({
         userAddress: null,
         pkg_position_range: null,
         order: null,    // 查看订单详情时用全局数据传递参数
+        payint_order_id: null,
         hasChangeAddress: false,
 
         isModifying: false,

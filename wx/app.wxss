@@ -50,7 +50,7 @@ page {
 /* order.wxml detail.wxml pickup_list delivery_list 通用 */
 
 .tip {
-    width: 425rpx;
+    width: 500rpx;
     font-size: 28rpx;
     text-align: center;
 }
@@ -71,12 +71,24 @@ page {
 }
 
 .order_status {
-    font-size: 42rpx;
+    font-size: 45rpx;
     margin: 0 auto 20rpx;
     text-align: center;
 }
 
 .order_price {
+    position: absolute;
+    right: 30rpx;
+}
+
+.order_price_describe{
+    line-height: 150rpx;
+    position: absolute;
+    right: 30rpx;
+}
+
+.not_pay {
+    color: #ff5000;
     position: absolute;
     right: 30rpx;
 }
@@ -109,6 +121,19 @@ page {
     bottom: 0rpx;
 }
 
+.pay_button {
+    position: absolute;
+    right: 15rpx;
+    width: 140rpx;
+    height: 70rpx;
+    line-height: 70rpx;
+}
+
+.pay_complete_button {
+    width: 50%;
+    margin: 20rpx auto;
+}
+
 /* pickup_list.wxml delivery_list.wxml */
 
 .title {
@@ -132,15 +157,21 @@ page {
     float: left;
 }
 
-.status_png{
+.status_png {
     width: 80rpx;
     height: 80rpx;
     margin: 0 15rpx;
     position: absolute;
 }
 
-.phone_number{
+.phone_number {
     margin: 0 0 0 25rpx;
-    color: #0000ff;
+    color: #00f;
     text-decoration: underline;
+}
+
+/* pay */
+
+.QRcode {
+    width: 100%;
 }

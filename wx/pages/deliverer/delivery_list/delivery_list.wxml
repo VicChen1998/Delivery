@@ -48,8 +48,8 @@
             </view>
 
             <view style='display:flex;'>
-                <button style='width:50%;' bindtap='has_deliver' data-order_id='{{order.id}}'>已送达</button>
-                <button style='width:50%;' bindtap='not_deliver' data-order_id='{{order.id}}'>未送达</button>
+                <button style='width:50%;' bindtap='has_deliver' data-order_id='{{order.id}}' data-index='{{index}}' data-phone='{{order.phone}}'>已送达</button>
+                <button style='width:50%;' bindtap='not_deliver' data-order_id='{{order.id}}' data-index='{{index}}'>未送达</button>
             </view>
         </view>
 

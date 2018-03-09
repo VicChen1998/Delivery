@@ -49,8 +49,8 @@
             </view>
 
             <view style='display:flex;'>
-                <button style='width:50%' bindtap='pickup_success' data-order_id='{{order.id}}'>已取到</button>
-                <button style='width:50%' bindtap='pickup_fail' data-order_id='{{order.id}}'>未取到</button>
+                <button style='width:50%' bindtap='pickup_success' data-order_id='{{order.id}}' data-index='{{index}}'>已取到</button>
+                <button style='width:50%' bindtap='pickup_fail' data-order_id='{{order.id}}' data-index='{{index}}'>未取到</button>
             </view>
         </view>
 

@@ -100,6 +100,34 @@ def modify(request):
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
+def pay(request):
+    if 'openid' not in request.POST:
+        response = {'modify_status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if 'order_id' not in request.POST:
+        response = {'modify_status': 'fail', 'errMsg': 'expect order_id'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])    
+
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    if user.id != order.user.id:
+        response = {'modify_status': 'fail', 'errMsg': 'not your order'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if order.has_pay != 0:
+        response = {'modify_status': 'fail', 'errMsg': 'has pay'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order.has_pay = 1
+    order.save()
+
+    response = {'pay_status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
 def pickup(request):
     if 'openid' not in request.POST:
         response = {'status': 'fail', 'errMsg': 'expect openid'}

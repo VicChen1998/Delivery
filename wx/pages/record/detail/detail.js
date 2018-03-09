@@ -14,6 +14,13 @@ Page({
             })
     },
 
+    to_pay: function (e) {
+        app.globalData.paying_order_id = e.target.dataset.order_id
+        wx.navigateTo({
+            url: '/pages/pay/pay',
+        })
+    },
+
     modify: function (e) {
         app.globalData.isModifying = true
         app.globalData.modifying_order = this.data.order

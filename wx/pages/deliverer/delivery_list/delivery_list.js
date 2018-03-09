@@ -40,13 +40,8 @@ Page({
             cancelText: '否',
             success: res => {
                 if(res.confirm){
-                    var index, phone = ''
-                    for (index in this.data.delivery_list) {
-                        if (this.data.delivery_list[index].id == e.target.dataset.order_id) {
-                            phone = this.data.delivery_list[index].phone
-                            break
-                        }
-                    }
+                    var index = e.target.dataset.index
+                    var phone = e.target.dataset.phone
 
                     wx.request({
                         url: app.globalData.host + 'delivery',
@@ -72,12 +67,7 @@ Page({
     },
 
     not_deliver: function (e) {
-        var index = ''
-        for (index in this.data.delivery_list) {
-            if (this.data.delivery_list[index].id == e.target.dataset.order_id)
-                break
-        }
-
+        var index = e.target.dataset.index
         var reason_list = ['联系不上', '次日再送']
         wx.showActionSheet({
             itemList: reason_list,

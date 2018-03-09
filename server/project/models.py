@@ -102,6 +102,8 @@ class UserProfile(models.Model):
     community = models.ForeignKey(Community, default='00000000')
     # 楼号
     building = models.ForeignKey(Building, default='0000000000')
+    # 信用
+    credit = models.IntegerField(200, default=100)
 
     class Meta:
         db_table = 'UserProfile'
@@ -140,6 +142,8 @@ class Order(models.Model):
     building = models.ForeignKey(Building)
     # 价格
     price = models.DecimalField(max_digits=4, decimal_places=2)
+    # 是否支付 (0 未支付/ 1 待确认 / 2 已支付)
+    has_pay = models.IntegerField(2, default=0)
     # 备注
     comment = models.CharField(max_length=256, null=True)
     # 错误信息
@@ -194,5 +198,6 @@ class Order(models.Model):
                       'community': {'id': self.building.community.id, 'name': self.building.community.name},
                       'building': {'id': self.building.id, 'name': self.building.name},
                       'price': '%.2f' % self.price,
+                      'has_pay': self.has_pay,
                       'comment': self.comment}
         return order_dict

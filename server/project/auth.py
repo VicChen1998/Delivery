@@ -51,7 +51,8 @@ def signin(request):
                 'university': {'id':profile.university.id,'name':profile.university.name},
                 'campus': {'id':profile.campus.id,'name':profile.campus.name},
                 'community': {'id':profile.community.id,'name':profile.community.name},
-                'building': {'id':profile.building.id,'name':profile.building.name}
+                'building': {'id':profile.building.id,'name':profile.building.name},
+                'credit': profile.credit
                 }
     return HttpResponse(json.dumps(response), content_type='application/json')
 

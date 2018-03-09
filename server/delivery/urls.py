@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^modify', order.modify),
     url(r'^cancel', order.cancel),
     url(r'^receive', order.receive),
+    url(r'^pay', order.pay),
 
     # 配送
     url(r'^pickup', order.pickup),

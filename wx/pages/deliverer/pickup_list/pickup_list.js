@@ -50,13 +50,9 @@ Page({
                         },
                         success: response => {
                             if (response.data.status == 'success') {
-                                for (var i in this.data.pickup_list)
-                                    if (this.data.pickup_list[i].id == e.target.dataset.order_id) {
-                                        this.data.pickup_list[i].status = 1
-                                        this.data.pickup_list[i].status_describe = '已取件，等待配送'
-                                        this.setData({ pickup_list: this.data.pickup_list })
-                                        break
-                                    }
+                                this.data.pickup_list[e.target.dataset.index].status = 1
+                                this.data.pickup_list[e.target.dataset.index].status_describe = '已取件，等待配送'
+                                this.setData({ pickup_list: this.data.pickup_list })
                             }
                         }
                     })
@@ -75,7 +71,7 @@ Page({
             confirmColor: '#ff0000',
             cancelText: '按错',
             success: res => {
-                if (res.confirm){
+                if (res.confirm) {
                     wx.request({
                         url: app.globalData.host + 'pickup',
                         method: 'POST',
@@ -87,13 +83,9 @@ Page({
                         },
                         success: response => {
                             if (response.data.status == 'success') {
-                                for (var i in this.data.pickup_list)
-                                    if (this.data.pickup_list[i].id == e.target.dataset.order_id) {
-                                        this.data.pickup_list[i].status = 2
-                                        this.data.pickup_list[i].status_describe = '未取到'
-                                        this.setData({ pickup_list: this.data.pickup_list })
-                                        break
-                                    }
+                                this.data.pickup_list[e.target.dataset.index].status = 2
+                                this.data.pickup_list[e.target.dataset.index].status_describe = '未取到'
+                                this.setData({ pickup_list: this.data.pickup_list })
                             }
                         }
                     })

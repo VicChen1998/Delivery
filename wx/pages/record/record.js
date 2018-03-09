@@ -29,7 +29,7 @@ Page({
                 hasUserInfo: true
             })
 
-        if(app.globalData.userAddress){
+        if (app.globalData.userAddress) {
             this.setData({
                 userAddress: app.globalData.userAddress,
             })
@@ -65,12 +65,7 @@ Page({
     },
 
     show_detail: function (e) {
-        for (var i in this.data.order_list) {
-            if (this.data.order_list[i].id == e.currentTarget.id) {
-                app.globalData.order = this.data.order_list[i]
-                break
-            }
-        }
+        app.globalData.order = this.data.order_list[e.currentTarget.dataset.index]
         wx.navigateTo({
             url: '/pages/record/detail/detail',
         })

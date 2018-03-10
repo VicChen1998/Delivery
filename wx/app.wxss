@@ -164,6 +164,12 @@ page {
     position: absolute;
 }
 
+.pickup_buttons{
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+}
+
 .phone_number {
     margin: 0 0 0 25rpx;
     color: #00f;

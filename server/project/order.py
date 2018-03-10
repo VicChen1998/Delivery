@@ -218,11 +218,78 @@ def cancel(request):
         response = {'status': 'fail', 'errMsg': 'not your order'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    if order.status != 0:
+    if order.status not in [0,2]:
         response = {'status': 'fail', 'errMsg': 'can not cancel'}
         return HttpResponse(json.dumps(response), content_type='application/json')
     
     order.status = 14
+    order.save()
+    response = {'status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def deliverer_cancel(request):
+    if 'order_id' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect order_id'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    if 'openid' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+    profile = UserProfile.objects.get(user=user)
+
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if order.status not in [0,2]:
+        response = {'status': 'fail', 'errMsg': 'can not cancel'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+    
+    order.status = 14
+    order.errMsg = 'cancel by ' + user.username + ' ' + profile.name + ' ' + profile.phone
+    order.save()
+    response = {'status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def raise_price(request):
+    if 'order_id' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect order_id'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    if 'openid' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+    profile = UserProfile.objects.get(user=user)
+
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if order.status not in [0,2]:
+        response = {'status': 'fail', 'errMsg': 'can not raise price'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+    
+    if 'raise_num' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect raise num'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    raise_num = request.POST['raise_num']
+    if Decimal(raise_num) < 1:
+        response = {'order_status': 'fail', 'errMsg': 'price error'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order.price = Decimal(order.price) + Decimal(raise_num)
+    order.errMsg = 'raise price ￥' + raise_num + ' by ' + user.username + ' ' + profile.name + ' ' + profile.phone
     order.save()
     response = {'status': 'success'}
     return HttpResponse(json.dumps(response), content_type='application/json')

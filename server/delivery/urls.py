@@ -29,8 +29,10 @@ urlpatterns = [
     url(r'^order', order.order),
     url(r'^modify', order.modify),
     url(r'^cancel', order.cancel),
+    url(r'^deliverer_cancel', order.deliverer_cancel),
     url(r'^receive', order.receive),
     url(r'^pay', order.pay),
+    url(r'^raise_price', order.raise_price),
 
     # 配送
     url(r'^pickup', order.pickup),

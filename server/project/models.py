@@ -55,6 +55,9 @@ class Building(models.Model):
     def fullname(self):
         return self.community.fullname() + ' ' + self.name
 
+    def halfname(self):
+        return self.community.name + self.name
+
 
 # 快递点表
 class PkgPosition(models.Model):
@@ -146,6 +149,10 @@ class Order(models.Model):
     has_pay = models.IntegerField(2, default=0)
     # 备注
     comment = models.CharField(max_length=256, null=True)
+    # 取件员
+    pickup_by = models.ForeignKey(User, null=True, related_name='pickup_by')
+    # 配送员
+    deliver_by = models.ForeignKey(User, null=True, related_name='deliver_by')
     # 错误信息
     errMsg = models.CharField(max_length=64, null=True)
 

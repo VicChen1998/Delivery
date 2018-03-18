@@ -65,25 +65,6 @@ Page({
         })
     },
 
-    init_pickup_time: function () {
-        var all_pickup_time = [], pickup_time_range = []
-        for (var i in this.data.pkg_position_range)
-            for (var j in this.data.pkg_position_range[i].pickup_time)
-                all_pickup_time.push(this.data.pkg_position_range[i].pickup_time[j])
-
-        for (var i in all_pickup_time)
-            if (!pickup_time_range.includes(all_pickup_time[i]))
-                pickup_time_range.push(all_pickup_time[i])
-
-        pickup_time_range.sort((a, b) => { return a > b })
-
-        for (var i in pickup_time_range)
-            pickup_time_range[i] += '之前'
-
-        this.setData({ pickup_time_range: pickup_time_range })
-
-    },
-
     onLoad: function () {
 
         if (app.globalData.userInfo) {
@@ -121,13 +102,11 @@ Page({
             var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
             pkg_position_range.unshift({ 'id': '0000000000', 'name': '请选择' })
             this.setData({ pkg_position_range: pkg_position_range })
-            this.init_pickup_time()
         } else {
             app.pkg_position_range_ReadyCallback = response => {
                 var pkg_position_range = util.deepCopyArray(app.globalData.pkg_position_range)
                 pkg_position_range.unshift({ 'id': '0000000000', 'name': '请选择' })
                 this.setData({ pkg_position_range: pkg_position_range })
-                this.init_pickup_time()
             }
         }
 
@@ -224,12 +203,16 @@ Page({
         if (this.data.pkg_position_range[e.detail.value].name == '请选择')
             return false;
 
-        var pickup_time = this.data.pkg_position_range[e.detail.value].pickup_time[0]
-        var pickup_time_index = this.data.pickup_time_range.indexOf(pickup_time + '之前')
+        var pickup_time_range = this.data.pkg_position_range[e.detail.value].pickup_time
+        for(var i in pickup_time_range){
+            if(pickup_time_range[i].indexOf('之前') == -1)
+                pickup_time_range[i] += '之前'
+        }
 
         this.setData({
             pkg_position_index: e.detail.value,
-            pickup_time_index: pickup_time_index
+            pickup_time_range: pickup_time_range,
+            pickup_time_index: 0,
         })
     },
 

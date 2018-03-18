@@ -178,8 +178,9 @@ def get_pickup_list(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     pkg_position = PkgPosition.objects.get(id=request.GET['pkg_position_id'])
+    pickup_time = request.GET['pickup_time']
 
-    pickup_list = Order.objects.filter(pkg_position=pkg_position, status__in=[0,1,2])
+    pickup_list = Order.objects.filter(pkg_position=pkg_position, pickup_time=pickup_time,status__in=[0,1,2])
 
     response = {'get_pickup_list_status': 'success',
                 'pkg_position_name':pkg_position.name,

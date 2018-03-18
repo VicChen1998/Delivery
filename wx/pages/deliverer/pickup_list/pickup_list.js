@@ -14,7 +14,8 @@ Page({
             url: app.globalData.host + 'get_pickup_list',
             data: {
                 'openid': app.globalData.userAddress.openid,
-                'pkg_position_id': options.pkg_position_id
+                'pkg_position_id': options.pkg_position_id,
+                'pickup_time': options.pickup_time
             },
             success: response => {
                 this.setData({
@@ -96,7 +97,7 @@ Page({
 
     raise_price: function (e) {
         wx.showModal({
-            title: '是否已经和用户协商成功？',
+            title: '是否已经和用户协商？',
             content: '',
             confirmText: '是',
             cancelText: '否',

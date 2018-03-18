@@ -24,6 +24,14 @@ Page({
             data: {
                 'openid': app.globalData.userAddress.openid,
                 'order_id': this.data.order_id,
+            },
+            success: response => {
+                wx.navigateBack({
+                    delta: 2
+                })
+                wx.showToast({
+                    title: '等待确认',
+                })
             }
         })
     },

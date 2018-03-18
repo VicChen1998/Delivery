@@ -145,12 +145,14 @@ def pickup(request):
 
     if pickup_status == 'success':
         order.status = 1
+        order.pickup_by = user
+        order.save()
     elif pickup_status == 'fail':
         order.status = 2
+        order.pickup_by = user
+        order.save()
     else:
         response = {'status':'fail'}
-
-    order.save()
 
     return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -167,6 +169,7 @@ def delivery(request):
 
     order = Order.objects.get(id=request.POST['order_id'])
     order.status = 7
+    order.deliver_by = user
     order.save()
 
     response = {'status': 'success'}
@@ -195,6 +198,7 @@ def not_delivery(request):
         order.status = -1
         order.errMsg = errMsg
 
+    order.deliver_by = user
     order.save()
 
     response = {'status': 'success'}

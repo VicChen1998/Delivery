@@ -222,7 +222,7 @@ def cancel(request):
         response = {'status': 'fail', 'errMsg': 'not your order'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    if order.status not in [0,2]:
+    if order.status not in [0,2,3]:
         response = {'status': 'fail', 'errMsg': 'can not cancel'}
         return HttpResponse(json.dumps(response), content_type='application/json')
     

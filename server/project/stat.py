@@ -34,7 +34,7 @@ def stat(request):
         }
 
     for order in order_list:
-        building_stat[order_list][order_num] += 1
+        building_stat[order.building.id]['order_num'] += 1
 
     building_stat = list(building_stat.values())
     building_stat = sorted(building_stat, key=lambda building: building['id'])

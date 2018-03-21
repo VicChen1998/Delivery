@@ -40,6 +40,8 @@ def signin(request):
         first_signin = False
 
     profile = UserProfile.objects.get(user=user)
+    if profile.building.id == '0000000000':
+        first_signin = True
 
     response = {'signin_status': 'success',
                 'openid': openid,

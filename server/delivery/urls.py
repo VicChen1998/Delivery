@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^receive', order.receive),
     url(r'^pay', order.pay),
     url(r'^raise_price', order.raise_price),
+    url(r'^confirm_pay', order.confirm_pay),
 
     # 配送
     url(r'^pickup', order.pickup),
@@ -62,7 +63,11 @@ urlpatterns = [
     url(r'^get_delivery_list', getdata.get_delivery_list),
 
     # 管理员获取统计数据
-    url(r'^stat', stat.stat),
+    url(r'^stat/mobile', stat.mobile),
+    url(r'^stat/growth$', stat.growth),
+    url(r'^stat/get_growth_data$', stat.get_growth_data),
+    url(r'^stat/day', stat.day),
+    url(r'^stat', stat.day),
 
     # 消息接口
     url(r'^message', auth.message),

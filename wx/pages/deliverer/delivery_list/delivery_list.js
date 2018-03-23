@@ -10,7 +10,7 @@ Page({
 
 
     onLoad: function (options) {
-        this.setData({title: options.building_name})
+        this.setData({ title: options.building_name })
         wx.request({
             url: app.globalData.host + 'get_delivery_list',
             data: {
@@ -32,14 +32,13 @@ Page({
     },
 
     has_deliver: function (e) {
-
         wx.showModal({
             title: '确认已送达',
             content: '',
             confirmText: '是',
             cancelText: '否',
             success: res => {
-                if(res.confirm){
+                if (res.confirm) {
                     var index = e.target.dataset.index
                     var phone = e.target.dataset.phone
 
@@ -90,6 +89,36 @@ Page({
                     }
                 })
 
+            }
+        })
+    },
+
+    confirm_pay: function (e) {
+        wx.showModal({
+            title: '确认已付款',
+            content: '',
+            confirmText: '是',
+            cancelText: '否',
+            success: res => {
+                if (res.confirm) {
+                    var index = e.target.dataset.index
+
+                    wx.request({
+                        url: app.globalData.host + 'confirm_pay',
+                        method: 'POST',
+                        header: { 'content-type': 'application/x-www-form-urlencoded' },
+                        data: {
+                            'openid': app.globalData.userAddress.openid,
+                            'order_id': e.target.dataset.order_id
+                        },
+                        success: response => {
+                            if (response.data.status == 'success') {
+                                this.data.delivery_list[index].has_pay = 2
+                                this.setData({ delivery_list: this.data.delivery_list })
+                            }
+                        }
+                    })
+                }
             }
         })
     }

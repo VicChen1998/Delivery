@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单增长</title>
+    <script src="https://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/assets/g2/3.0.5-beta.5/g2.min.js"></script>
+</head>
+<body>
+<style type="text/css">
+    body {
+        font-family: "Microsoft YaHei";
+    }
+
+    h1 {
+        margin: 20px auto;
+        text-align: center;
+    }
+</style>
+
+<h1>订单数量 & 总金额</h1>
+<div id="count" style="margin: auto"></div>
+<div id="amount" style="margin: auto"></div>
+</body>
+
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'get_growth_data',
+            success: function (res) {
+
+                // Step 1: 创建 Chart 对象
+                const count = new G2.Chart({
+                    container: 'count', // 指定图表容器 ID
+                    width: window.innerWidth * 0.95, // 指定图表宽度
+                    height: window.innerHeight * 0.4 // 指定图表高度
+                });
+                // Step 2: 载入数据源
+                count.source(res);
+                // Step 3：创建图形语法，绘制柱状图，由 genre 和 sold 两个属性决定图形位置，genre 映射至 x 轴，sold 映射至 y 轴
+                count.scale('订单数量', {min: 0});
+                count.scale('日期', {range: [0, 1]});
+                count.tooltip({
+                    crosshairs: {type: 'line'}
+                });
+                count.line().position('日期*订单数量');
+                count.point().position('日期*订单数量').size(4).shape('circle');
+                // Step 4: 渲染图表
+                count.render();
+
+
+                // Step 1: 创建 Chart 对象
+                const amount = new G2.Chart({
+                    container: 'count', // 指定图表容器 ID
+                    width: window.innerWidth * 0.95, // 指定图表宽度
+                    height: window.innerHeight * 0.4 // 指定图表高度
+                });
+                // Step 2: 载入数据源
+                amount.source(res);
+                // Step 3：创建图形语法，绘制柱状图，由 genre 和 sold 两个属性决定图形位置，genre 映射至 x 轴，sold 映射至 y 轴
+                amount.scale('总金额', {min: 0});
+                amount.scale('日期', {range: [0, 1]});
+                amount.tooltip({
+                    crosshairs: {type: 'line'}
+                });
+                amount.line().position('日期*总金额');
+                amount.point().position('日期*总金额').size(4).shape('circle');
+                // Step 4: 渲染图表
+                amount.render();
+
+            },
+            error: function (res) {
+                alert('加载失败')
+            },
+        })
+
+    });
+
+
+</script>
+</html>

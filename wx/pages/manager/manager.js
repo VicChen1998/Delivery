@@ -13,7 +13,7 @@ Page({
         this.setData({ date: date.getFullYear() + '年' + date.getMonth() + '月' + date.getDate() + '日' })
 
         wx.request({
-            url: app.globalData.host + 'stat',
+            url: app.globalData.host + 'stat/mobile',
             data: { 'openid': app.globalData.userAddress.openid },
             success: response => {
                 if (response.data.status == 'success') {

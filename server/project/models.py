@@ -111,8 +111,6 @@ class UserProfile(models.Model):
     class Meta:
         db_table = 'UserProfile'
 
-    
-
 
 # 订单
 class Order(models.Model):
@@ -170,6 +168,7 @@ class Order(models.Model):
             status_describe = '未取到'
         elif self.status == 3:
             status_describe = '次日取件'
+
         # 7-12  配送
         elif self.status == 7:
             status_describe = '已送达，请下楼取件'
@@ -177,10 +176,10 @@ class Order(models.Model):
             status_describe = '次日再送'
         elif self.status == 9:
             status_describe = '联系不上，次日再送'
-        
+
         # 13-16 订单
         elif self.status == 13:
-            status_describe = '已完成' 
+            status_describe = '已完成'
         elif self.status == 14:
             status_describe = '已取消'
         elif self.status == 15:
@@ -208,3 +207,16 @@ class Order(models.Model):
                       'has_pay': self.has_pay,
                       'comment': self.comment}
         return order_dict
+
+
+# 统计信息
+class StatDay(models.Model):
+    # 日期
+    date = models.DateField(primary_key=True)
+    # 订单数
+    count = models.IntegerField(65535)
+    # 总金额
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        db_table = 'StatDay'

@@ -299,6 +299,32 @@ def raise_price(request):
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
+def confirm_pay(request):
+    if 'order_id' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect order_id'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order = Order.objects.get(id=request.POST['order_id'])
+
+    if 'openid' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+    profile = UserProfile.objects.get(user=user)
+
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order.has_pay = 2
+    order.errMsg = 'confirm pay by' + user.username + ' ' + profile.name + ' ' + profile.phone
+    order.save()
+
+    response = {'status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
 def receive(request):
     if 'order_id' not in request.POST:
         response = {'status': 'fail', 'errMsg': 'expect order_id'}
@@ -350,3 +376,17 @@ def deliver_next_day():
         print('\n')
         order.status = 1
         order.save()
+
+
+def set_finish():
+    date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    print('\n\n# # # # # ' + date + 'set_finish # # # # #\n')
+
+    order_list = Order.objects.filter(status=7)
+
+    for order in order_list:
+        print(order.dict())
+        print('\n')
+        order.status = 13
+        order.save()
+

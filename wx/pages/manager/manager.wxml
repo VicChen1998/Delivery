@@ -7,7 +7,9 @@
         <view style='margin: 0 30rpx;'>
             <view>今日接单数：{{stat.today_order_count}}</view>
             <block wx:for='{{stat.building_stat}}' wx:for-item='building'>
-            <view>{{building.name}} {{building.order_num}}</view>
+                <block wx:if='{{building.order_num != 0}}'>
+                    <view>{{building.name}} {{building.order_num}}</view>
+                </block>
             </block>
         </view>
 

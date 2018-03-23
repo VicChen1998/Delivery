@@ -8,7 +8,9 @@
                 <view class='sub_title'>{{time_item.pickup_time}}之前</view>
                 <view>
                     <block wx:for="{{time_item.pkg_position_list}}" wx:for-item="pkg_position">
-                        <button class='half_button' bindtap='to_pickup_list' data-pkg_position_id='{{pkg_position.id}}' data-pickup_time='{{time_item.pickup_time}}'>{{pkg_position.name}} ({{pkg_position.order_count}})</button>
+                        <button class='half_button' bindtap='to_pickup_list' data-pkg_position_id='{{pkg_position.id}}' data-pickup_time='{{time_item.pickup_time}}'>
+                            {{pkg_position.name}} {{pkg_position.pending_count}}/{{pkg_position.order_count}}
+                        </button>
                     </block>
                 </view>
             </block>
@@ -20,7 +22,9 @@
             <view class='title'>配送</view>
 
             <block wx:for="{{community_list}}" wx:for-item="community">
-                <button class='community_button' bindtap='to_building_list' data-community_id='{{community.id}}' data-community_name='{{community.name}}'>{{community.name}} ({{community.order_count}})</button>
+                <button class='community_button' bindtap='to_building_list' data-community_id='{{community.id}}' data-community_name='{{community.name}}'>
+                    {{community.name}} {{community.pending_count}}/{{community.order_count}}
+                </button>
             </block>
         </view>
     </view>

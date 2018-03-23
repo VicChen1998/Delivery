@@ -48,8 +48,14 @@
             </view>
 
             <view style='display:flex;'>
-                <button style='width:50%;' bindtap='has_deliver' data-order_id='{{order.id}}' data-index='{{index}}' data-phone='{{order.phone}}'>已送达</button>
-                <button style='width:50%;' bindtap='not_deliver' data-order_id='{{order.id}}' data-index='{{index}}'>未送达</button>
+                <button style='width:33%;' bindtap='not_deliver' data-order_id='{{order.id}}' data-index='{{index}}' type='warn'>未送达</button>
+                <block wx:if='{{order.has_pay != 2}}'>
+                    <button style='width:33%;' bindtap='confirm_pay' data-order_id='{{order.id}}' data-index='{{index}}'>确认付款</button>
+                </block>
+                <block wx:else>
+                    <button style='width:33%;'>已付款</button>
+                </block>
+                <button style='width:34%;' bindtap='has_deliver' data-order_id='{{order.id}}' data-index='{{index}}' data-phone='{{order.phone}}' type='primary'>已送达</button>
             </view>
         </view>
 

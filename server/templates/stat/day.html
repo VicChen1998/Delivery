@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ date | date:'Y-m-d' }}</title>
+    <script src="https://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.js"></script>
+</head>
+<body>
+
+<style type="text/css">
+    body {
+        font-family: "Microsoft YaHei";
+    }
+
+    h1 {
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    button {
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    th, td {
+        height: 35px;
+        margin: 0 20px;
+        text-align: center;
+    }
+
+    .even {
+        background: #dfdfdf;
+    }
+</style>
+
+<div class="header">
+    <button id="pre" style="float:left"> <</button>
+    <button id="next" style="float:right"> ></button>
+    <h1 id="date">{{ date | date:'Y-m-d' }}</h1>
+</div>
+
+<table cellspacing="0" cellpadding="0">
+
+    <tr>
+        <th>楼号</th>
+        <th>订单数</th>
+        <th>总金额</th>
+        <th>2.00</th>
+        <th>3.00</th>
+        <th>4.00</th>
+        <th>5.00</th>
+        <th>6.00</th>
+        <th>7.00</th>
+        <th>8.00</th>
+        <th>9.00</th>
+        <th>10.00</th>
+    </tr>
+
+    {% for building in building_stat %}
+        {% if building.order_num != 0 %}
+            <tr>
+                <td>{{ building.name }}</td>
+                <td>{{ building.order_num }}</td>
+                <td>￥ {{ building.amount }}</td>
+                <td>{{ building.two }}</td>
+                <td>{{ building.three }}</td>
+                <td>{{ building.four }}</td>
+                <td>{{ building.five }}</td>
+                <td>{{ building.six }}</td>
+                <td>{{ building.seven }}</td>
+                <td>{{ building.eight }}</td>
+                <td>{{ building.nine }}</td>
+                <td>{{ building.ten }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+
+    <tr>
+        <th>总计</th>
+        <td>{{ total_stat.order_num }}</td>
+        <td>￥ {{ total_stat.amount }}</td>
+        <td>{{ total_stat.two }}</td>
+        <td>{{ total_stat.three }}</td>
+        <td>{{ total_stat.four }}</td>
+        <td>{{ total_stat.five }}</td>
+        <td>{{ total_stat.six }}</td>
+        <td>{{ total_stat.seven }}</td>
+        <td>{{ total_stat.eight }}</td>
+        <td>{{ total_stat.nine }}</td>
+        <td>{{ total_stat.ten }}</td>
+    </tr>
+
+</table>
+
+</body>
+<script>
+    $(document).ready(function () {
+        $('tr:even').addClass('even');
+
+        $('#pre').click(function () {
+            var current = $('#date').text();
+            current = new Date(Date.parse(current.replace(/-/g, '/')));
+            var pre = new Date(current.getTime() - 24 * 60 * 60 * 1000);
+            pre = pre.getFullYear() + '-' + (pre.getMonth() + 1) + '-' + pre.getDate();
+            window.location.href = '/stat/day?date=' + pre
+        });
+
+        $('#next').click(function () {
+            var current = $('#date').text();
+            current = new Date(Date.parse(current.replace(/-/g, '/')));
+            var next = new Date(current.getTime() + 24 * 60 * 60 * 1000);
+            next = next.getFullYear() + '-' + (next.getMonth() + 1) + '-' + next.getDate();
+            window.location.href = '/stat/day?date=' + next
+        })
+
+    })
+</script>
+</html>

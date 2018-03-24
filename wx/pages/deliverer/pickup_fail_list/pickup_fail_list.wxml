@@ -1,10 +1,8 @@
-<!--pages/deliverer/delivery_list/delivery_list.wxml-->
+<!--pages/deliverer/not_pickup_list/not_pickup_list.wxml-->
 <view class='container'>
-    <text class='title'>{{title}}</text>
-
     <view class='main_content'>
 
-        <view wx:for="{{delivery_list}}" wx:for-item="order" class='order_item'>
+        <view wx:for="{{pickup_fail_list}}" wx:for-item="order" class='order_item'>
 
             <block>
                 <!-- 等待取件/次日取件 -->
@@ -48,14 +46,10 @@
             </view>
 
             <view style='display:flex;'>
-                <button style='width:33%;' bindtap='not_deliver' data-order_id='{{order.id}}' data-index='{{index}}' type='warn'>未送达</button>
-                <block wx:if='{{order.has_pay != 2}}'>
-                    <button style='width:33%;' bindtap='confirm_pay' data-order_id='{{order.id}}' data-index='{{index}}'>确认付款</button>
-                </block>
-                <block wx:else>
-                    <button style='width:33%;'>已付款</button>
-                </block>
-                <button style='width:34%;' bindtap='has_deliver' data-order_id='{{order.id}}' data-index='{{index}}' data-phone='{{order.phone}}' type='primary'>已送达</button>
+                <button class='pickup_buttons' style='width:30%' bindtap='cancel' data-order_id='{{order.id}}' data-index='{{index}}' type='warn'>取消订单</button>
+                <button class='pickup_buttons' style='width:20%' bindtap='raise_price' data-order_id='{{order.id}}' data-index='{{index}}'>加价</button>
+                <button class='pickup_buttons' style='width:25%' bindtap='pickup_fail' data-order_id='{{order.id}}' data-index='{{index}}'>未取到</button>
+                <button class='pickup_buttons' style='width:25%' bindtap='pickup_success' data-order_id='{{order.id}}' data-index='{{index}}' type='primary'>已取到</button>
             </view>
         </view>
 

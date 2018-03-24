@@ -125,7 +125,10 @@ def deliverer_get_pkg_position(request):
 
     pkg_position_by_time_list = sorted(pkg_position_by_time_list, key=lambda x:x['pickup_time'])
 
-    response = {'pkg_position_by_time_list': pkg_position_by_time_list}
+    not_pickup_count = Order.objects.filter(status=2,campus_id=request.GET['campus_id']).count()
+
+    response = {'pkg_position_by_time_list': pkg_position_by_time_list,
+                'not_pickup_count': not_pickup_count}
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
@@ -176,6 +179,24 @@ def deliverer_get_building(request):
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
+def get_pickup_fail_list(request):
+    if 'openid' not in request.GET:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.GET['openid'])
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    order_list = Order.objects.filter(status=2, campus_id=request.GET['campus_id'])
+
+    response = {'pickup_fail_list': []}
+    for order in order_list:
+        response['pickup_fail_list'].append(order.dict())
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
 def get_pickup_list(request):
     if 'openid' not in request.GET:
         response = {'get_pickup_list_status': 'fail', 'errMsg': 'expect openid'}
@@ -189,7 +210,9 @@ def get_pickup_list(request):
     pkg_position = PkgPosition.objects.get(id=request.GET['pkg_position_id'])
     pickup_time = request.GET['pickup_time']
 
-    pickup_list = Order.objects.filter(pkg_position=pkg_position, pickup_time=pickup_time,status__in=[0,1,2])
+    pickup_list = Order.objects.filter(pkg_position=pkg_position, 
+                                       pickup_time=pickup_time,
+                                       status__in=[0,1,2]).order_by('status')
 
     response = {'get_pickup_list_status': 'success',
                 'pkg_position_name':pkg_position.name,
@@ -213,10 +236,11 @@ def get_delivery_list(request):
 
     building = Building.objects.get(id=request.GET['building_id'])
 
-    delivery_list = Order.objects.filter(building=building, status__in=[1,7,8,9])
+    delivery_list = Order.objects.filter(building=building, status__in=[1,7,8,9]).order_by('status')
 
     response = {'get_delivery_list_status': 'success', 'delivery_list': []}
 
     for order in delivery_list:
         response['delivery_list'].append(order.dict())
     return HttpResponse(json.dumps(response), content_type='application/json')
+    

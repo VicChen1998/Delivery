@@ -4,9 +4,9 @@ const app = getApp()
 Page({
 
     data: {
+        not_pickup_count: 0,
         pkg_position_by_time_list: [],
         community_list: [],
-
     },
 
     onLoad: function (options) {
@@ -18,7 +18,10 @@ Page({
                 'campus_id': app.globalData.userAddress.campus.id,
             },
             success: response => {
-                this.setData({ pkg_position_by_time_list: response.data.pkg_position_by_time_list })
+                this.setData({
+                    pkg_position_by_time_list: response.data.pkg_position_by_time_list,
+                    not_pickup_count: response.data.not_pickup_count
+                })
             },
             complete: response => {
                 wx.stopPullDownRefresh()
@@ -48,6 +51,12 @@ Page({
     to_building_list: function (e) {
         wx.navigateTo({
             url: '/pages/deliverer/delivery_list/building_list?community_id=' + e.target.dataset.community_id + '&community_name=' + e.target.dataset.community_name,
+        })
+    },
+
+    to_not_pickup_list: function(e) {
+        wx.navigateTo({
+            url: '/pages/deliverer/pickup_fail_list/pickup_fail_list',
         })
     },
 

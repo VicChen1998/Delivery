@@ -27,7 +27,7 @@ Page({
 
     call: function (e) {
         wx.makePhoneCall({
-            phoneNumber: this.data.delivery_list[e.currentTarget.dataset.index].phone,
+            phoneNumber: e.currentTarget.dataset.phone,
         })
     },
 
@@ -55,8 +55,6 @@ Page({
                                 this.data.delivery_list[index].status = 7
                                 this.data.delivery_list[index].status_describe = '已送达，请下楼取件'
                                 this.setData({ delivery_list: this.data.delivery_list })
-
-                                wx.makePhoneCall({ phoneNumber: phone })
                             }
                         }
                     })

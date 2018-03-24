@@ -59,6 +59,7 @@ urlpatterns = [
     url(r'^deliverer_get_pkg_position', getdata.deliverer_get_pkg_position),
     url(r'^deliverer_get_community', getdata.deliverer_get_community),
     url(r'^deliverer_get_building', getdata.deliverer_get_building),
+    url(r'^get_pickup_fail_list', getdata.get_pickup_fail_list),
     url(r'^get_pickup_list', getdata.get_pickup_list),
     url(r'^get_delivery_list', getdata.get_delivery_list),
 

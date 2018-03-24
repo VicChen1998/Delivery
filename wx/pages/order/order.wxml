@@ -36,10 +36,10 @@
             <view class='input_item'>
                 <text class='input_title'>手机号</text>
                 <block wx:if="{{isModifying}}">
-                    <input class='input_value' placeholder='快递上的收货人手机' name='phone' value='{{modifying_order.phone}}'></input>
+                    <input class='input_value' placeholder='快递上的收货人手机' maxlength='11' name='phone' value='{{modifying_order.phone}}'></input>
                 </block>
                 <block wx:else>
-                    <input class='input_value' placeholder='快递上的收货人手机' name='phone' value='{{userAddress.phone}}'></input>
+                    <input class='input_value' placeholder='快递上的收货人手机' maxlength='11' name='phone' value='{{userAddress.phone}}'></input>
                 </block>
             </view>
 
@@ -90,7 +90,7 @@
                 <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{modifying_order.pkg_info}}'></textarea>
             </block>
             <block wx:else>
-                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}' maxlength='128'></textarea>
+                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}' maxlength='128' bindblur='recognize_pkg_info'></textarea>
             </block>
 
             <view class='input_item'>

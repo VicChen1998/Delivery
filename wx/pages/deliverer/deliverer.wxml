@@ -27,5 +27,10 @@
                 </button>
             </block>
         </view>
+
+        <view wx:if='{{not_pickup_count != 0}}' style='margin-top: 150rpx;'>
+            <button bindtap='to_not_pickup_list' type='warn'>未取到 {{not_pickup_count}}</button>
+        </view>
+
     </view>
 </view>

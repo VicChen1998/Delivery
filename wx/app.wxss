@@ -94,7 +94,7 @@ page {
 }
 
 .order_pkg_info {
-    font-size: 30rpx;
+    font-size: 28rpx;
 }
 
 .order_last {

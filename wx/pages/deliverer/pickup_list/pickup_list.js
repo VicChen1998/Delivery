@@ -28,7 +28,7 @@ Page({
 
     call: function (e) {
         wx.makePhoneCall({
-            phoneNumber: this.data.pickup_list[e.currentTarget.dataset.index].phone,
+            phoneNumber: e.currentTarget.dataset.phone,
         })
     },
 

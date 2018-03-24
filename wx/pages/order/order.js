@@ -204,8 +204,8 @@ Page({
             return false;
 
         var pickup_time_range = this.data.pkg_position_range[e.detail.value].pickup_time
-        for(var i in pickup_time_range){
-            if(pickup_time_range[i].indexOf('之前') == -1)
+        for (var i in pickup_time_range) {
+            if (pickup_time_range[i].indexOf('之前') == -1)
                 pickup_time_range[i] += '之前'
         }
 
@@ -226,6 +226,47 @@ Page({
         this.setData({
             price_index: e.detail.value
         })
+    },
+
+    recognize_pkg_info: function (e) {
+        var pkg_info = e.detail.value
+        if (pkg_info.length < 10)
+            return false;
+
+        var result = util.recognize_pkg_info(pkg_info)
+
+        if (result.status == 'success') {
+            for (var i in this.data.pkg_position_range) {
+                if (this.data.pkg_position_range[i].name == result.pkg_position_name) {
+                    var e = {
+                        'detail': {
+                            'value': i
+                        }
+                    }
+
+                    this.pkg_position_onchange(e)
+
+                    if (result.pkg_position_name == '西门' ||
+                        result.pkg_position_name == '东门' ||
+                        result.pkg_position_name == '南门' ||
+                        result.pkg_position_name == '菊二前台' ||
+                        result.pkg_position_name == '京东快递') {
+                        wx.showToast({
+                            title: '请确认领取时限！',
+                            icon: 'none',
+                        })
+                    }
+                }
+            }
+        }
+        else {
+            if (this.data.pkg_position_index == 0 && this.data.pickup_time_index == 0) {
+                wx.showToast({
+                    title: '自动识别失败，请您选择快递位置和领取时限',
+                    icon: 'none'
+                })
+            }
+        }
     },
 
     check_order: function (e) {
@@ -272,7 +313,7 @@ Page({
                         return false
                     else
                         order_info.pickup_next_day = 'True'
-                        this.order(formtype, order_info)
+                    this.order(formtype, order_info)
                 }
             })
         } else {

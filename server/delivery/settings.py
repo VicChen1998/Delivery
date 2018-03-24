@@ -129,7 +129,8 @@ STATIC_URL = '/static/'
 
 
 CRONJOBS = [
-    ('30 0 * * *', 'project.order.deliver_next_day', '>>/home/ubuntu/delivery.log'),
-    ('40 0 * * *', 'project.order.pickup_next_day', '>>/home/ubuntu/delivery.log'),
-    ('50 0 * * *', 'project.order.set_finish', '>>/home/ubuntu/delivery.log'),
+    ('30 23 * * *', 'project.crontab.stat_day'),
+    ('30 0 * * *', 'project.crontab.deliver_next_day', '>>/home/ubuntu/deliver_next_day.log'),
+    ('40 0 * * *', 'project.crontab.pickup_next_day', '>>/home/ubuntu/pickup_next_day.log'),
+    ('50 0 * * *', 'project.crontab.set_finish', '>>/home/ubuntu/set_finish.log'),
 ]

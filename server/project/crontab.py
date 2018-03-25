@@ -46,11 +46,11 @@ def set_finish():
 def stat_day():
     today = datetime.date.today()
 
-    order_list = Order.objects.filter(date=date, status__in=[0, 1, 2, 3, 7, 8, 9, 13])
+    order_list = Order.objects.filter(date=today, status__in=[0, 1, 2, 3, 7, 8, 9, 13])
 
     amount = 0
     for order in order_list:
         amount += order.price
 
-    StatDay.objects.creata(date=today, count=order_list.count(), amount=amount)
+    StatDay.objects.create(date=today, count=order_list.count(), amount=amount)
     

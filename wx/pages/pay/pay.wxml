@@ -3,12 +3,13 @@
     <view class='main_contain'>
 
         <view class='tip' style='margin: 10rpx auto'>轻骑小兵暂时无法接入微信支付</view>
-        <view class='tip' style='margin: 10rpx auto'>麻烦您将二维码保存到手机后扫码支付</view>
+        <view class='tip' style='margin: 10rpx auto'>麻烦您将二维码保存到手机</view>
+        <view class='tip' style='margin: 10rpx auto'>领取快递时当面支付或出示付款记录</view>
         <view class='tip' style='margin: 10rpx auto 10rpx;'>长按保存到手机 支付宝在下面</view>
 
-        <view wx:if='{{showPayButton}}'>
+        <!-- <view wx:if='{{showPayButton}}'>
             <button class='pay_complete_button' type='primary' bindtap='has_pay'>支付完成</button>
-        </view>
+        </view> -->
 
         <image src='https://www.vicchen.club/resource?name=QRcode_wx.jpg' class='QRcode' mode='widthFix' bindlongpress='save' data-filename='QRcode_wx.jpg'></image>
 

@@ -10,7 +10,7 @@ Page({
 
     onLoad: function (options) {
         var date = new Date()
-        this.setData({ date: date.getFullYear() + '年' + date.getMonth() + '月' + date.getDate() + '日' })
+        this.setData({ date: date.getFullYear() + '年' + (date.getMonth()+1) + '月' + date.getDate() + '日' })
 
         wx.request({
             url: app.globalData.host + 'stat/mobile',

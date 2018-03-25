@@ -4,9 +4,12 @@
     <view class='topbar'>
         <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
         <image wx:else class="avatar" src="{{userInfo.avatarUrl}}" bindtap='viewtap'></image>
+        <block wx:if='{{hasOrder && order_count != 0}}'>
+            <button bindtap='to_QRcode' style='margin: 10rpx 30rpx 0;'>点击查看支付二维码</button>
+        </block>
     </view>
 
-    <view wx:if="{{order_count==0 && finish_get_order}}" class='tip' style='margin: 50rpx auto;'>还没有订单记录哦，快去下单吧！</view>
+    <view wx:if="{{order_count == 0 && finish_get_order}}" class='tip' style='margin: 50rpx auto;'>还没有订单记录哦，快去下单吧！</view>
     <view wx:else class='tip' style='margin: 0 auto 10rpx;'>晚上9点进行配送，请耐心等待哦</view>
 
     <view class='main_content'>
@@ -32,8 +35,9 @@
 
                 <view class='order_detail order_detail_top'>
                     <text class='order_status'>{{order.status_describe}}</text>
+                    <text class='order_price'>￥{{order.price}}</text>
 
-                    <block wx:if='{{order.has_pay == 0}}'>
+                    <!-- <block wx:if='{{order.has_pay == 0}}'>
                         <text class='order_price' style='color: #ff5500'>￥{{order.price}}</text>
                     </block>
                     <block wx:if='{{order.has_pay == 1}}'>
@@ -46,7 +50,7 @@
                         <block wx:else>
                             <text class='order_price' style='color: #308CD2'>￥{{order.price}}</text>
                         </block>
-                    </block>
+                    </block> -->
 
                 </view>
 
@@ -81,7 +85,7 @@
 
         </view>
 
-        <view wx:if="{{hasOrder && order_count!=0}}" style='width:100%;border-top: 3rpx solid #aaa;'></view>
+        <view wx:if="{{hasOrder && order_count != 0}}" style='width:100%;border-top: 3rpx solid #aaa;'></view>
 
     </view>
 </view>

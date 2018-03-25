@@ -24,7 +24,7 @@ page {
 .avatar {
     width: 108rpx;
     height: 108rpx;
-    margin: 0 5rpx 20rpx 30rpx;
+    margin: 0 30rpx 20rpx;
     border-radius: 50%;
     float: left;
 }
@@ -37,7 +37,7 @@ page {
 .location_icon {
     width: 50rpx;
     height: 50rpx;
-    margin: 0 10rpx 0;
+    margin: 0 10rpx 0 -20rpx;
     float: left;
 }
 
@@ -81,7 +81,7 @@ page {
     right: 30rpx;
 }
 
-.order_price_describe{
+.order_price_describe {
     line-height: 150rpx;
     position: absolute;
     right: 30rpx;
@@ -153,6 +153,7 @@ page {
 .half_button {
     width: 50%;
     height: 70rpx;
+    font-size: 34rpx;
     line-height: 70rpx;
     float: left;
 }
@@ -164,7 +165,7 @@ page {
     position: absolute;
 }
 
-.pickup_buttons{
+.pickup_buttons {
     height: 80rpx;
     line-height: 80rpx;
     font-size: 32rpx;

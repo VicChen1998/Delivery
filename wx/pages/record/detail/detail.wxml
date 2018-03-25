@@ -21,7 +21,9 @@
 
         <view class='order_detail order_detail_top' style='margin-bottom: 80rpx;'>
             <text class='order_status'>{{order.status_describe}}</text>
-            <view wx:if="{{order.has_pay == 0}}" style='color: #ff5500'>
+            <text class='order_price'>￥{{order.price}}</text>
+
+            <!-- <view wx:if="{{order.has_pay == 0}}" style='color: #ff5500'>
                 <text class='order_price'>￥{{order.price}}</text>
                 <button bindtap='to_pay' type='primary' class='pay_button' style='margin-top: 60rpx' data-order_id='{{order.id}}'>支付</button>
             </view>
@@ -31,7 +33,7 @@
             </view>
             <view wx:if="{{order.has_pay == 2}}">
                 <text class='order_price'>￥{{order.price}}</text>
-            </view>
+            </view> -->
         </view>
 
         <view class='order_detail'>

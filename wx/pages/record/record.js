@@ -12,6 +12,7 @@ Page({
         hasOrder: false,
         order_count: 0,
         order_list: {},
+
     },
 
     clear: function () {
@@ -69,5 +70,13 @@ Page({
         wx.navigateTo({
             url: '/pages/record/detail/detail',
         })
-    }
+    },
+
+    to_QRcode: function (e) {
+        wx.navigateTo({
+            url: '/pages/pay/pay',
+        })
+    },
+
+    
 })

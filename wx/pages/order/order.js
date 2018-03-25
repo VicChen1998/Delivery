@@ -153,13 +153,23 @@ Page({
             // 领取位置
             for (var i in this.data.pkg_position_range) {
                 if (this.data.pkg_position_range[i].id == this.data.modifying_order.pkg_position.id) {
-                    this.setData({ pkg_position_index: i })
+                    var pickup_time_range = this.data.pkg_position_range[i].pickup_time
+                    for (var j in pickup_time_range) {
+                        if (pickup_time_range[j].indexOf('之前') == -1)
+                            pickup_time_range[j] += '之前'
+                    }
+                    this.setData({
+                        pkg_position_index: i,
+                        pickup_time_range: this.data.pkg_position_range[i].pickup_time
+                    })
+                    break
                 }
             }
             // 领取时限
             for (var i in this.data.pickup_time_range) {
                 if (this.data.pickup_time_range[i] == (this.data.modifying_order.pickup_time + '之前')) {
                     this.setData({ pickup_time_index: i })
+                    break
                 }
             }
         }

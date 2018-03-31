@@ -50,11 +50,12 @@ def signin(request):
                 'is_superuser': user.is_superuser,
                 'name': profile.name,
                 'phone': profile.phone,
-                'university': {'id':profile.university.id,'name':profile.university.name},
-                'campus': {'id':profile.campus.id,'name':profile.campus.name},
-                'community': {'id':profile.community.id,'name':profile.community.name},
-                'building': {'id':profile.building.id,'name':profile.building.name},
-                'credit': profile.credit
+                'university': {'id': profile.university.id, 'name': profile.university.name},
+                'campus': {'id': profile.campus.id, 'name': profile.campus.name},
+                'community': {'id': profile.community.id, 'name': profile.community.name},
+                'building': {'id': profile.building.id, 'name': profile.building.name},
+                'credit': profile.credit,
+                'voncher': profile.voucher
                 }
     return HttpResponse(json.dumps(response), content_type='application/json')
 

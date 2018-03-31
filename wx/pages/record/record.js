@@ -5,6 +5,7 @@ Page({
 
     data: {
         hasUserInfo: false,
+        hasUserAddress: false,
         userInfo: {},
         userAddress: {},
 
@@ -24,16 +25,32 @@ Page({
     },
 
     onLoad: function (options) {
-        if (app.globalData.userInfo)
+        if (app.globalData.userInfo) {
             this.setData({
                 userInfo: app.globalData.userInfo,
                 hasUserInfo: true
             })
+        } else {
+            app.sendUserInfoToRecordPage = response => {
+                this.setData({
+                    userInfo: app.globalData.userInfo,
+                    hasUserInfo: true
+                })
+            }
+        }
 
         if (app.globalData.userAddress) {
             this.setData({
                 userAddress: app.globalData.userAddress,
+                hasUserAddress: true
             })
+        } else {
+            app.sendUserAddressToRecordPage = response => {
+                this.setData({
+                    userAddress: app.globalData.userAddress,
+                    hasUserInfo: true
+                })
+            }
         }
     },
 
@@ -78,5 +95,5 @@ Page({
         })
     },
 
-    
+
 })

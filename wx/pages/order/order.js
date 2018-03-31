@@ -1,3 +1,4 @@
+
 //index.js
 const app = getApp()
 
@@ -72,9 +73,8 @@ Page({
                 userInfo: app.globalData.userInfo,
                 hasUserInfo: true
             })
-        }
-        else {
-            app.userInfoReadyCallback = response => {
+        } else {
+            app.sendUserInfoToOrderPage = response => {
                 this.setData({
                     userInfo: app.globalData.userInfo,
                     hasUserInfo: true
@@ -89,7 +89,7 @@ Page({
             })
             this.init_community()
         } else {
-            app.userAddressReadyCallback = response => {
+            app.sendUserAddressToOrderPage = response => {
                 this.setData({
                     userAddress: app.globalData.userAddress,
                     hasUserAddress: true

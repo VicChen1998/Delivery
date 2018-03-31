@@ -54,7 +54,7 @@ Page({
         })
     },
 
-    to_not_pickup_list: function(e) {
+    to_not_pickup_list: function (e) {
         wx.navigateTo({
             url: '/pages/deliverer/pickup_fail_list/pickup_fail_list',
         })
@@ -65,5 +65,12 @@ Page({
         this.onLoad()
     },
 
+    to_search: function (e) {
+        if (e.detail.value.length >= 1) {
+            wx.navigateTo({
+                url: '/pages/deliverer/search/search' + '?keyword=' + e.detail.value,
+            })
+        }
+    },
 
 })

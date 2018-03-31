@@ -19,21 +19,9 @@
             <image wx:if="{{order.status == 14 || order.status == 15}}" class='status_png' src='/images/close.png'></image>
         </block>
 
-        <view class='order_detail order_detail_top' style='margin-bottom: 80rpx;'>
+        <view class='order_detail order_detail_top'>
             <text class='order_status'>{{order.status_describe}}</text>
             <text class='order_price'>￥{{order.price}}</text>
-
-            <!-- <view wx:if="{{order.has_pay == 0}}" style='color: #ff5500'>
-                <text class='order_price'>￥{{order.price}}</text>
-                <button bindtap='to_pay' type='primary' class='pay_button' style='margin-top: 60rpx' data-order_id='{{order.id}}'>支付</button>
-            </view>
-            <view wx:if="{{order.has_pay == 1}}" style='color: #21A032'>
-                <text class='order_price'>￥{{order.price}}</text>
-                <text class='order_price_describe'>待确认</text>
-            </view>
-            <view wx:if="{{order.has_pay == 2}}">
-                <text class='order_price'>￥{{order.price}}</text>
-            </view> -->
         </view>
 
         <view class='order_detail'>

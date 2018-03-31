@@ -10,7 +10,8 @@
         "pages/deliverer/delivery_list/building_list",
         "pages/manager/manager",
         "pages/pay/pay",
-        "pages/deliverer/pickup_fail_list/pickup_fail_list"
+        "pages/deliverer/pickup_fail_list/pickup_fail_list",
+        "pages/deliverer/search/search"
     ],
     "window": {
         "backgroundTextStyle": "light",

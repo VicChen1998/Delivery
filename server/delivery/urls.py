@@ -62,6 +62,7 @@ urlpatterns = [
     url(r'^get_pickup_fail_list', getdata.get_pickup_fail_list),
     url(r'^get_pickup_list', getdata.get_pickup_list),
     url(r'^get_delivery_list', getdata.get_delivery_list),
+    url(r'^deliverer_search', getdata.deliverer_search),
 
     # 管理员获取统计数据
     url(r'^stat/mobile', stat.mobile),

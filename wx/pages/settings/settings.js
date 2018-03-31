@@ -5,6 +5,7 @@ const app = getApp()
 Page({
     data: {
         hasUserInfo: false,
+        hasUserAddress: false,
         isSetting: false,
         userInfo: {},
         userAddress: {},
@@ -37,9 +38,7 @@ Page({
                             university_range: response.data.university_list,
                             university_index: index
                         })
-                    }
-
-                    else {
+                    } else {
                         response.data.university_list.unshift({ 'id': '0000', 'name': '请选择' })
                         this.setData({ university_range: response.data.university_list })
                     }
@@ -147,11 +146,39 @@ Page({
     },
 
     onLoad: function (options) {
-        this.setData({
-            userInfo: app.globalData.userInfo,
-            userAddress: app.globalData.userAddress,
-            hasUserInfo: true
-        })
+        if (app.globalData.userInfo) {
+            this.setData({
+                userInfo: app.globalData.userInfo,
+                hasUserInfo: true
+            })
+        } else {
+            app.sendUserInfoToSettingsPage = response => {
+                this.setData({
+                    userInfo: app.globalData.userInfo,
+                    hasUserInfo: true
+                })
+            }
+        }
+
+        if (app.globalData.userAddress) {
+            this.setData({
+                userAddress: app.globalData.userAddress,
+                hasUserAddress: true
+            })
+            this.init()
+        } else {
+            app.sendUserAddressToSettingsPage = response => {
+                this.setData({
+                    userAddress: app.globalData.userAddress,
+                    hasUserAddress: true
+                })
+                this.init()
+            }
+        }
+
+    },
+
+    init: function () {
         this.get_university()
         if (this.data.userAddress.university.id != '0000')
             this.get_campus(this.data.userAddress.university.id)
@@ -160,7 +187,7 @@ Page({
         if (this.data.userAddress.community.id != '00000000')
             this.get_building(this.data.userAddress.community.id)
 
-        if(this.data.userAddress.first_signin){
+        if (this.data.userAddress.first_signin) {
             this.setData({
                 isSetting: true
             })
@@ -259,8 +286,8 @@ Page({
 
                     wx.showToast({ title: '修改成功' })
 
-                    if(app.globalData.userAddress.first_signin){
-                        setTimeout(function (){
+                    if (app.globalData.userAddress.first_signin) {
+                        setTimeout(function () {
                             wx.switchTab({
                                 url: '/pages/order/order',
                             })

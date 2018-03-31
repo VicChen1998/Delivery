@@ -22,8 +22,12 @@ App({
                 wx.getUserInfo({
                     success: response => {
                         this.globalData.userInfo = response.userInfo
-                        if (this.userInfoReadyCallback)
-                            this.userInfoReadyCallback(response)
+                        if (this.sendUserInfoToOrderPage)
+                            this.sendUserInfoToOrderPage(response)
+                        if (this.sendUserInfoToRecordPage)
+                            this.sendUserInfoToRecordPage(response)
+                        if(this.sendUserInfoToSettingsPage)
+                            this.sendUserInfoToSettingsPage(response)
 
                         this.checkIsFirstSignin(this.globalData)
                     }
@@ -40,8 +44,12 @@ App({
                     method: 'GET',
                     success: response => {
                         this.globalData.userAddress = response.data
-                        if (this.userAddressReadyCallback)
-                            this.userAddressReadyCallback(response)
+                        if (this.sendUserAddressToOrderPage)
+                            this.sendUserAddressToOrderPage(response)
+                        if (this.sendUserAddressToRecordPage)
+                            this.sendUserAddressToRecordPage(response)
+                        if (this.sendUserAddressToSettingsPage)
+                            this.sendUserAddressToSettingsPage(response)
 
                         this.get_pkg_position(this.globalData.userAddress.campus.id)
                         this.checkIsFirstSignin(this.globalData)

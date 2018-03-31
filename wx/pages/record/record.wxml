@@ -35,23 +35,12 @@
 
                 <view class='order_detail order_detail_top'>
                     <text class='order_status'>{{order.status_describe}}</text>
-                    <text class='order_price'>￥{{order.price}}</text>
-
-                    <!-- <block wx:if='{{order.has_pay == 0}}'>
-                        <text class='order_price' style='color: #ff5500'>￥{{order.price}}</text>
+                    <block wx:if='{{order.is_free}}'>
+                        <image src='/images/free.png' class='order_free'></image>
                     </block>
-                    <block wx:if='{{order.has_pay == 1}}'>
-                        <text class='order_price' style='color: #21A032'>￥{{order.price}}</text>
+                    <block wx:else>
+                        <text class='order_price'>￥{{order.price}}</text>
                     </block>
-                    <block wx:if='{{order.has_pay == 2}}'>
-                        <block wx:if='{{order.status == 13 || order.status == 14 || order.status == 15}}'>
-                            <text class='order_price'>￥{{order.price}}</text>
-                        </block>
-                        <block wx:else>
-                            <text class='order_price' style='color: #308CD2'>￥{{order.price}}</text>
-                        </block>
-                    </block> -->
-
                 </view>
 
                 <view class='order_detail'>

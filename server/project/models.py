@@ -107,6 +107,8 @@ class UserProfile(models.Model):
     building = models.ForeignKey(Building, default='0000000000')
     # 信用
     credit = models.IntegerField(200, default=100)
+    # 免单券
+    voucher = models.IntegerField(128, default=0)
 
     class Meta:
         db_table = 'UserProfile'
@@ -145,6 +147,8 @@ class Order(models.Model):
     price = models.DecimalField(max_digits=4, decimal_places=2)
     # 是否支付 (0 未支付/ 1 待确认 / 2 已支付)
     has_pay = models.IntegerField(2, default=0)
+    # 是否免单
+    is_free = models.BooleanField(default=False)
     # 备注
     comment = models.CharField(max_length=256, null=True)
     # 取件员
@@ -205,6 +209,7 @@ class Order(models.Model):
                       'building': {'id': self.building.id, 'name': self.building.name},
                       'price': '%.2f' % self.price,
                       'has_pay': self.has_pay,
+                      'is_free': self.is_free,
                       'comment': self.comment}
         return order_dict
 

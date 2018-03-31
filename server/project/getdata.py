@@ -31,7 +31,7 @@ def get_campus(request):
 
     response = {'campus_list': []}
     for campus in campus_list:
-        item = {'id':campus.id, 'name': campus.name}
+        item = {'id': campus.id, 'name': campus.name}
         response['campus_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -41,7 +41,7 @@ def get_community(request):
 
     response = {'community_list': []}
     for community in community_list:
-        item = {'id':community.id, 'name': community.name}
+        item = {'id': community.id, 'name': community.name}
         response['community_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -51,7 +51,7 @@ def get_building(request):
 
     response = {'building_list': []}
     for building in building_list:
-        item = {'id':building.id,'name':building.name}
+        item = {'id': building.id, 'name': building.name}
         response['building_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -61,7 +61,7 @@ def get_pkg_position(request):
 
     response = {'pkg_position_list': []}
     for pkg_position in pkg_position_list:
-        item = {'id':pkg_position.id, 'name':pkg_position.name, 'pickup_time': pkg_position.pickup_time.split(',')}
+        item = {'id': pkg_position.id, 'name': pkg_position.name, 'pickup_time': pkg_position.pickup_time.split(',')}
         response['pkg_position_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -98,9 +98,7 @@ def deliverer_get_pkg_position(request):
         response = {'get_pkg_position_status': 'fail', 'errMsg': 'you are not staff'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    
     pkg_position_list = PkgPosition.objects.filter(campus_id=request.GET['campus_id'])
-
 
     pickup_time_list = []
     pkg_position_by_time_list = []
@@ -116,16 +114,17 @@ def deliverer_get_pkg_position(request):
                 if item['pickup_time'] == pickup_time:
                     if 'pkg_position_list' not in item:
                         item['pkg_position_list'] = []
-                    pickup_list = Order.objects.filter(pkg_position=position, status__in=[0,1,2], pickup_time=item['pickup_time'])
-                    item['pkg_position_list'].append({'id': position.id, 
-                                                      'name': position.name, 
+                    pickup_list = Order.objects.filter(pkg_position=position, status__in=[0, 1, 2],
+                                                       pickup_time=item['pickup_time'])
+                    item['pkg_position_list'].append({'id': position.id,
+                                                      'name': position.name,
                                                       'order_count': pickup_list.count(),
                                                       'pending_count': pickup_list.filter(status=0).count()})
                     break
 
-    pkg_position_by_time_list = sorted(pkg_position_by_time_list, key=lambda x:x['pickup_time'])
+    pkg_position_by_time_list = sorted(pkg_position_by_time_list, key=lambda x: x['pickup_time'])
 
-    not_pickup_count = Order.objects.filter(status=2,campus_id=request.GET['campus_id']).count()
+    not_pickup_count = Order.objects.filter(status=2, campus_id=request.GET['campus_id']).count()
 
     response = {'pkg_position_by_time_list': pkg_position_by_time_list,
                 'not_pickup_count': not_pickup_count}
@@ -141,14 +140,14 @@ def deliverer_get_community(request):
     if not user.is_staff:
         response = {'get_pkg_position_status': 'fail', 'errMsg': 'you are not staff'}
         return HttpResponse(json.dumps(response), content_type='application/json')
-    
+
     community_list = Community.objects.filter(campus_id=request.GET['campus_id'])
 
     response = {'community_list': []}
     for community in community_list:
-        delivery_list = Order.objects.filter(building=building, status__in=[1,7,8,9])
-        item = {'id':community.id, 
-                'name': community.name, 
+        delivery_list = Order.objects.filter(building=building, status__in=[1, 7, 8, 9])
+        item = {'id': community.id,
+                'name': community.name,
                 'order_count': delivery_list.count(),
                 'pending_count': delivery_list.filter(status=1).count()}
         response['community_list'].append(item)
@@ -169,10 +168,10 @@ def deliverer_get_building(request):
 
     response = {'building_list': []}
     for building in building_list:
-        delivery_list = Order.objects.filter(building=building, status__in=[1,7,8,9])
+        delivery_list = Order.objects.filter(building=building, status__in=[1, 7, 8, 9])
         if delivery_list.count() != 0:
-            item = {'id':building.id, 
-                    'name': building.name, 
+            item = {'id': building.id,
+                    'name': building.name,
                     'order_count': delivery_list.count(),
                     'pending_count': delivery_list.filter(status=1).count()}
             response['building_list'].append(item)
@@ -210,12 +209,12 @@ def get_pickup_list(request):
     pkg_position = PkgPosition.objects.get(id=request.GET['pkg_position_id'])
     pickup_time = request.GET['pickup_time']
 
-    pickup_list = Order.objects.filter(pkg_position=pkg_position, 
+    pickup_list = Order.objects.filter(pkg_position=pkg_position,
                                        pickup_time=pickup_time,
-                                       status__in=[0,1,2]).order_by('status')
+                                       status__in=[0, 1, 2]).order_by('status')
 
     response = {'get_pickup_list_status': 'success',
-                'pkg_position_name':pkg_position.name,
+                'pkg_position_name': pkg_position.name,
                 'pickup_list_count': pickup_list.count(),
                 'pickup_list': []}
 
@@ -236,11 +235,37 @@ def get_delivery_list(request):
 
     building = Building.objects.get(id=request.GET['building_id'])
 
-    delivery_list = Order.objects.filter(building=building, status__in=[1,7,8,9]).order_by('status')
+    delivery_list = Order.objects.filter(building=building, status__in=[1, 7, 8, 9]).order_by('status')
 
     response = {'get_delivery_list_status': 'success', 'delivery_list': []}
 
     for order in delivery_list:
         response['delivery_list'].append(order.dict())
     return HttpResponse(json.dumps(response), content_type='application/json')
-    
+
+
+def deliverer_search(request):
+    if 'openid' not in request.GET:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.GET['openid'])
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    keyword = request.GET['keyword']
+
+    if keyword.isdigit():
+        results = Order.objects.filter(phone__contains=keyword).order_by('-date')
+    else:
+        results = Order.objects.filter(name__contains=keyword).order_by('-date')
+
+    response = {'status': 'success',
+                'count': results.count(),
+                'results': []
+                }
+    for order in results:
+        response['results'].append(order.dict())
+
+    return HttpResponse(json.dumps(response), content_type='application/json')

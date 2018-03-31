@@ -21,7 +21,7 @@ def deliver_next_day():
     date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     print('\n\n# # # # # ' + date + 'deliver_next_day # # # # #\n')
 
-    order_list = Order.objects.filter(status__in=[8,9])
+    order_list = Order.objects.filter(status__in=[8, 9])
 
     for order in order_list:
         print(order.dict())
@@ -53,4 +53,3 @@ def stat_day():
         amount += order.price
 
     StatDay.objects.create(date=today, count=order_list.count(), amount=amount)
-    

@@ -2,7 +2,7 @@
 
 .input_item {
     width: 100%;
-    height: 70rpx;
+    height: 68rpx;
     display: flex;
 }
 
@@ -45,11 +45,11 @@ picker {
 
 .input_textarea {
     width: 80%;
-    height: 180rpx;
+    height: 130rpx;
     padding: 10rpx;
-    margin: 0 auto 30rpx;
+    margin: 0 auto 20rpx;
     border: 3rpx solid #ccc;
-    font-size: 30rpx;
+    font-size: 26rpx;
 }
 
 .order_button {

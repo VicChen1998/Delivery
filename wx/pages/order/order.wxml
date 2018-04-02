@@ -82,15 +82,24 @@
                 <text class='price_comment' style='color: #ff0000'>暂不支持修改价格</text>
             </view>
 
+            <block wx:if='{{!isModifying}}'>
+                <view class='input_item'>
+                    <text class='input_title'>免单券</text>
+                    <picker bindchange='voucher_onchange' value='{{voucher_index}}' range='{{voucher_range}}' name='voucher'>
+                        <text class='input_picker'>{{voucher_range[voucher_index]}}</text>
+                    </picker>
+                </view>
+            </block>
+
             <view class='input_item' style='height: 60rpx;'>
                 <text class='input_title'>快递信息</text>
             </view>
 
             <block wx:if="{{isModifying}}">
-                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{modifying_order.pkg_info}}'></textarea>
+                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递短信吧' class='input_textarea' name='pkg_info' value='{{modifying_order.pkg_info}}'></textarea>
             </block>
             <block wx:else>
-                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递信息吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}' maxlength='128' bindblur='recognize_pkg_info'></textarea>
+                <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递短信吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}' maxlength='128' bindblur='recognize_pkg_info'></textarea>
             </block>
 
             <view class='input_item'>

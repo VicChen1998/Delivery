@@ -85,8 +85,20 @@ def get_order(request):
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
-# 私密端口 获取配送清单
+def get_voucher(request):
+    if 'openid' not in request.GET:
+        response = {'get_voucher_status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
 
+    user = User.objects.get(username=request.GET['openid'])
+    profile = UserProfile.objects.get(user=user)
+
+    response = {'get_voucher_status': 'success',
+                'voucher': profile.voucher}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+# 私密端口 获取配送清单
 
 def deliverer_get_pkg_position(request):
     if 'openid' not in request.GET:

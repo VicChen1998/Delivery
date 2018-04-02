@@ -21,6 +21,8 @@ Page({
         pickup_time_index: 0,
         price_range: [2, 3, 4, 5, 6, 7, 8, 9, 10],
         price_index: 1,
+        voucher_range: [],
+        voucher_index: 0,
 
         pkg_info: '',
         comment: '',
@@ -66,6 +68,19 @@ Page({
         })
     },
 
+    init_voucher: function () {
+
+        if (this.data.userAddress.voucher == 0) {
+            this.setData({ voucher_range: ['你还没有免单券哦~'] })
+        } else {
+            var range = ['不使用']
+            for (var i = 0; i < this.data.userAddress.voucher; i++)
+                range.unshift('使用 免单券 ×1')
+
+            this.setData({ voucher_range: range })
+        }
+    },
+
     onLoad: function () {
 
         if (app.globalData.userInfo) {
@@ -88,6 +103,7 @@ Page({
                 hasUserAddress: true
             })
             this.init_community()
+            this.init_voucher()
         } else {
             app.sendUserAddressToOrderPage = response => {
                 this.setData({
@@ -95,6 +111,7 @@ Page({
                     hasUserAddress: true
                 })
                 this.init_community()
+                this.init_voucher()
             }
         }
 
@@ -113,6 +130,22 @@ Page({
     },
 
     onShow: function () {
+
+        if (app.globalData.needRefreshVoucher) {
+            wx.request({
+                url: app.globalData.host + 'get_voucher',
+                data: { 'openid': this.data.userAddress.openid },
+                success: response => {
+                    if (response.data.get_voucher_status == 'success') {
+                        this.data.userAddress.voucher = response.data.voucher
+                        this.setData({ userAddress: this.data.userAddress })
+                        this.init_voucher()
+                        app.globalData.needRefreshVoucher = false
+                    }
+                }
+            })
+        }
+
         if (app.globalData.hasChangeAddress) {
             this.setData({
                 userAddress: app.globalData.userAddress,
@@ -238,6 +271,12 @@ Page({
         })
     },
 
+    voucher_onchange: function (e) {
+        this.setData({
+            voucher_index: e.detail.value
+        })
+    },
+
     recognize_pkg_info: function (e) {
         var pkg_info = e.detail.value
         if (pkg_info.length < 10)
@@ -308,6 +347,12 @@ Page({
 
         order_info.comment = e.detail.value.comment
 
+        var voucher_info = this.data.voucher_range[e.detail.value.voucher]
+        if (voucher_info == '使用 免单券 ×1')
+            order_info.use_voucher = 'True'
+        else
+            order_info.use_voucher = 'False'
+
         var date = new Date()
         var current_time = (Array(2).join(0) + date.getHours()).slice(-2) + ':' + date.getMinutes()
         var pickup_time = order_info.pickup_time.substring(0, order_info.pickup_time.length - 2)
@@ -355,6 +400,7 @@ Page({
                             pkg_info: '',
                             comment: '',
                         })
+                        app.globalData.needRefreshVoucher = true
                     } else {
                         wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })
                     }

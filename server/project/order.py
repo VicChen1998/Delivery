@@ -17,6 +17,7 @@ def order(request):
     date = time.strftime('%Y-%m-%d', current_time)
 
     user = User.objects.get(username=request.POST['openid'])
+    profile = UserProfile.objects.get(user=user)
 
     order_id = timestamp + '$u=' + user.username
 
@@ -33,6 +34,16 @@ def order(request):
         response = {'order_status': 'fail', 'errMsg': 'price error'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
+    is_free = False
+    if 'use_voucher' in request.POST:
+        if request.POST['use_voucher'] == 'True':
+            if profile.voucher == 0:
+                response = {'order_status': 'fail', 'errMsg': 'no voucher'}
+                return HttpResponse(json.dumps(response), content_type='application/json')
+            else:
+                profile.voucher -= 1
+                profile.save()
+                is_free = True
 
     Order.objects.create(
         id=order_id,
@@ -49,6 +60,7 @@ def order(request):
         pickup_time=request.POST['pickup_time'][:5],
         pkg_info=request.POST['pkg_info'],
         price=Decimal(price),
+        is_free=is_free,
         comment=request.POST['comment'],
     )
 
@@ -65,7 +77,7 @@ def modify(request):
         response = {'modify_status': 'fail', 'errMsg': 'expect order_id'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    user = User.objects.get(username=request.POST['openid'])    
+    user = User.objects.get(username=request.POST['openid'])
 
     order = Order.objects.get(id=request.POST['order_id'])
 
@@ -73,7 +85,7 @@ def modify(request):
         response = {'modify_status': 'fail', 'errMsg': 'not your order'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    if order.status not in [0,2,3]:
+    if order.status not in [0, 2, 3]:
         response = {'modify_status': 'fail', 'errMsg': 'can not modify'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -90,7 +102,7 @@ def modify(request):
     order.community = building.community
     order.building = building
     order.pkg_position = pkg_position
-    order.pickup_time=request.POST['pickup_time'][:5]
+    order.pickup_time = request.POST['pickup_time'][:5]
     order.pkg_info = request.POST['pkg_info']
     order.comment = request.POST['comment']
     order.status = status
@@ -109,7 +121,7 @@ def pay(request):
         response = {'modify_status': 'fail', 'errMsg': 'expect order_id'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    user = User.objects.get(username=request.POST['openid'])    
+    user = User.objects.get(username=request.POST['openid'])
 
     order = Order.objects.get(id=request.POST['order_id'])
 
@@ -152,7 +164,7 @@ def pickup(request):
         order.pickup_by = user
         order.save()
     else:
-        response = {'status':'fail'}
+        response = {'status': 'fail'}
 
     return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -222,10 +234,10 @@ def cancel(request):
         response = {'status': 'fail', 'errMsg': 'not your order'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    if order.status not in [0,2,3]:
+    if order.status not in [0, 2, 3]:
         response = {'status': 'fail', 'errMsg': 'can not cancel'}
         return HttpResponse(json.dumps(response), content_type='application/json')
-    
+
     order.status = 14
     order.save()
     response = {'status': 'success'}
@@ -250,10 +262,10 @@ def deliverer_cancel(request):
         response = {'status': 'fail', 'errMsg': 'you are not staff'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    if order.status not in [0,2]:
+    if order.status not in [0, 2]:
         response = {'status': 'fail', 'errMsg': 'can not cancel'}
         return HttpResponse(json.dumps(response), content_type='application/json')
-    
+
     order.status = 14
     order.errMsg = 'cancel by ' + user.username + ' ' + profile.name + ' ' + profile.phone
     order.save()
@@ -279,10 +291,10 @@ def raise_price(request):
         response = {'status': 'fail', 'errMsg': 'you are not staff'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    if order.status not in [0,2]:
+    if order.status not in [0, 2]:
         response = {'status': 'fail', 'errMsg': 'can not raise price'}
         return HttpResponse(json.dumps(response), content_type='application/json')
-    
+
     if 'raise_num' not in request.POST:
         response = {'status': 'fail', 'errMsg': 'expect raise num'}
         return HttpResponse(json.dumps(response), content_type='application/json')
@@ -329,7 +341,7 @@ def receive(request):
     if 'order_id' not in request.POST:
         response = {'status': 'fail', 'errMsg': 'expect order_id'}
         return HttpResponse(json.dumps(response), content_type='application/json')
-    
+
     order = Order.objects.get(id=request.POST['order_id'])
 
     if 'openid' not in request.POST:

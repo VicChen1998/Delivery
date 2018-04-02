@@ -9,6 +9,7 @@ App({
         order: null,    // 查看订单详情时用全局数据传递参数
         payint_order_id: null,
         hasChangeAddress: false,
+        needRefreshVoucher: false,
 
         isModifying: false,
         modifying_order: {},

@@ -21,10 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '%a*+ejz=jmxit+lxx@v9=(k$8k(^^auts9yoil)g!((hcsc$m2'
 
-
 AppID = 'wx076167838e875a30'
 AppSecret = '4b2aff0fea3922eaf2d50169c316b616'
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -127,9 +125,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 CRONJOBS = [
-    ('30 23 * * *', 'project.crontab.stat_day'),
+    ('* * * * *', 'project.crontab.check_access_token'),
+
+    ('50 23 * * *', 'project.crontab.stat_day'),
     ('30 0 * * *', 'project.crontab.deliver_next_day', '>>/home/ubuntu/deliver_next_day.log'),
     ('40 0 * * *', 'project.crontab.pickup_next_day', '>>/home/ubuntu/pickup_next_day.log'),
     ('50 0 * * *', 'project.crontab.set_finish', '>>/home/ubuntu/set_finish.log'),

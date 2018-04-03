@@ -100,6 +100,7 @@ def get_voucher(request):
 
 # 私密端口 获取配送清单
 
+
 def deliverer_get_pkg_position(request):
     if 'openid' not in request.GET:
         response = {'get_pkg_position_status': 'fail', 'errMsg': 'expect openid'}
@@ -157,7 +158,7 @@ def deliverer_get_community(request):
 
     response = {'community_list': []}
     for community in community_list:
-        delivery_list = Order.objects.filter(building=building, status__in=[1, 7, 8, 9])
+        delivery_list = Order.objects.filter(community=community, status__in=[1, 7, 8, 9])
         item = {'id': community.id,
                 'name': community.name,
                 'order_count': delivery_list.count(),

@@ -4,6 +4,16 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+
+class AccessToken(models.Model):
+    access_token = models.CharField(max_length=512)
+    receive_time = models.DateTimeField(auto_now_add=True)
+    expires_in = models.IntegerField(172800)
+
+    class Meta:
+        db_table = 'AccessToken'
+
+
 # 大学表
 class University(models.Model):
     id = models.CharField(max_length=4, primary_key=True)

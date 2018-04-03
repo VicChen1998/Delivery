@@ -15,7 +15,9 @@ App({
         modifying_order: {},
     },
 
-    onLaunch: function () {
+    onLaunch: function (options) {
+
+        console.log(options)
 
         // 获取用户信息
         wx.getSetting({

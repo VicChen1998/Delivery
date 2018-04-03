@@ -1,7 +1,8 @@
 import time
-import datetime
+from datetime import date, datetime, timezone, timedelta
 
-from project.models import Order, StatDay
+from project.models import Order, StatDay, AccessToken
+from project.auth import get_access_token
 
 
 def pickup_next_day():
@@ -44,7 +45,7 @@ def set_finish():
 
 
 def stat_day():
-    today = datetime.date.today()
+    today = date.today()
 
     order_list = Order.objects.filter(date=today, status__in=[0, 1, 2, 3, 7, 8, 9, 13])
 
@@ -53,3 +54,12 @@ def stat_day():
         amount += order.price
 
     StatDay.objects.create(date=today, count=order_list.count(), amount=amount)
+
+
+def check_access_token():
+    token = AccessToken.objects.get(id=1)
+
+    now = datetime.utcnow().replace(tzinfo=timezone(timedelta(0)))
+
+    if (now - token.receive_time).seconds > token.expires_in - 300:
+        get_access_token()

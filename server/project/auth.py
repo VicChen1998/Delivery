@@ -1,10 +1,11 @@
 import json
+import datetime
 import requests
 
 from django.http import HttpResponse
 
 from delivery.settings import AppID, AppSecret
-from project.models import User, UserProfile
+from project.models import User, UserProfile, AccessToken
 
 
 def get_openid(js_code):
@@ -68,3 +69,19 @@ def signup(openid):
 
 def message(request):
     pass
+
+
+def get_access_token():
+    url = 'https://api.weixin.qq.com/cgi-bin/token'
+    data = {'appid': AppID,
+            'secret': AppSecret,
+            'grant_type': 'client_credential'}
+
+    response = requests.get(url, params=data).json()
+
+    token = AccessToken.objects.get(id=1)
+
+    token.access_token = response['access_token']
+    token.expires_in = response['expires_in']
+    token.receive_time = datetime.datetime.now()
+    token.save()

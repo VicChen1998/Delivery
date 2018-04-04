@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse
 
-from project.models import User, UserProfile, University, Campus, Community, Building
+from project.models import User, UserProfile, Building
 
 
 def upload_userinfo(request):

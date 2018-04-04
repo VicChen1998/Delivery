@@ -229,6 +229,7 @@ def cancel(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     user = User.objects.get(username=request.POST['openid'])
+    profile = UserProfile.objects.get(user=user)
 
     if order.user.username != user.username:
         response = {'status': 'fail', 'errMsg': 'not your order'}
@@ -240,6 +241,11 @@ def cancel(request):
 
     order.status = 14
     order.save()
+
+    if order.is_free:
+        profile.voucher += 1
+        profile.save()
+
     response = {'status': 'success'}
     return HttpResponse(json.dumps(response), content_type='application/json')
 

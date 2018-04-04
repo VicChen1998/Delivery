@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from project import auth, order, upload, getdata, stat, views
+from project import auth, order, upload, getdata, stat, share, views
 
 urlpatterns = [
     # 管理
@@ -41,7 +41,7 @@ urlpatterns = [
     url(r'^not_delivery', order.not_delivery),
 
     # 上传数据
-    url(r'^upload_userinfo', upload.upload_userinfo),
+    url(r'^upload_userinfo$', upload.upload_userinfo),
     url(r'^upload_address$', upload.upload_address),
 
     # 获取公共数据
@@ -55,6 +55,12 @@ urlpatterns = [
     # 获取个人数据
     url(r'^get_order', getdata.get_order),
     url(r'^get_voucher', getdata.get_voucher),
+
+    # 分享
+    url(r'^get_share_qrcode', share.get_share_qrcode),
+    url(r'^upload_invite_info', share.upload_invite_info),
+    url(r'^get_share_voucher', share.get_share_voucher),
+    url(r'^get_invite_history', share.get_invite_history),
 
     # 配送员获取数据
     url(r'^deliverer_get_pkg_position', getdata.deliverer_get_pkg_position),

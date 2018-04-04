@@ -37,7 +37,6 @@ Page({
     // },
 
     save: function (e) {
-        console.log(e)
         wx.downloadFile({
             url: app.globalData.host + 'resource?name=' + e.target.dataset.filename,
             success: download_res => {

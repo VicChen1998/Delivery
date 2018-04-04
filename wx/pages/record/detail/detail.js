@@ -53,6 +53,9 @@ Page({
                                 setTimeout(function () {
                                     wx.navigateBack()
                                 }, 1500)
+                                if (this.data.order.is_free){
+                                    app.refreshVoucher()
+                                }
                             }
                         }
                     })

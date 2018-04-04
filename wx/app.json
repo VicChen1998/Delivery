@@ -11,7 +11,9 @@
         "pages/manager/manager",
         "pages/pay/pay",
         "pages/deliverer/pickup_fail_list/pickup_fail_list",
-        "pages/deliverer/search/search"
+        "pages/deliverer/search/search",
+        "pages/share/share",
+        "pages/share/invite_record"
     ],
     "window": {
         "backgroundTextStyle": "light",

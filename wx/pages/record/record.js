@@ -95,5 +95,8 @@ Page({
         })
     },
 
+    onReachBottom: function () {
+        console.log('fuck')
+    },
 
 })

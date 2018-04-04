@@ -13,6 +13,9 @@ App({
 
         isModifying: false,
         modifying_order: {},
+
+        isInvited: false,
+        inviter: ''
     },
 
     onLaunch: function (options) {
@@ -29,10 +32,10 @@ App({
                             this.sendUserInfoToOrderPage(response)
                         if (this.sendUserInfoToRecordPage)
                             this.sendUserInfoToRecordPage(response)
-                        if(this.sendUserInfoToSettingsPage)
+                        if (this.sendUserInfoToSettingsPage)
                             this.sendUserInfoToSettingsPage(response)
 
-                        this.checkIsFirstSignin(this.globalData)
+                        this.checkIsFirstSignin(options)
                     }
                 })
             }
@@ -55,7 +58,7 @@ App({
                             this.sendUserAddressToSettingsPage(response)
 
                         this.get_pkg_position(this.globalData.userAddress.campus.id)
-                        this.checkIsFirstSignin(this.globalData)
+                        this.checkIsFirstSignin(options)
                     }
                 })
             }
@@ -75,20 +78,47 @@ App({
         })
     },
 
-    checkIsFirstSignin: function (globalData) {
-        if (globalData.userAddress != null && globalData.userInfo != null && globalData.userAddress.first_signin) {
+    checkIsFirstSignin: function (options) {
+        if (this.globalData.userAddress != null && this.globalData.userInfo != null && this.globalData.userAddress.first_signin) {
             wx.switchTab({
                 url: '/pages/settings/settings',
             })
 
-            globalData.userInfo.openid = globalData.userAddress.openid
+            this.globalData.userInfo.openid = this.globalData.userAddress.openid
             wx.request({
                 url: this.globalData.host + 'upload_userinfo',
-                data: globalData.userInfo,
                 method: 'POST',
                 header: { 'content-type': 'application/x-www-form-urlencoded' },
+                data: this.globalData.userInfo,
             })
+
+            if ((options.scene == 1011 || options.scene == 1012 || options.scene == 1013) && options.query.inviter != undefined) {
+                this.globalData.isInvited = true
+                this.globalData.inviter = options.query.inviter
+
+                wx.request({
+                    url: this.globalData.host + 'upload_invite_info',
+                    method: 'POST',
+                    header: { 'content-type': 'application/x-www-form-urlencoded' },
+                    data: {
+                        'openid': this.globalData.userAddress.openid,
+                        'inviter_openid': this.globalData.inviter
+                    }
+                })
+            }
         }
+    },
+
+    refreshVoucher: function () {
+        wx.request({
+            url: this.globalData.host + 'get_voucher',
+            data: { 'openid': this.globalData.userAddress.openid },
+            success: response => {
+                if (response.data.get_voucher_status == 'success') {
+                    this.globalData.userAddress.voucher = response.data.voucher
+                }
+            }
+        })
     }
 
 })

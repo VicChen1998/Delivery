@@ -194,8 +194,22 @@ Page({
         }
     },
 
+    to_share: function () {
+        wx.navigateTo({
+            url: '/pages/share/share',
+        })
+    },
+
     start_set: function () {
         this.setData({ isSetting: true })
+    },
+
+    onShow: function () {
+        if (this.data.hasUserAddress) {
+            if (this.data.userAddress.voucher != app.globalData.userAddress.voucher) {
+                this.setData({ userAddress: app.globalData.userAddress })
+            }
+        }
     },
 
     university_onchange: function (e) {
@@ -256,6 +270,17 @@ Page({
             return false;
         }
 
+        if (upload_info.phone.length != 11) {
+            wx.showToast({
+                title: '请正确填写手机号',
+                icon: 'none',
+                duration: 2000,
+            })
+            return false;
+        }
+
+
+
         wx.showToast({
             title: ' ',
             icon: 'loading',
@@ -284,14 +309,44 @@ Page({
                         isSetting: false
                     })
 
-                    wx.showToast({ title: '修改成功' })
+                    if (!app.globalData.userAddress.first_signin)
+                        wx.showToast({ title: '修改成功' })
 
                     if (app.globalData.userAddress.first_signin) {
+                        if (app.globalData.isInvited && app.globalData.inviter) {
+                            wx.request({
+                                url: app.globalData.host + 'get_share_voucher',
+                                method: 'POST',
+                                header: { 'content-type': 'application/x-www-form-urlencoded' },
+                                data: {
+                                    'openid': app.globalData.userAddress.openid,
+                                    'inviter_openid': app.globalData.inviter,
+                                },
+                                success: res => {
+                                    if (res.data.status == 'success') {
+                                        wx.showToast({
+                                            title: '你和邀请者各得到一张免单券！',
+                                            icon: 'none',
+                                            duration: 2000
+                                            
+                                        })
+                                        app.refreshVoucher()
+                                    }
+                                    else {
+                                        wx.showToast({
+                                            title: res.data.errMsg,
+                                            icon: 'none'
+                                        })
+                                    }
+                                }
+                            })
+                        }
+
                         setTimeout(function () {
                             wx.switchTab({
                                 url: '/pages/order/order',
                             })
-                        }, 1500)
+                        }, 2000)
                     }
                 } else {
                     wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })
@@ -299,7 +354,6 @@ Page({
             },
             fail: response => {
                 wx.showToast({ title: '连接服务器失败' })
-                console.log(response)
             }
 
         })

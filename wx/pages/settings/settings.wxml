@@ -1,11 +1,16 @@
 <!--pages/settings.wxml-->
 <view class="container">
-    <view class='topbar'>
+    <view class='topbar' style='border-bottom: 2rpx solid #eee'>
         <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
         <image wx:else class="avatar" src="{{userInfo.avatarUrl}}"></image>
+
+        <view style='display:flex;'>
+            <view class='voucher_info'>我有 {{userAddress.voucher}} 张免单券</view>
+            <button class='get_voucher' bindtap='to_share'>获取更多</button>
+        </view>
     </view>
 
-    <view class='main_content'>
+    <view class='main_content' style='margin-top: 50rpx;'>
 
         <view class='content_title'>
             <text>默认收货信息</text>
@@ -42,7 +47,7 @@
 
             <view class='input_item'>
                 <text class='input_title'>宿舍区</text>
-                <picker wx:if="{{isSetting}}" bindchange='community_onchange' value="{{community_index}}" range="{{community_range}}" range-key='name'  name='community'>
+                <picker wx:if="{{isSetting}}" bindchange='community_onchange' value="{{community_index}}" range="{{community_range}}" range-key='name' name='community'>
                     <text class='input_picker'>{{community_range[community_index].name}}</text>
                 </picker>
                 <text wx:else class='default_value'>{{userAddress.community.name}}</text>

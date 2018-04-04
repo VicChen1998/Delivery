@@ -124,6 +124,18 @@ class UserProfile(models.Model):
         db_table = 'UserProfile'
 
 
+class Invitation(models.Model):
+    # 被邀请者
+    invitee = models.ForeignKey(User, related_name='invitee', primary_key=True)
+    # 邀请者
+    inviter = models.ForeignKey(User, related_name='inviter')
+    # 有效性(被邀请者是否完整填写信息)
+    valid = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'Invitation'
+
+
 # 订单
 class Order(models.Model):
     # 订单id 时间和用户id组成

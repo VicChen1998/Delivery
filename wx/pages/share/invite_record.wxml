@@ -1,0 +1,19 @@
+<!--pages/share/invite_history.wxml-->
+<view class="container">
+    <view class='main_content'>
+
+        <view style='border-bottom: 2rpx solid #ddd'></view>
+
+        <view class='invitee_item' wx:for='{{invite_history}}' wx:for-item='invitee'>
+            <image class='avatar' src='{{invitee.avatarUrl}}' style='margin-top: 10rpx; margin-botton:10rpx;'></image>
+            <text class='invitee_nickname'>{{invitee.nickname}}</text>
+
+            <block wx:if='{{invitee.valid}}'>
+                <text class='invite_status'>已发放免单券</text>
+            </block>
+            <block wx:else>
+                <text class='invite_status'>未填写默认收货信息</text>
+            </block>
+        </view>
+    </view>
+</view>

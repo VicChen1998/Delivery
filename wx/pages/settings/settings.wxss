@@ -1,5 +1,19 @@
 /* pages/settings.wxss */
 
+.voucher_info {
+    height: 50rpx;
+    line-height: 50rpx;
+    margin: 36rpx 0;
+}
+
+.get_voucher {
+    width: 200rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    margin-top: 24rpx;
+    font-size: 35rpx;
+}
+
 .content_title {
     width: 80%;
     margin-bottom: 30rpx;

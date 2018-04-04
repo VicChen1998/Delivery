@@ -9,8 +9,8 @@
         </block>
     </view>
 
-    <view wx:if="{{order_count == 0 && finish_get_order}}" class='tip' style='margin: 50rpx auto;'>还没有订单记录哦，快去下单吧！</view>
-    <view wx:else class='tip' style='margin: 0 auto 10rpx;'>晚上9点进行配送，请耐心等待哦</view>
+    <view wx:if="{{order_count == 0 && finish_get_order}}" class='tip' style='margin-top: 50rpx;'>还没有订单记录哦，快去下单吧！</view>
+    <view wx:else class='tip' style='margin-bottom:10rpx;'>晚上9点进行配送，请耐心等待哦</view>
 
     <view class='main_content'>
 

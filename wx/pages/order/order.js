@@ -20,7 +20,7 @@ Page({
         pickup_time_range: [],
         pickup_time_index: 0,
         price_range: [2, 3, 4, 5, 6, 7, 8, 9, 10],
-        price_index: 1,
+        price_index: 0,
         voucher_range: [],
         voucher_index: 0,
 
@@ -83,8 +83,6 @@ Page({
 
     onLoad: function (options) {
 
-        console.log(options)
-
         if (app.globalData.userInfo) {
             this.setData({
                 userInfo: app.globalData.userInfo,
@@ -133,19 +131,11 @@ Page({
 
     onShow: function () {
 
-        if (app.globalData.needRefreshVoucher) {
-            wx.request({
-                url: app.globalData.host + 'get_voucher',
-                data: { 'openid': this.data.userAddress.openid },
-                success: response => {
-                    if (response.data.get_voucher_status == 'success') {
-                        this.data.userAddress.voucher = response.data.voucher
-                        this.setData({ userAddress: this.data.userAddress })
-                        this.init_voucher()
-                        app.globalData.needRefreshVoucher = false
-                    }
-                }
-            })
+        if (this.data.hasUserAddress) {
+            if (this.data.userAddress.voucher != app.globalData.userAddress.voucher) {
+                this.setData({ userAddress: app.globalData.userAddress })
+                this.init_voucher()
+            }
         }
 
         if (app.globalData.hasChangeAddress) {
@@ -347,6 +337,15 @@ Page({
             }
         }
 
+        if (order_info.phone.length != 11) {
+            wx.showToast({
+                title: '请正确填写手机号',
+                icon: 'none',
+                duration: 2000,
+            })
+            return false;
+        }
+
         order_info.comment = e.detail.value.comment
 
         var voucher_info = this.data.voucher_range[e.detail.value.voucher]
@@ -402,14 +401,15 @@ Page({
                             pkg_info: '',
                             comment: '',
                         })
-                        app.globalData.needRefreshVoucher = true
+                        if (order_info.use_voucher == 'True') {
+                            app.refreshVoucher()
+                        }
                     } else {
                         wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })
                     }
                 },
                 fail: response => {
                     wx.showToast({ title: '连接服务器失败' })
-                    console.log(response)
                 }
             })
         }
@@ -438,7 +438,6 @@ Page({
                 },
                 fail: response => {
                     wx.showToast({ title: '连接服务器失败' })
-                    console.log(response)
                 }
             })
         }
@@ -467,6 +466,6 @@ Page({
         wx.switchTab({
             url: '/pages/settings/settings',
         })
-    },
+    }
 
 })

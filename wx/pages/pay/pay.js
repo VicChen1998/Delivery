@@ -4,37 +4,16 @@ const app = getApp()
 Page({
 
     data: {
-        // order_id: '',
-        // showPayButton: false,
+        qrcode_wx_src: '',
+        qrcode_alipay_src: ''
     },
 
     onLoad: function (options) {
-        // this.setData({ order_id: app.globalData.paying_order_id })
-        // var t = this
-        // setTimeout(function () {
-        //     t.setData({ showPayButton: true })
-        // }, 2000)
+        this.setData({
+            qrcode_wx_src: app.globalData.host + 'get_pay_qrcode?campus_id=' + app.globalData.userAddress.campus.id + '&method=wx',
+            qrcode_alipay_src: app.globalData.host + 'get_pay_qrcode?campus_id=' + app.globalData.userAddress.campus.id + '&method=alipay',
+        })
     },
-
-    // has_pay: function (e){
-    //     wx.request({
-    //         url: app.globalData.host + 'pay',
-    //         method: 'POST',
-    //         header: { 'content-type': 'application/x-www-form-urlencoded' },
-    //         data: {
-    //             'openid': app.globalData.userAddress.openid,
-    //             'order_id': this.data.order_id,
-    //         },
-    //         success: response => {
-    //             wx.navigateBack({
-    //                 delta: 2
-    //             })
-    //             wx.showToast({
-    //                 title: '等待确认',
-    //             })
-    //         }
-    //     })
-    // },
 
     save: function (e) {
         wx.downloadFile({

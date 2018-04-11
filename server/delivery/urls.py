@@ -46,11 +46,15 @@ urlpatterns = [
 
     # 获取公共数据
     url(r'^resource', getdata.resource),
+    url(r'^get_pay_qrcode', getdata.get_pay_qrcode),
     url(r'^get_university', getdata.get_university),
     url(r'^get_campus', getdata.get_campus),
     url(r'^get_community', getdata.get_community),
     url(r'^get_building', getdata.get_building),
     url(r'^get_pkgPosition', getdata.get_pkg_position),
+
+    # 获取状态码
+    url(r'^get_status', getdata.get_status),
 
     # 获取个人数据
     url(r'^get_order', getdata.get_order),

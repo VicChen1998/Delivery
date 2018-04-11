@@ -16,6 +16,30 @@ def resource(request):
     return response
 
 
+def get_pay_qrcode(request):
+    campus_id = request.GET['campus_id']
+    method = request.GET['method']
+
+    qrcode = open(BASE_DIR + '/static/pay_qrcodes/' + campus_id + '_' + method + '.jpg', 'rb')
+    return HttpResponse(qrcode.read(), content_type='image/png')
+
+
+def get_status(request):
+    if 'key' not in request.GET:
+        response = {'status': 'fail', 'errMsg': 'expect status key'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    key = request.GET['key']
+
+    if key == 'isShareQrcodeInTest':
+        response = {'status': 'success', 'value': True}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    else:
+        response = {'status': 'fail', 'errMsg': 'no such key'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+
 def get_university(request):
     university_list = University.objects.all()
 

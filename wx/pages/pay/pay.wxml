@@ -11,9 +11,9 @@
             <button class='pay_complete_button' type='primary' bindtap='has_pay'>支付完成</button>
         </view> -->
 
-        <image src='https://www.vicchen.club/resource?name=QRcode_wx.jpg' class='QRcode' mode='widthFix' bindlongpress='save' data-filename='QRcode_wx.jpg'></image>
+        <image src='{{qrcode_wx_src}}' class='QRcode' mode='widthFix' bindlongpress='save' data-filename='QRcode_wx.jpg'></image>
 
-        <image src='https://www.vicchen.club/resource?name=QRcode_alipay.jpg' class='QRcode' mode='widthFix' bindlongpress='save' data-filename='QRcode_alipay.jpg'></image>
+        <image src='{{qrcode_alipay_src}}' class='QRcode' mode='widthFix' bindlongpress='save' data-filename='QRcode_alipay.jpg'></image>
 
     </view>
 </view>

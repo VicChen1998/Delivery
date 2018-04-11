@@ -365,9 +365,21 @@ Page({
         })
     },
 
-    IamSuperuser: function () {
+    deliver: function(){
         wx.navigateTo({
-            url: '/pages/manager/manager',
+            url: '/pages/staff/deliver/deliver',
+        })
+    },
+
+    pickup: function () {
+        wx.navigateTo({
+            url: '/pages/staff/pickup/pickup',
+        })
+    },
+
+    manage: function () {
+        wx.navigateTo({
+            url: '/pages/staff/manage/manage',
         })
     }
 })

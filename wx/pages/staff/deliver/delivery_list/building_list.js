@@ -26,7 +26,7 @@ Page({
 
     to_delivery_list: function (e) {
         wx.navigateTo({
-            url: '/pages/deliverer/delivery_list/delivery_list?building_id=' + e.target.id + '&building_name=' + e.target.dataset.building_name,
+            url: '/pages/staff/deliver/delivery_list/delivery_list?building_id=' + e.target.id + '&building_name=' + e.target.dataset.building_name,
         })
     }
 })

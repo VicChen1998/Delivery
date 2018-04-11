@@ -18,19 +18,9 @@
             </block>
         </view>
 
-        <view>
-            <view class='title' style='color:#fff'>配送</view>
-            <view class='title' style='color:#fff'>配送</view>
-            <view class='title'>配送</view>
-
-            <block wx:for="{{community_list}}" wx:for-item="community">
-                <button class='community_button' bindtap='to_building_list' data-community_id='{{community.id}}' data-community_name='{{community.name}}'>
-                    {{community.name}} {{community.pending_count}}/{{community.order_count}}
-                </button>
-            </block>
-        </view>
-
         <view wx:if='{{not_pickup_count != 0}}' style='margin-top: 150rpx;'>
+            <view class='title' style='color:#fff'>占位符</view>
+            <view class='title' style='color:#fff'>占位符</view>
             <button bindtap='to_not_pickup_list' type='warn'>未取到 {{not_pickup_count}}</button>
         </view>
 

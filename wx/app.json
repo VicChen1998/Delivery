@@ -1,19 +1,25 @@
 {
     "pages": [
         "pages/order/order",
+
         "pages/record/record",
         "pages/record/detail/detail",
-        "pages/settings/settings",
-        "pages/deliverer/deliverer",
-        "pages/deliverer/delivery_list/delivery_list",
-        "pages/deliverer/pickup_list/pickup_list",
-        "pages/deliverer/delivery_list/building_list",
-        "pages/manager/manager",
         "pages/pay/pay",
-        "pages/deliverer/pickup_fail_list/pickup_fail_list",
-        "pages/deliverer/search/search",
+
+        "pages/settings/settings",
         "pages/share/share",
-        "pages/share/invite_record"
+        "pages/share/invite_record",
+
+        "pages/staff/pickup/overview/overview",
+        "pages/staff/pickup/pickup_list/pickup_list",
+        "pages/staff/pickup/pickup_fail_list/pickup_fail_list",        
+
+        "pages/staff/deliver/overview/overview",
+        "pages/staff/deliver/delivery_list/building_list",
+        "pages/staff/deliver/delivery_list/delivery_list",
+        
+        "pages/staff/manage/manage",
+        "pages/staff/search/search"
     ],
     "window": {
         "backgroundTextStyle": "light",

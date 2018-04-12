@@ -5,7 +5,6 @@
         <input class='deliverer_search_input' placeholder='搜索姓名或手机号' confirm-type='search' bindconfirm='to_search' name='keyword'></input>
 
         <view>
-            <view class='title' style='margin-bottom:-30rpx;'>取件</view>
             <block wx:for="{{pkg_position_by_time_list}}" wx:for-item="time_item">
                 <view class='sub_title'>{{time_item.pickup_time}}之前</view>
                 <view>
@@ -18,19 +17,9 @@
             </block>
         </view>
 
-        <view>
-            <view class='title' style='color:#fff'>配送</view>
-            <view class='title' style='color:#fff'>配送</view>
-            <view class='title'>配送</view>
-
-            <block wx:for="{{community_list}}" wx:for-item="community">
-                <button class='community_button' bindtap='to_building_list' data-community_id='{{community.id}}' data-community_name='{{community.name}}'>
-                    {{community.name}} {{community.pending_count}}/{{community.order_count}}
-                </button>
-            </block>
-        </view>
-
-        <view wx:if='{{not_pickup_count != 0}}' style='margin-top: 150rpx;'>
+        <view wx:if='{{not_pickup_count != 0}}' style='margin-top: 100rpx;'>
+            <view class='title' style='color:#fff'>占位符</view>
+            <view class='title' style='color:#fff'>占位符</view>
             <button bindtap='to_not_pickup_list' type='warn'>未取到 {{not_pickup_count}}</button>
         </view>
 

@@ -92,7 +92,9 @@ App({
                 data: this.globalData.userInfo,
             })
 
-            if ((options.scene == 1011 || options.scene == 1012 || options.scene == 1013) && options.query.inviter != undefined) {
+            if ((options.scene == 1011 || options.scene == 1012 || options.scene == 1013 ||
+                 options.scene == 1025 || options.scene == 1031 || options.scene == 1032 ||
+                 options.scene == 1047 || options.scene == 1048 || options.scene == 1049 ) && options.query.inviter != undefined) {
                 this.globalData.isInvited = true
                 this.globalData.inviter = options.query.inviter
 

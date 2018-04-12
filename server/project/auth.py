@@ -44,11 +44,16 @@ def signin(request):
     if profile.building.id == '0000000000':
         first_signin = True
 
+    permission = {'view_pickup_page': user.has_perm('project.view_pickup_page'),
+                  'view_deliver_page': user.has_perm('project.view_deliver_page'),
+                  'view_manage_page': user.has_perm('project.view_manage_page')}
+
     response = {'signin_status': 'success',
                 'openid': openid,
                 'first_signin': first_signin,
                 'is_staff': user.is_staff,
                 'is_superuser': user.is_superuser,
+                'permission': permission,
                 'name': profile.name,
                 'phone': profile.phone,
                 'university': {'id': profile.university.id, 'name': profile.university.name},

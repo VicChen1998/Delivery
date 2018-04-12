@@ -127,12 +127,16 @@ def get_voucher(request):
 
 def deliverer_get_pkg_position(request):
     if 'openid' not in request.GET:
-        response = {'get_pkg_position_status': 'fail', 'errMsg': 'expect openid'}
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     user = User.objects.get(username=request.GET['openid'])
     if not user.is_staff:
-        response = {'get_pkg_position_status': 'fail', 'errMsg': 'you are not staff'}
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if not user.has_perm('project.view_pickup_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     pkg_position_list = PkgPosition.objects.filter(campus_id=request.GET['campus_id'])
@@ -170,12 +174,16 @@ def deliverer_get_pkg_position(request):
 
 def deliverer_get_community(request):
     if 'openid' not in request.GET:
-        response = {'get_pkg_position_status': 'fail', 'errMsg': 'expect openid'}
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     user = User.objects.get(username=request.GET['openid'])
     if not user.is_staff:
-        response = {'get_pkg_position_status': 'fail', 'errMsg': 'you are not staff'}
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if not user.has_perm('project.view_deliver_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     community_list = Community.objects.filter(campus_id=request.GET['campus_id'])
@@ -193,12 +201,16 @@ def deliverer_get_community(request):
 
 def deliverer_get_building(request):
     if 'openid' not in request.GET:
-        response = {'get_pkg_position_status': 'fail', 'errMsg': 'expect openid'}
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     user = User.objects.get(username=request.GET['openid'])
     if not user.is_staff:
-        response = {'get_pkg_position_status': 'fail', 'errMsg': 'you are not staff'}
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if not user.has_perm('project.view_deliver_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     building_list = Building.objects.filter(community_id=request.GET['community_id'])
@@ -225,6 +237,10 @@ def get_pickup_fail_list(request):
         response = {'status': 'fail', 'errMsg': 'you are not staff'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
+    if not user.has_perm('project.view_pickup_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
     order_list = Order.objects.filter(status=2, campus_id=request.GET['campus_id'])
 
     response = {'pickup_fail_list': []}
@@ -235,12 +251,16 @@ def get_pickup_fail_list(request):
 
 def get_pickup_list(request):
     if 'openid' not in request.GET:
-        response = {'get_pickup_list_status': 'fail', 'errMsg': 'expect openid'}
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     user = User.objects.get(username=request.GET['openid'])
     if not user.is_staff:
-        response = {'get_pickup_list_status': 'fail', 'errMsg': 'you are not staff'}
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if not user.has_perm('project.view_pickup_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     pkg_position = PkgPosition.objects.get(id=request.GET['pkg_position_id'])
@@ -262,19 +282,23 @@ def get_pickup_list(request):
 
 def get_delivery_list(request):
     if 'openid' not in request.GET:
-        response = {'get_delivery_list_status': 'fail', 'errMsg': 'expect openid'}
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     user = User.objects.get(username=request.GET['openid'])
     if not user.is_staff:
-        response = {'get_delivery_list_status': 'fail', 'errMsg': 'you are not staff'}
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if not user.has_perm('project.view_deliver_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     building = Building.objects.get(id=request.GET['building_id'])
 
     delivery_list = Order.objects.filter(building=building, status__in=[1, 7, 8, 9]).order_by('status')
 
-    response = {'get_delivery_list_status': 'success', 'delivery_list': []}
+    response = {'status': 'success', 'delivery_list': []}
 
     for order in delivery_list:
         response['delivery_list'].append(order.dict())

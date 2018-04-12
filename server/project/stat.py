@@ -19,8 +19,9 @@ def mobile(request):
     if not user.is_staff:
         response = {'status': 'fail', 'errMsg': 'you are not staff'}
         return HttpResponse(json.dumps(response), content_type='application/json')
-    if not user.is_superuser:
-        response = {'status': 'fail', 'errMsg': 'you are not superuser'}
+
+    if not user.has_perm('project.view_manage_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     date = time.strftime('%Y-%m-%d', time.localtime(time.time()))

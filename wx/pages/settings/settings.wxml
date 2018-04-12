@@ -1,12 +1,12 @@
 <!--pages/settings.wxml-->
 <view class="container">
-    <view class='topbar' style='border-bottom: 2rpx solid #eee'>
+    <view class='topbar' style='border-bottom: 2rpx solid #eee' bindtap='to_share'>
         <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
         <image wx:else class="avatar" src="{{userInfo.avatarUrl}}"></image>
 
         <view style='display:flex;'>
             <view class='voucher_info'>我有 {{userAddress.voucher}} 张免单券</view>
-            <button class='get_voucher' bindtap='to_share'>获取更多</button>
+            <view class='get_voucher'>获取更多 ></view>
         </view>
     </view>
 
@@ -66,10 +66,10 @@
 
         </form>
 
-        <view style='margin-top:300rpx;'>
-            <button wx:if="{{userAddress.is_staff}}" bindtap='pickup'>取件</button>
-            <button wx:if="{{userAddress.is_staff}}" bindtap='deliver'>配送</button>
-            <button wx:if="{{userAddress.is_superuser}}" bindtap='manage'>管理</button>
+        <view wx:if='{{userAddress.is_staff}}' style='margin-top:300rpx;'>
+            <button wx:if="{{userAddress.permission.view_pickup_page}}" bindtap='pickup'>取件</button>
+            <button wx:if="{{userAddress.permission.view_deliver_page}}" bindtap='deliver'>配送</button>
+            <button wx:if="{{userAddress.permission.view_manage_page}}" bindtap='manage'>管理</button>
         </view>
 
     </view>

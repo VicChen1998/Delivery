@@ -209,6 +209,7 @@ page {
 
 .invitee_item {
     height: 128rpx;
+    width: 100%;
     border-bottom: 2rpx solid #ddd;
 }
 

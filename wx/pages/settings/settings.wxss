@@ -7,11 +7,10 @@
 }
 
 .get_voucher {
-    width: 200rpx;
-    height: 80rpx;
-    line-height: 80rpx;
-    margin-top: 24rpx;
-    font-size: 35rpx;
+    line-height: 125rpx;
+    font-size: 32rpx;
+    position: absolute;
+    right: 100rpx;
 }
 
 .content_title {

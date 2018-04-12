@@ -5,7 +5,6 @@
         <input class='deliverer_search_input' placeholder='搜索姓名或手机号' confirm-type='search' bindconfirm='to_search' name='keyword'></input>
 
         <view>
-            <view class='title' style='margin-bottom:-30rpx;'>取件</view>
             <block wx:for="{{pkg_position_by_time_list}}" wx:for-item="time_item">
                 <view class='sub_title'>{{time_item.pickup_time}}之前</view>
                 <view>
@@ -18,7 +17,7 @@
             </block>
         </view>
 
-        <view wx:if='{{not_pickup_count != 0}}' style='margin-top: 150rpx;'>
+        <view wx:if='{{not_pickup_count != 0}}' style='margin-top: 100rpx;'>
             <view class='title' style='color:#fff'>占位符</view>
             <view class='title' style='color:#fff'>占位符</view>
             <button bindtap='to_not_pickup_list' type='warn'>未取到 {{not_pickup_count}}</button>

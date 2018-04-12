@@ -1,0 +1,71 @@
+<!--pages/deliverer/delivery_list/delivery_list.wxml-->
+<view class='container'>
+    <text class='title'>{{title}}</text>
+
+    <view class='main_content'>
+
+        <view wx:for="{{delivery_list}}" wx:for-item="order" class='order_item'>
+
+            <block>
+                <!-- 等待取件/次日取件 -->
+                <image wx:if="{{order.status == 0 || order.status == 3}}" class='status_png' src='/images/waiting.png'></image>
+                <!-- 已取件/次日再送 -->
+                <image wx:if="{{order.status == 1 || order.status == 8}}" class='status_png' src='/images/ok.png'></image>
+                <!-- 已送达 -->
+                <image wx:if="{{order.status == 7}}" class='status_png' src='/images/ok_active.png'></image>
+                <!-- 未取到/联系不上,次日再送 -->
+                <image wx:if="{{order.status == 2 || order.status == 9 || order.status == -1}}" class='status_png' src='/images/warning.png'></image>
+                <!-- 已完成 -->
+                <image wx:if="{{order.status == 13}}" class='status_png' src='/images/ok_inactive.png'></image>
+                <!-- 已取消/已关闭 -->
+                <image wx:if="{{order.status == 14 || order.status == 15}}" class='status_png' src='/images/close.png'></image>
+            </block>
+
+            <view class='order_detail order_detail_top'>
+                <text class='order_status'>{{order.status_describe}}</text>
+                <block wx:if='{{order.is_free}}'>
+                    <image src='/images/free.png' class='order_free'></image>
+                </block>
+                <block wx:else>
+                    <text class='order_price'>￥{{order.price}}</text>
+                </block>
+            </view>
+
+            <view class='order_detail' style='width: 90%; margin-left:30rpx'>
+                <text>快递信息:</text>
+                <text class='order_pkg_info'> {{order.pkg_info}}</text>
+            </view>
+
+            <view class='order_detail'>
+                <text style='margin-left: 30rpx'>收件人:</text>
+                <text style='margin-left: 30rpx'> {{order.name}}</text>
+                <text class='phone_number' data-phone='{{order.phone}}' bindtap='call'>{{order.phone}}</text>
+            </view>
+
+            <view class='order_detail'>
+                <text style='margin-left: 190rpx;'> {{order.community.name}}</text>
+                <text> {{order.building.name}}</text>
+            </view>
+
+            <view wx:if="{{order.comment}}" class='order_detail'>
+                <text style='margin-left: 30rpx'>备注:</text>
+                <text style='margin-left: 30rpx'> {{order.comment}}</text>
+            </view>
+
+            <view style='display:flex;'>
+                <button style='width:33%;' bindtap='not_deliver' data-order_id='{{order.id}}' data-index='{{index}}' type='warn'>未送达</button>
+                <block wx:if='{{order.has_pay != 2}}'>
+                    <button style='width:33%;' bindtap='confirm_pay' data-order_id='{{order.id}}' data-index='{{index}}'>确认付款</button>
+                </block>
+                <block wx:else>
+                    <button style='width:33%;'>已付款</button>
+                </block>
+                <button style='width:34%;' bindtap='has_deliver' data-order_id='{{order.id}}' data-index='{{index}}' data-phone='{{order.phone}}' type='primary'>已送达</button>
+            </view>
+        </view>
+
+        <view style='width:100%;border-top: 3rpx solid #aaa;'></view>
+
+    </view>
+
+</view>

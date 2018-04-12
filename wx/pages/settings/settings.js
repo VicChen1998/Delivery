@@ -359,21 +359,15 @@ Page({
         })
     },
 
-    IamDeliverer: function () {
-        wx.navigateTo({
-            url: '/pages/deliverer/deliverer',
-        })
-    },
-
     deliver: function(){
         wx.navigateTo({
-            url: '/pages/staff/deliver/deliver',
+            url: '/pages/staff/deliver/overview/overview',
         })
     },
 
     pickup: function () {
         wx.navigateTo({
-            url: '/pages/staff/pickup/pickup',
+            url: '/pages/staff/pickup/overview/overview',
         })
     },
 

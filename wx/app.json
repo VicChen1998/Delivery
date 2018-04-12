@@ -10,11 +10,11 @@
         "pages/share/share",
         "pages/share/invite_record",
 
-        "pages/staff/pickup/pickup",
+        "pages/staff/pickup/overview/overview",
         "pages/staff/pickup/pickup_list/pickup_list",
         "pages/staff/pickup/pickup_fail_list/pickup_fail_list",        
 
-        "pages/staff/deliver/deliver",
+        "pages/staff/deliver/overview/overview",
         "pages/staff/deliver/delivery_list/building_list",
         "pages/staff/deliver/delivery_list/delivery_list",
         

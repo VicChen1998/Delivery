@@ -75,9 +75,9 @@ urlpatterns = [
     url(r'^get_pickup_list', getdata.get_pickup_list),
     url(r'^get_delivery_list', getdata.get_delivery_list),
     url(r'^deliverer_search', getdata.deliverer_search),
-    url(r'^manager_search_user', getdata.manager_search_user),
 
     # 管理员操作
+    url(r'^manager_search_user', manager.search_user),
     url(r'^give_voucher', manager.give_voucher),
 
     # 管理员获取统计数据

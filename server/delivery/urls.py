@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from project import auth, order, upload, getdata, stat, share, views
-from project.staff import manager
+from project.staff import staff, manager, picker, deliverer
 
 urlpatterns = [
     # 管理
@@ -74,7 +74,9 @@ urlpatterns = [
     url(r'^get_pickup_fail_list', getdata.get_pickup_fail_list),
     url(r'^get_pickup_list', getdata.get_pickup_list),
     url(r'^get_delivery_list', getdata.get_delivery_list),
-    url(r'^deliverer_search', getdata.deliverer_search),
+
+    # 员工通用操作
+    url(r'^deliverer_search', staff.search),
 
     # 管理员操作
     url(r'^manager_search_user', manager.search_user),

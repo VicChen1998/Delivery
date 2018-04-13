@@ -67,13 +67,14 @@ urlpatterns = [
     url(r'^get_share_voucher', share.get_share_voucher),
     url(r'^get_invite_history', share.get_invite_history),
 
-    # 配送员获取数据
-    url(r'^deliverer_get_pkg_position', getdata.deliverer_get_pkg_position),
-    url(r'^get_pickup_fail_list', getdata.get_pickup_fail_list),
-    url(r'^get_pickup_list', getdata.get_pickup_list),
 
     # 员工通用操作
     url(r'^deliverer_search', staff.search),
+
+    # 骑手操作
+    url(r'^deliverer_get_pkg_position', picker.get_pkg_position),
+    url(r'^get_pickup_list', picker.get_pickup_list),
+    url(r'^get_pickup_fail_list', picker.get_pickup_fail_list),
 
     # 楼负责人操作
     url(r'^deliverer_get_community', deliverer.get_community),

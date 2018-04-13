@@ -23,4 +23,13 @@ Page({
         })
     },
 
+
+    to_search_user: function (e) {
+        if (e.detail.value.length >= 1) {
+            wx.navigateTo({
+                url: '/pages/staff/manage/search_user/search_user' + '?keyword=' + e.detail.value,
+            })
+        }
+    },
+
 })

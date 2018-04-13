@@ -1,0 +1,9 @@
+.building_name {
+    width: 50%;
+    float: left;
+}
+
+.order_count {
+    width: 50%;
+    float: right;
+}

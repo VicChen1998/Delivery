@@ -2,7 +2,7 @@
 <view class='container'>
     <view class='main_content'>
 
-        <input class='deliverer_search_input' placeholder='搜索姓名或手机号' confirm-type='search' bindconfirm='to_search' name='keyword'></input>
+        <input class='deliverer_search_input' placeholder='搜索姓名或手机号，支持模糊搜索' confirm-type='search' bindconfirm='to_search' name='keyword'></input>
 
         <view style='margin-top:40rpx;'>
             <block wx:for="{{community_list}}" wx:for-item="community">

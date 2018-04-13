@@ -2,14 +2,20 @@
 <view class='container'>
     <view class='main_content'>
 
+        <input class='deliverer_search_input' placeholder='搜索姓名或手机号，发放免单券' confirm-type='search' bindconfirm='to_search_user' name='keyword'></input>
+
         <view class='title'>{{date}}</view>
 
-        <view style='margin: 0 30rpx;'>
-            <view>今日接单数：{{stat.today_order_count}}</view>
+        <view style='margin: 0 30rpx; font-size: 32rpx;'>
+
+            <text class='building_name'>今日接单数</text>
+            <text class='order_count'>{{stat.today_order_count}}</text>
+
             <block wx:for='{{stat.building_stat}}' wx:for-item='building'>
-                <block wx:if='{{building.order_num != 0}}'>
-                    <view>{{building.name}} {{building.order_num}}</view>
-                </block>
+                <view wx:if='{{building.order_num != 0}}'>
+                    <text class='building_name'>{{building.name}}</text>
+                    <text class='order_count'>{{building.order_num}}</text>
+                </view>
             </block>
         </view>
 

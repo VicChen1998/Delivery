@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from project import auth, order, upload, getdata, stat, share, views
+from project import auth, order, upload, getdata, stat, share, user, views
 from project.staff import staff, manager, picker, deliverer
 
 urlpatterns = [
@@ -58,8 +58,8 @@ urlpatterns = [
     url(r'^get_status', getdata.get_status),
 
     # 获取个人数据
-    url(r'^get_order', getdata.get_order),
-    url(r'^get_voucher', getdata.get_voucher),
+    url(r'^get_order', user.get_order),
+    url(r'^get_voucher', user.get_voucher),
 
     # 分享
     url(r'^get_share_qrcode', share.get_share_qrcode),

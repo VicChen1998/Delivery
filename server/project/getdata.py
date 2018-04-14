@@ -1,10 +1,9 @@
 import json
-import time
 
 from django.http import HttpResponse
 
 from delivery.settings import BASE_DIR
-from project.models import *
+from project.models import University, Campus, Community, Building, PkgPosition
 
 
 # 开放端口 获取公共数据
@@ -88,37 +87,3 @@ def get_pkg_position(request):
         item = {'id': pkg_position.id, 'name': pkg_position.name, 'pickup_time': pkg_position.pickup_time.split(',')}
         response['pkg_position_list'].append(item)
     return HttpResponse(json.dumps(response), content_type='application/json')
-
-
-# 私密端口 获取个人数据
-
-def get_order(request):
-    if 'openid' not in request.GET:
-        response = {'get_order_status': 'fail', 'errMsg': 'expect openid'}
-        return HttpResponse(json.dumps(response), content_type='application/json')
-
-    user = User.objects.get(username=request.GET['openid'])
-    order_list = Order.objects.filter(user=user).order_by('-id')
-
-    response = {'get_order_status': 'success',
-                'order_count': order_list.count(),
-                'order_list': []}
-
-    for order in order_list:
-        response['order_list'].append(order.dict())
-    return HttpResponse(json.dumps(response), content_type='application/json')
-
-
-def get_voucher(request):
-    if 'openid' not in request.GET:
-        response = {'get_voucher_status': 'fail', 'errMsg': 'expect openid'}
-        return HttpResponse(json.dumps(response), content_type='application/json')
-
-    user = User.objects.get(username=request.GET['openid'])
-    profile = UserProfile.objects.get(user=user)
-
-    response = {'get_voucher_status': 'success',
-                'voucher': profile.voucher}
-    return HttpResponse(json.dumps(response), content_type='application/json')
-
-

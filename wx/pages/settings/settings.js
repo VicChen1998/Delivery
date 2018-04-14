@@ -208,6 +208,10 @@ Page({
         if (this.data.hasUserAddress) {
             if (this.data.userAddress.voucher != app.globalData.userAddress.voucher) {
                 this.setData({ userAddress: app.globalData.userAddress })
+            } else if (app.globalData.hasOpenSharePage) {
+                app.refreshVoucher(f => {
+                    this.setData({ userAddress: app.globalData.userAddress })
+                })
             }
         }
     },
@@ -328,7 +332,7 @@ Page({
                                             title: '你和邀请者各得到一张免单券！',
                                             icon: 'none',
                                             duration: 2000
-                                            
+
                                         })
                                         app.refreshVoucher()
                                     }
@@ -359,7 +363,7 @@ Page({
         })
     },
 
-    deliver: function(){
+    deliver: function () {
         wx.navigateTo({
             url: '/pages/staff/deliver/overview/overview',
         })

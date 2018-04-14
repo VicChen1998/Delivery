@@ -24,7 +24,7 @@ Page({
                     success: auth_res => {
                         wx.saveImageToPhotosAlbum({
                             filePath: download_res.tempFilePath,
-                            success: save_res => { wx.showToast({ title: '已保存到手机', icon: 'none' }) },
+                            success: save_res => { wx.showToast({ title: '已保存到相册', icon: 'none' }) },
                             fail: save_res => { wx.showToast({ title: '保存失败', icon: 'none' }) }
                         })
 
@@ -32,8 +32,11 @@ Page({
                     fail: auth_res => {
                         wx.showModal({
                             title: '未开启授权',
-                            content: '请自行截图二维码进行付款。或从右上角->关于->右上角->设置中开启授权',
+                            content: '请允许小程序保存图片到相册，或自行截图保存',
                             showCancel: false,
+                            success: modal_res => {
+                                wx.openSetting({})
+                            }
                         })
                     }
                 })

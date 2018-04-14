@@ -24,6 +24,8 @@ Page({
                 }
             }
         })
+
+        app.globalData.hasOpenSharePage = true
     },
 
     to_invite_record: function () {

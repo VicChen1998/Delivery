@@ -7,12 +7,12 @@
     <view class='main_content'>
 
         <view wx:for="{{search_list}}" wx:for-item='user' wx:key='{{user.openid}}' class='order_item'>
-            <view style='margin: 0 30rpx; font-size:32rpx;'>
+            <view style='margin: 0 30rpx 15rpx; font-size:32rpx; color: #555'>
 
                 <image src='/images/more-2.png' style='width:32rpx;height: 32rpx; position: absolute;right: 30rpx;' bindtap='more' data-openid='{{user.openid}}' data-index='{{index}}'></image>
 
                 <view style='margin-top:15rpx;'>
-                    <text style='font-size: 125%; margin-right:15rpx;'>{{user.name}}</text>
+                    <text style='font-size: 125%; margin-right:15rpx; color:#000;'>{{user.name}}</text>
                     <text wx:if='{{user.gender==1}}'> ♂</text>
                     <text wx:if='{{user.gender==2}}'> ♀</text>
                     <text style='margin-left:15rpx;'>{{user.phone}}</text>
@@ -23,13 +23,18 @@
                     <text style='margin-right:30rpx;'>{{user.join_date}}加入</text>
                     <text>现有 {{user.voucher}} 张免单券</text>
                 </view>
-
-                <view style='margin:15rpx auto;'>
+    
+                <view style='margin-top:15rpx;'>
                     <text style='margin-right:30rpx;'>总下单数: {{user.order_count}}</text>
                     <text style='margin-right:30rpx;'>已完成单数: {{user.finished_order_count}}</text>
                     <text>免单次数: {{user.free_order_count}}</text>
                 </view>
+
+                <view wx:if='{{user.invite_count != 0}}' style='margin-top:15rpx;'>
+                    <text style='margin-right:30rpx;'>邀请过 {{user.invite_count}} 人，{{user.valid_invite_count}}人有效</text>
+                </view>
             </view>
+            
         </view>
 
         <view style='width:100%;border-top: 3rpx solid #aaa;'></view>

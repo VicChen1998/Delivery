@@ -136,6 +136,11 @@ Page({
                 this.setData({ userAddress: app.globalData.userAddress })
                 this.init_voucher()
             }
+            else if (app.globalData.hasOpenSharePage) {
+                app.refreshVoucher(f => {
+                    this.setData({ userAddress: app.globalData.userAddress })
+                })
+            }
         }
 
         if (app.globalData.hasChangeAddress) {

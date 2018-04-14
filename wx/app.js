@@ -7,9 +7,9 @@ App({
         userAddress: null,
         pkg_position_range: null,
         order: null,    // 查看订单详情时用全局数据传递参数
-        payint_order_id: null,
         hasChangeAddress: false,
         needRefreshVoucher: false,
+        hasOpenSharePage: false,
 
         isModifying: false,
         modifying_order: {},
@@ -93,8 +93,8 @@ App({
             })
 
             if ((options.scene == 1011 || options.scene == 1012 || options.scene == 1013 ||
-                 options.scene == 1025 || options.scene == 1031 || options.scene == 1032 ||
-                 options.scene == 1047 || options.scene == 1048 || options.scene == 1049 ) && options.query.inviter != undefined) {
+                options.scene == 1025 || options.scene == 1031 || options.scene == 1032 ||
+                options.scene == 1047 || options.scene == 1048 || options.scene == 1049) && options.query.inviter != undefined) {
                 this.globalData.isInvited = true
                 this.globalData.inviter = options.query.inviter
 
@@ -111,13 +111,16 @@ App({
         }
     },
 
-    refreshVoucher: function () {
+    refreshVoucher: function (callback) {
         wx.request({
             url: this.globalData.host + 'get_voucher',
             data: { 'openid': this.globalData.userAddress.openid },
             success: response => {
                 if (response.data.get_voucher_status == 'success') {
                     this.globalData.userAddress.voucher = response.data.voucher
+                    if(callback){
+                        callback()
+                    }
                 }
             }
         })

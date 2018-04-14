@@ -2,7 +2,7 @@ import json
 
 from django.http import HttpResponse
 
-from project.models import User, UserProfile, Invitation, Order
+from project.models import User, UserProfile, Order
 
 
 def search_user(request):
@@ -34,7 +34,6 @@ def search_user(request):
                 }
     for profile in results:
         orders = Order.objects.filter(user=profile.user)
-        invitations = Invitation.objects.filter(inviter=profile.user)
 
         response['results'].append({
             'openid': profile.user.username,
@@ -46,9 +45,7 @@ def search_user(request):
             'voucher': profile.voucher,
             'order_count': orders.count(),
             'finished_order_count': orders.filter(status=13).count(),
-            'free_order_count': orders.filter(is_free=True, status__in=[0, 1, 2, 3, 7, 8, 9, 13]).count(),
-            'invite_count': invitations.count(),
-            'valid_invite_count': invitations.filter(valid=True).count()
+            'free_order_count': orders.filter(is_free=True, status__in=[0, 1, 2, 3, 7, 8, 9, 13]).count()
         })
 
     return HttpResponse(json.dumps(response), content_type='application/json')

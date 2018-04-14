@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from project import auth, order, upload, getdata, stat, share, views
-from project.staff import manager
+from project import auth, order, getdata, stat, share, views
+from project.roles import staff, manager, picker, deliverer, user
 
 urlpatterns = [
     # 管理
@@ -42,8 +42,8 @@ urlpatterns = [
     url(r'^not_delivery', order.not_delivery),
 
     # 上传数据
-    url(r'^upload_userinfo$', upload.upload_userinfo),
-    url(r'^upload_address$', upload.upload_address),
+    url(r'^upload_userinfo$', user.upload_userinfo),
+    url(r'^upload_address$', user.upload_address),
 
     # 获取公共数据
     url(r'^resource', getdata.resource),
@@ -58,8 +58,8 @@ urlpatterns = [
     url(r'^get_status', getdata.get_status),
 
     # 获取个人数据
-    url(r'^get_order', getdata.get_order),
-    url(r'^get_voucher', getdata.get_voucher),
+    url(r'^get_order', user.get_order),
+    url(r'^get_voucher', user.get_voucher),
 
     # 分享
     url(r'^get_share_qrcode', share.get_share_qrcode),
@@ -67,17 +67,22 @@ urlpatterns = [
     url(r'^get_share_voucher', share.get_share_voucher),
     url(r'^get_invite_history', share.get_invite_history),
 
-    # 配送员获取数据
-    url(r'^deliverer_get_pkg_position', getdata.deliverer_get_pkg_position),
-    url(r'^deliverer_get_community', getdata.deliverer_get_community),
-    url(r'^deliverer_get_building', getdata.deliverer_get_building),
-    url(r'^get_pickup_fail_list', getdata.get_pickup_fail_list),
-    url(r'^get_pickup_list', getdata.get_pickup_list),
-    url(r'^get_delivery_list', getdata.get_delivery_list),
-    url(r'^deliverer_search', getdata.deliverer_search),
-    url(r'^manager_search_user', getdata.manager_search_user),
+
+    # 员工通用操作
+    url(r'^deliverer_search', staff.search),
+
+    # 骑手操作
+    url(r'^deliverer_get_pkg_position', picker.get_pkg_position),
+    url(r'^get_pickup_list', picker.get_pickup_list),
+    url(r'^get_pickup_fail_list', picker.get_pickup_fail_list),
+
+    # 楼负责人操作
+    url(r'^deliverer_get_community', deliverer.get_community),
+    url(r'^deliverer_get_building', deliverer.get_building),
+    url(r'^get_delivery_list', deliverer.get_delivery_list),
 
     # 管理员操作
+    url(r'^manager_search_user', manager.search_user),
     url(r'^give_voucher', manager.give_voucher),
 
     # 管理员获取统计数据

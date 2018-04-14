@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from project import auth, order, upload, getdata, stat, share, views
+from project import auth, order, getdata, stat, share, views
 from project.roles import staff, manager, picker, deliverer, user
 
 urlpatterns = [
@@ -42,8 +42,8 @@ urlpatterns = [
     url(r'^not_delivery', order.not_delivery),
 
     # 上传数据
-    url(r'^upload_userinfo$', upload.upload_userinfo),
-    url(r'^upload_address$', upload.upload_address),
+    url(r'^upload_userinfo$', user.upload_userinfo),
+    url(r'^upload_address$', user.upload_address),
 
     # 获取公共数据
     url(r'^resource', getdata.resource),

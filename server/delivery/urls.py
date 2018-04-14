@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from project import auth, order, upload, getdata, stat, share, user, views
-from project.staff import staff, manager, picker, deliverer
+from project import auth, order, upload, getdata, stat, share, views
+from project.roles import staff, manager, picker, deliverer, user
 
 urlpatterns = [
     # 管理

@@ -67,7 +67,6 @@ urlpatterns = [
     url(r'^get_share_voucher', share.get_share_voucher),
     url(r'^get_invite_history', share.get_invite_history),
 
-
     # 员工通用操作
     url(r'^deliverer_search', staff.search),
 

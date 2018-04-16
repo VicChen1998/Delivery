@@ -52,6 +52,20 @@ Page({
                 })
             }
         }
+
+        wx.request({
+            url: app.globalData.host + 'get_notice',
+            data: { 'page': '/pages/record/record' },
+            success: response => {
+                if (response.data.has_notice) {
+                    wx.showModal({
+                        title: response.data.title,
+                        content: response.data.content,
+                        showCancel: false,
+                    })
+                }
+            }
+        })
     },
 
     onShow: function () {

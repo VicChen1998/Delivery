@@ -57,6 +57,9 @@ urlpatterns = [
     # 获取状态码
     url(r'^get_status', getdata.get_status),
 
+    # 获取通知
+    url(r'^get_notice', getdata.get_notice),
+
     # 获取个人数据
     url(r'^get_order', user.get_order),
     url(r'^get_voucher', user.get_voucher),

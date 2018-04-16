@@ -176,6 +176,20 @@ Page({
             }
         }
 
+        wx.request({
+            url: app.globalData.host + 'get_notice',
+            data: { 'page': '/pages/settings/settings' },
+            success: response => {
+                if (response.data.has_notice) {
+                    wx.showModal({
+                        title: response.data.title,
+                        content: response.data.content,
+                        showCancel: false,
+                    })
+                }
+            }
+        })
+
     },
 
     init: function () {

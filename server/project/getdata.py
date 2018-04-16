@@ -39,6 +39,26 @@ def get_status(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
 
+def get_notice(request):
+    if 'page' not in request.GET:
+        response = {'status': 'fail', 'errMsg': 'expect status key'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    page = request.GET['page']
+
+    if page == '/pages/order/order':
+        response = {
+            'has_notice': False,
+            # 'title': 'Title',
+            # 'content': 'Content'
+        }
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    else:
+        response = {'has_notice': False}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+
 def get_university(request):
     university_list = University.objects.all()
 

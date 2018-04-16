@@ -127,6 +127,20 @@ Page({
             }
         }
 
+        wx.request({
+            url: app.globalData.host + 'get_notice',
+            data: {'page': '/pages/order/order'},
+            success: response => {
+                if (response.data.has_notice){
+                    wx.showModal({
+                        title: response.data.title,
+                        content: response.data.content,
+                        showCancel: false,
+                    })
+                }
+            }
+        })
+
     },
 
     onShow: function () {
@@ -285,9 +299,13 @@ Page({
     },
 
     recognize_pkg_info: function (e) {
+
+        if(this.data.userAddress.university.id != '0001')
+            return false
+
         var pkg_info = e.detail.value
         if (pkg_info.length < 10)
-            return false;
+            return false
 
         var result = util.recognize_pkg_info(pkg_info)
 

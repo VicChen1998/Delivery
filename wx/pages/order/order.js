@@ -205,6 +205,16 @@ Page({
         }
     },
 
+    onPullDownRefresh: function () {
+        wx.showNavigationBarLoading()
+        app.refreshVoucher(f => {
+            this.setData({ userAddress: app.globalData.userAddress })
+            this.init_voucher()
+            wx.stopPullDownRefresh()
+            wx.hideNavigationBarLoading()
+        })
+    },
+
     community_onchange: function (e) {
         if (this.data.community_range[e.detail.value].name == '请选择')
             return false;

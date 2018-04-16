@@ -6,16 +6,23 @@
         "pages/pay/pay",
         "pages/settings/settings",
         "pages/share/share",
-        "pages/share/invite_record",
-        "pages/staff/pickup/overview/overview",
-        "pages/staff/pickup/pickup_list/pickup_list",
-        "pages/staff/pickup/pickup_fail_list/pickup_fail_list",
-        "pages/staff/deliver/overview/overview",
-        "pages/staff/deliver/delivery_list/building_list",
-        "pages/staff/deliver/delivery_list/delivery_list",
-        "pages/staff/manage/manage",
-        "pages/staff/search/search",
-        "pages/staff/manage/search_user/search_user"
+        "pages/share/invite_record"
+    ],
+    "subPackages": [
+        {
+            "root": "pages/staff",
+            "pages": [
+                "pickup/overview/overview",
+                "pickup/pickup_list/pickup_list",
+                "pickup/pickup_fail_list/pickup_fail_list",
+                "deliver/overview/overview",
+                "deliver/delivery_list/building_list",
+                "deliver/delivery_list/delivery_list",
+                "manage/manage",
+                "search/search",
+                "manage/search_user/search_user"
+            ]
+        }
     ],
     "window": {
         "backgroundTextStyle": "light",

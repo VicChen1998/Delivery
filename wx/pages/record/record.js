@@ -96,7 +96,7 @@ Page({
     },
 
     onReachBottom: function () {
-        console.log('fuck')
+        console.log('reach botton')
     },
 
 })

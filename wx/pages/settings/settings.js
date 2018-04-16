@@ -216,6 +216,15 @@ Page({
         }
     },
 
+    onPullDownRefresh: function () {
+        wx.showNavigationBarLoading()
+        app.refreshVoucher(f => {
+            this.setData({ userAddress: app.globalData.userAddress })
+            wx.stopPullDownRefresh()
+            wx.hideNavigationBarLoading()
+        })
+    },
+
     university_onchange: function (e) {
         if (this.data.university_range[e.detail.value] == '请选择')
             return false;

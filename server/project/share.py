@@ -17,13 +17,11 @@ def get_share_qrcode(request):
 
     path = BASE_DIR + '/static/share_qrcodes/' + user.username + '.jpg'
 
-    if os.path.exists(path):
-        image = open(path, 'rb').read()
-        return HttpResponse(image, content_type='image/jpeg')
-    else:
+    if not os.path.exists(path):
         generate_qrcode(user.username)
-        image = open(path, 'rb').read()
-        return HttpResponse(image, content_type='image/jpeg')
+
+    image = open(path, 'rb').read()
+    return HttpResponse(image, content_type='image/jpeg')
 
 
 def generate_qrcode(openid):

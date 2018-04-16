@@ -9,6 +9,7 @@ Page({
     },
 
     onLoad: function (options) {
+
         this.setData({
             qrcode_src: app.globalData.host + 'get_share_qrcode?openid=' + app.globalData.userAddress.openid
         })
@@ -34,7 +35,7 @@ Page({
         })
     },
 
-    onShareAppMessage: function () {
-
+    onShareAppMessage: function (options) {
+        return { path: '/pages/order/order?inviter=' + app.globalData.userAddress.openid }
     }
 })

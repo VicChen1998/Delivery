@@ -1,7 +1,6 @@
 <!--pages/deliverer/delivery_list/delivery_list.wxml-->
 
 <view class='container'>
-    <text class='title'>{{title}}</text>
 
     <view class='tip' style='margin: 0 auto'>请先与用户协商后后再进行加价</view>
 

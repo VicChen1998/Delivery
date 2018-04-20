@@ -8,10 +8,10 @@ Page({
     },
 
     onLoad: function (options) {
+        wx.setNavigationBarTitle({ title: '订单详情' })
+
         if (app.globalData.order)
-            this.setData({
-                order: app.globalData.order
-            })
+            this.setData({ order: app.globalData.order })
     },
 
     to_pay: function (e) {
@@ -53,7 +53,7 @@ Page({
                                 setTimeout(function () {
                                     wx.navigateBack()
                                 }, 1500)
-                                if (this.data.order.is_free){
+                                if (this.data.order.is_free) {
                                     app.refreshVoucher()
                                 }
                             }

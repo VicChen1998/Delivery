@@ -1,0 +1,13 @@
+<!--pages/staff/manage/top_user/top_user.wxml-->
+<view class='container'>
+    <view class='main_content' style='margin:30rpx'>
+
+        <view wx:for='{{user_list}}' wx:for-item='user' style='height: 50rpx;'>
+            <view style='width: 10%; float:left;'>{{index+1}}</view>
+            <view style='width: 30%; float:left;'>{{user.name}}</view>
+            <view style='width: 45%; float:left;'>{{user.building}}</view>
+            <view style='width: 15%; float:left;'>{{user.count}}</view>
+        </view>
+
+    </view>
+</view>

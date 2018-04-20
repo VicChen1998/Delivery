@@ -10,7 +10,7 @@ Page({
 
 
     onLoad: function (options) {
-        this.setData({ title: options.building_name })
+        wx.setNavigationBarTitle({ title: options.building_name })
         wx.request({
             url: app.globalData.host + 'get_delivery_list',
             data: {

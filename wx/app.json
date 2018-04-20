@@ -20,7 +20,8 @@
                 "deliver/delivery_list/delivery_list",
                 "manage/manage",
                 "search/search",
-                "manage/search_user/search_user"
+                "manage/search_user/search_user",
+                "manage/top_user/top_user"
             ]
         }
     ],

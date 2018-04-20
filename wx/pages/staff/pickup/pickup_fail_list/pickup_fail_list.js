@@ -8,6 +8,9 @@ Page({
     },
 
     onLoad: function (options) {
+
+        wx.setNavigationBarTitle({ title: '未取到' })
+
         wx.request({
             url: app.globalData.host + 'get_pickup_fail_list',
             data: {

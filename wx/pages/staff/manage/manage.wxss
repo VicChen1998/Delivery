@@ -7,3 +7,15 @@
     width: 50%;
     float: right;
 }
+
+.foot{
+    width: 100%;
+    position: relative;
+    bottom: 30rpx;
+}
+
+.foot_util {
+    width: 100%;
+    font-size: 32rpx;
+    text-align: center;
+}

@@ -2,14 +2,11 @@
 <view class='container'>
     <view class='main_content'>
 
-        <view>
-            <view class='title'>{{title}}</view>
-            <block wx:for="{{building_list}}" wx:for-item="building">
-                <button bindtap='to_delivery_list' id='{{building.id}}' data-building_name='{{building.name}}'>
-                    {{building.name}} {{building.pending_count}}/{{building.order_count}}
-                </button>
-            </block>
-        </view>
+        <block wx:for="{{building_list}}" wx:for-item="building">
+            <button bindtap='to_delivery_list' id='{{building.id}}' data-building_name='{{building.name}}'>
+                {{building.name}} {{building.pending_count}}/{{building.order_count}}
+            </button>
+        </block>
 
     </view>
 

@@ -88,7 +88,9 @@ urlpatterns = [
     url(r'^give_voucher', manager.give_voucher),
 
     # 管理员获取统计数据
-    url(r'^stat/mobile', stat.mobile),
+    url(r'^stat/mobile$', stat.mobile),
+    url(r'^stat/mobile/top_user$', stat.top_user),
+    url(r'^stat/mobile/user_growth$', stat.user_growth),
     url(r'^stat/growth$', stat.growth),
     url(r'^stat/get_growth_data$', stat.get_growth_data),
     url(r'^stat/day', stat.day),

@@ -4,7 +4,6 @@ const app = getApp()
 Page({
 
     data: {
-        title: '',
         pickup_list: []
     },
 
@@ -18,10 +17,8 @@ Page({
                 'pickup_time': options.pickup_time
             },
             success: response => {
-                this.setData({
-                    title: response.data.pkg_position_name,
-                    pickup_list: response.data.pickup_list
-                })
+                this.setData({ pickup_list: response.data.pickup_list })
+                wx.setNavigationBarTitle({ title: response.data.pkg_position_name })
             }
         })
     },
@@ -100,7 +97,7 @@ Page({
             confirmText: '是',
             cancelText: '否',
             success: res => {
-                if(res.confirm){
+                if (res.confirm) {
                     var raise_options = ['1元', '2元', '3元', '4元', '5元', '6元']
                     wx.showActionSheet({
                         itemList: raise_options,

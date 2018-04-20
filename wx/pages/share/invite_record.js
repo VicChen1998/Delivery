@@ -9,6 +9,9 @@ Page({
     },
 
     onLoad: function (options) {
+
+        wx.setNavigationBarTitle({ title: '邀请记录' })
+
         wx.request({
             url: app.globalData.host + 'get_invite_history',
             data: { 'openid': app.globalData.userAddress.openid },

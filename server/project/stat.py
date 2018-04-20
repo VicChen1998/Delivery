@@ -3,6 +3,7 @@ import time
 import datetime
 
 from django.shortcuts import render
+from django.db.models import Count
 from django.http import HttpResponse
 
 from project.models import *
@@ -55,6 +56,69 @@ def mobile(request):
     }
     return HttpResponse(json.dumps(response), content_type='application/json')
 
+
+def top_user(request):
+    if 'openid' not in request.GET:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.GET['openid'])
+
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if not user.has_perm('project.view_manage_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    result = Order.objects.filter(status=13).values_list('name', 'building').annotate(count=Count('user_id')).order_by(
+        '-count')[:30]
+
+    response = {'status': 'success',
+                'users': []}
+
+    for user in result:
+        response['users'].append({
+            'name': user[0],
+            'building': Building.objects.get(id=user[1]).halfname(),
+            'count': user[2]
+        })
+
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def user_growth(request):
+    if 'openid' not in request.GET:
+        response = {'status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.GET['openid'])
+
+    if not user.is_staff:
+        response = {'status': 'fail', 'errMsg': 'you are not staff'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if not user.has_perm('project.view_manage_page'):
+        response = {'status': 'fail', 'errMsg': 'permission denied'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    growth = StatUserGrowth.objects.order_by('-date')[:30]
+
+    response = {'status': 'success',
+                'growth': []}
+
+    for day in growth:
+        response['growth'].append({
+            'date': str(day.date)[-5:],
+            'new': day.new,
+            'total': day.total
+        })
+
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+# web
 
 def num2str(num):
     if num == 2:

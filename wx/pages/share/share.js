@@ -10,6 +10,8 @@ Page({
 
     onLoad: function (options) {
 
+        wx.setNavigationBarTitle({title: '分享'})
+
         this.setData({
             qrcode_src: app.globalData.host + 'get_share_qrcode?openid=' + app.globalData.userAddress.openid
         })

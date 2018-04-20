@@ -1,6 +1,5 @@
 <!--pages/deliverer/delivery_list/delivery_list.wxml-->
 <view class='container'>
-    <text class='title'>{{title}}</text>
 
     <view class='main_content'>
 

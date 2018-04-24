@@ -54,6 +54,10 @@
                 <text style='margin-left: 30rpx'> {{order.comment}}</text>
             </view>
 
+            <view class='order_detail order_last' style='margin-top: -30rpx;'>
+                <text class='order_date'>{{order.date}}</text>
+            </view>
+
             <view style='display:flex;'>
                 <button class='pickup_buttons' style='width:30%' bindtap='cancel' data-order_id='{{order.id}}' data-index='{{index}}' type='warn'>取消订单</button>
                 <button class='pickup_buttons' style='width:20%' bindtap='raise_price' data-order_id='{{order.id}}' data-index='{{index}}'>加价</button>

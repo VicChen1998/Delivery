@@ -50,7 +50,7 @@
                 <text style='margin-left: 30rpx'> {{order.comment}}</text>
             </view>
 
-            <view class='order_detail order_last' style='margin-top: -40rpx;'>
+            <view class='order_detail order_last' style='margin-top: -30rpx;'>
                 <text class='order_date'>{{order.date}}</text>
             </view>
 

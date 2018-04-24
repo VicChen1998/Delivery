@@ -51,6 +51,10 @@
                 <text style='margin-left: 30rpx'> {{order.comment}}</text>
             </view>
 
+            <view class='order_detail order_last' style='margin-top: -30rpx;'>
+                <text class='order_date'>{{order.date}}</text>
+            </view>
+
             <view style='display:flex;'>
                 <button style='width:33%;' bindtap='not_deliver' data-order_id='{{order.id}}' data-index='{{index}}' type='warn'>未送达</button>
                 <block wx:if='{{order.has_pay != 2}}'>

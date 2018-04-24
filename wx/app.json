@@ -6,7 +6,9 @@
         "pages/pay/pay",
         "pages/settings/settings",
         "pages/share/share",
-        "pages/share/invite_record"
+        "pages/share/invite_record",
+        "pages/feedback/feedback",
+        "pages/feedback/success"
     ],
     "subPackages": [
         {

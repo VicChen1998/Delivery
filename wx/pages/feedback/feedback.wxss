@@ -1,0 +1,29 @@
+/* pages/feedback/feedback.wxss */
+
+.textarea {
+    width: 90%;
+    height: 200rpx;
+    padding: 10rpx;
+    margin: 10rpx auto;
+    border: 3rpx solid #ccc;
+    font-size: 26rpx;
+}
+
+.img {
+    width: 210rpx;
+    height: 210rpx;
+    margin: 0 20rpx 20rpx 0;
+    border: 3rpx solid #ddd;
+}
+
+.submit_button {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    border-radius: 0;
+}
+
+.submit_button::after {
+    /* border: none; */
+    border-radius: 0;
+}

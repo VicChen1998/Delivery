@@ -60,3 +60,12 @@ picker {
     margin: 50rpx auto 0;
     width: 30%;
 }
+
+.foot_options{
+    width: 100%;
+    position: absolute;
+    bottom: 30rpx;
+    font-size: 25rpx;
+    text-align: center;
+    color: #bbb;
+}

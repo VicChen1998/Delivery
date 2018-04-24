@@ -93,8 +93,8 @@ Page({
     },
 
     after_sale: function (e) {
-        wx.showToast({
-            title: '不存在的(划掉)',
+        wx.navigateTo({
+            url: '/pages/feedback/feedback' + '?from=order_detail' + '&order_id=' + this.data.order.id,
         })
     },
 })

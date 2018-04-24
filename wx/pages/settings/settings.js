@@ -386,6 +386,12 @@ Page({
         })
     },
 
+    to_feedback: function (e) {
+        wx.navigateTo({
+            url: '/pages/feedback/feedback' + '?from=' + e.target.dataset.from,
+        })
+    },
+
     deliver: function () {
         wx.navigateTo({
             url: '/pages/staff/deliver/overview/overview',

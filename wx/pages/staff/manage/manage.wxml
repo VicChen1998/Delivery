@@ -6,28 +6,30 @@
 
         <view class='title'>{{date}}</view>
 
-        <view style='margin: 0 30rpx; font-size: 32rpx; min-height: 400rpx;'>
+        <view style='margin: 0 30rpx; font-size: 32rpx; min-height: 320rpx;'>
 
-            <text class='building_name'>今日接单数</text>
-            <text class='order_count'>{{stat.today_order_count}}</text>
+            <view style='display:flex'>
+                <text style='width:50%'>今日接单数</text>
+                <text style='width:50%'>{{stat.today_order_count}}</text>
+            </view>
 
             <block wx:for='{{stat.building_stat}}' wx:for-item='building'>
-                <view wx:if='{{building.order_num != 0}}'>
-                    <text class='building_name'>{{building.name}}</text>
-                    <text class='order_count'>{{building.order_num}}</text>
+                <view wx:if='{{building.order_num != 0}}' style='display:flex'>
+                    <text style='width:50%'>{{building.name}}</text>
+                    <text style='width:50%'>{{building.order_num}}</text>
                 </view>
             </block>
         </view>
 
-        <view class='foot'>
+        <view style='width:100%; margin:50rpx auto 30rpx;'>
             <view style='width:100%; margin-bottom:-30rpx; font-size:25rpx; text-align:center;'>新增用户数</view>
             <canvas canvas-id='user_new' style='width:100%; height:250rpx;'></canvas>
 
-            <view style='width:100%; margin-bottom:-30rpx; font-size:25rpx; text-align:center;'>总用户数</view>
+            <view style='width:100%; margin:30rpx auto -30rpx; font-size:25rpx; text-align:center;'>总用户数</view>
             <canvas canvas-id='user_total' style='width:100%; height:250rpx;'></canvas>
 
-            <view style='margin-top:50rpx;'>
-                <view class='foot_util' bindtap='to_top_user'>下单排行 ></view>
+            <view style='margin-top:50rpx; width:100%; font-size: 30rpx; text-align: center;'>
+                <view bindtap='to_top_user'>下单排行 ></view>
             </view>
         </view>
 

@@ -240,6 +240,33 @@ class Order(models.Model):
         return order_dict
 
 
+# 反馈信息
+class Feedback(models.Model):
+    # 时间
+    time = models.DateTimeField(auto_now_add=True)
+    # 用户
+    user = models.ForeignKey(User, null=True)
+    # 内容
+    content = models.CharField(max_length=2048)
+    # 处理状态
+    status = models.IntegerField(4, default=0)
+
+    class Meta:
+        db_table = 'Feedback'
+
+
+class FeedbackImage(models.Model):
+    # 反馈信息id
+    feedback = models.ForeignKey(Feedback)
+    # 图片序号
+    index = models.IntegerField(9)
+    # 图片
+    image = models.ImageField(upload_to='feedbackImg')
+
+    class Meta:
+        db_table = 'FeedbackImage'
+
+
 # 统计信息
 class StatDay(models.Model):
     # 日期

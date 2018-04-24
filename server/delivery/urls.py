@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from project import auth, order, getdata, stat, share, views
+from project import auth, order, getdata, stat, share, views, feedback
 from project.roles import staff, manager, picker, deliverer, user
 
 urlpatterns = [
@@ -69,6 +69,10 @@ urlpatterns = [
     url(r'^upload_invite_info', share.upload_invite_info),
     url(r'^get_share_voucher', share.get_share_voucher),
     url(r'^get_invite_history', share.get_invite_history),
+
+    # 反馈信息
+    url(r'^feedback$', feedback.submit),
+    url(r'^feedback/upload_img$', feedback.upload_img),
 
     # 员工通用操作
     url(r'^deliverer_search', staff.search),

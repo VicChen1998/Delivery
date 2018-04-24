@@ -49,8 +49,8 @@ def get_notice(request):
     if page == '/pages/order/order':
         response = {
             'has_notice': False,
-            # 'title': 'Title',
-            # 'content': 'Content'
+            # 'title': '服务器维护中',
+            # 'content': '使用中可能会出现问题，请天亮再来:)'
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 

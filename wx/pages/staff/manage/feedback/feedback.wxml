@@ -1,7 +1,7 @@
 <!--pages/staff/manage/feedback/feedback.wxml-->
 <view class="container">
 
-    <view class='main_content'>
+    <scrollview class='main_content'>
 
         <view wx:for="{{feedback_list}}" wx:for-item='feedback'>
 
@@ -29,6 +29,12 @@
                     </block>
                 </view>
 
+                <view style='margin-left: 30rpx;'>
+                    <block wx:for='{{feedback.images}}' wx:for-item='img' wx:for-index='imgIndex'>
+                        <image src='{{img}}' mode='aspectFit' class='image_s' bindtap='previewImage' data-index='{{index}}' data-imgindex='{{imgIndex}}' lazy-load='true'></image>
+                    </block>
+                </view>
+
                 <view style='text-align: right;'>
                     <text style='margin-right:30rpx;'>{{feedback.user.name}}</text>
                     <text style='margin-right:30rpx;'>{{feedback.user.phone}}</text>
@@ -46,5 +52,5 @@
 
         <view style='width:100%;border-top: 3rpx solid #aaa;'></view>
 
-    </view>
+    </scrollview>
 </view>

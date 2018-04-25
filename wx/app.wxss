@@ -81,6 +81,13 @@ page {
     border-bottom: none;
 }
 
+.image_s {
+    width: 210rpx;
+    height: 210rpx;
+    margin: 0 20rpx 20rpx 0;
+    border: 3rpx solid #ddd;
+}
+
 /* order  */
 
 /* order.wxml detail.wxml pickup_list delivery_list 通用 */

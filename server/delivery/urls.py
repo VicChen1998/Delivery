@@ -47,6 +47,7 @@ urlpatterns = [
 
     # 获取公共数据
     url(r'^resource', getdata.resource),
+    url(r'^media', getdata.media),
     url(r'^get_pay_qrcode', getdata.get_pay_qrcode),
     url(r'^get_university', getdata.get_university),
     url(r'^get_campus', getdata.get_campus),

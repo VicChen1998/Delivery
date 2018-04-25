@@ -112,12 +112,18 @@ def get_feedback(request):
         if feedback.order:
             order = feedback.order.dict()
 
+        imgs = []
+        img_list = FeedbackImage.objects.filter(feedback=feedback).order_by('index')
+        for img in img_list:
+            imgs.append(img.image.name)
+
         response['feedback_list'].append({
             'time': timezone.localtime(feedback.time).strftime('%m-%d %H:%M'),
             'entrance': feedback.entrance,
             'user': user,
             'order': order,
             'content': feedback.content,
+            'images': imgs,
             'status': feedback.status,
         })
 

@@ -15,6 +15,13 @@ def resource(request):
     return response
 
 
+def media(request):
+    name = request.GET['name']
+    file = open(BASE_DIR + '/media/' + name, 'rb')
+    response = HttpResponse(file.read(), content_type='image/jpeg')
+    return response
+
+
 def get_pay_qrcode(request):
     campus_id = request.GET['campus_id']
     method = request.GET['method']

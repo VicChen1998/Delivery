@@ -130,7 +130,7 @@ Page({
                         wx.navigateTo({
                             url: '/pages/feedback/success',
                         })
-                    }, 2000)
+                    }, 1200)
                 }
             }
         })

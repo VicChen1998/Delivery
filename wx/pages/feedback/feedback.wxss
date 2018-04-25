@@ -9,13 +9,6 @@
     font-size: 26rpx;
 }
 
-.img {
-    width: 210rpx;
-    height: 210rpx;
-    margin: 0 20rpx 20rpx 0;
-    border: 3rpx solid #ddd;
-}
-
 .submit_button {
     width: 100%;
     position: fixed;

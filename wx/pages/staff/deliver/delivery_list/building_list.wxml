@@ -3,7 +3,7 @@
     <view class='main_content'>
 
         <block wx:for="{{building_list}}" wx:for-item="building">
-            <button bindtap='to_delivery_list' id='{{building.id}}' data-building_name='{{building.name}}'>
+            <button bindtap='to_delivery_list' id='{{building.id}}' data-building_name='{{building.name}}' class='right_angle_button lr_no_border_button'>
                 {{building.name}} {{building.pending_count}}/{{building.order_count}}
             </button>
         </block>

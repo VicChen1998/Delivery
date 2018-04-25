@@ -1,15 +1,15 @@
 <!--pages/feedback/feedback.wxml-->
 <view class="container">
     <view style='background:#f6f6f6; padding:10rpx 0;'>
-        <view class='tip'>十分抱歉给您带来不便</view>
-        <view class='tip'>帮助我们改善问题可以得到免单券以示感谢</view>
+        <view class='tip'>{{tip_1}}</view>
+        <view class='tip'>{{tip_2}}</view>
     </view>
 
-    <view class='main_content' style='margin-top: 20rpx;font-size:35rpx;'>
+    <view class='main_content' style='margin-top: 30rpx;font-size:35rpx;'>
         <form bindsubmit='submit'>
             <view style='margin-left: 30rpx;'>
-                <view>请详细描述您遇到的问题</view>
-                <view style='margin:5rpx 0;font-size:26rpx;'>比如在哪个页面出错、具体表现、是否有错误提示等</view>
+                <view>{{title_1}}</view>
+                <view style='margin:5rpx 0;font-size:26rpx;'>{{describe_1}}</view>
             </view>
 
             <textarea class='textarea' show-confirm-bar='false' name='describe' maxlength='1024'></textarea>
@@ -19,7 +19,7 @@
                 <block wx:for='{{imgPaths}}' wx:for-item='path'>
                     <image src='{{path}}' class='img' mode='aspectFit' bindtap='previewImage' bindlongpress='deleteImage' data-index='{{index}}'></image>
                 </block>
-                <block wx:if='{{imgPaths.length < 9}}'>
+                <block wx:if='{{imgPaths.length < 6}}'>
                     <image src='/images/add_img.png' class='img' style='border:none' mode='aspectFit' bindtap='chooseImage'></image>
                 </block>
             </view>

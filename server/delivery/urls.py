@@ -90,6 +90,8 @@ urlpatterns = [
     # 管理员操作
     url(r'^manager_search_user', manager.search_user),
     url(r'^give_voucher', manager.give_voucher),
+    url(r'^get_feedback_count$', feedback.get_feedback_count),
+    url(r'^get_feedback$', feedback.get_feedback),
 
     # 管理员获取统计数据
     url(r'^stat/mobile$', stat.mobile),

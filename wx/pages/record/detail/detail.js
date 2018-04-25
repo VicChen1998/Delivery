@@ -93,8 +93,9 @@ Page({
     },
 
     after_sale: function (e) {
+        app.globalData.feedback_order_id = this.data.order.id
         wx.navigateTo({
-            url: '/pages/feedback/feedback' + '?from=order_detail' + '&order_id=' + this.data.order.id,
+            url: '/pages/feedback/feedback' + '?entrance=order_detail',
         })
     },
 })

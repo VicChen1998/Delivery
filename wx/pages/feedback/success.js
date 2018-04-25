@@ -6,7 +6,9 @@ Page({
     },
 
     onLoad: function (options) {
-
+        setTimeout(t => {
+            wx.navigateBack({ delta: 2 })
+        }, 4000)
     },
 
 })

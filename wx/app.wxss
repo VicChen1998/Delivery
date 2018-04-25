@@ -45,6 +45,42 @@ page {
     width: 100%;
 }
 
+.right_angle_button {
+    border-radius: 0;
+}
+
+.right_angle_button::after {
+    border-radius: 0;
+}
+
+.no_border_button {
+    border: none;
+}
+
+.no_border_button::after {
+    border: none;
+}
+
+.lr_no_border_button {
+    border-left: none;
+    border-right: none;
+}
+
+.lr_no_border_button::after {
+    border-left: none;
+    border-right: none;
+}
+
+.tb_no_border_button {
+    border-top: none;
+    border-bottom: none;
+}
+
+.tb_no_border_button::after {
+    border-top: none;
+    border-bottom: none;
+}
+
 /* order  */
 
 /* order.wxml detail.wxml pickup_list delivery_list 通用 */

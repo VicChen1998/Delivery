@@ -1,7 +1,9 @@
 <!--pages/feedback/success.wxml-->
 <view class="container">
     <view style='margin: 30rpx; text-align:center'>
-        <view style='margin: 10rpx auto;'>感谢您提交的反馈</view>
-        <view style='margin: 10rpx auto;'>工作人员将尽快和您联系</view>
+        <view style='margin: 15rpx auto;'>感谢您提交的反馈</view>
+        <view style='margin: 15rpx auto;'>工作人员将尽快和您联系</view>
+
+        <image src='/images/ok_inactive.png' style='width:150rpx;height:150rpx;margin:50rpx auto;opacity:0.1'></image>
     </view>
 </view>

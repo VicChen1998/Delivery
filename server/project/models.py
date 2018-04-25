@@ -130,11 +130,11 @@ class Invitation(models.Model):
     # 邀请者
     inviter = models.ForeignKey(User, related_name='inviter')
     # 邀请时间
-    invite_time = models.TimeField(auto_now_add=True, null=True)
+    invite_time = models.DateTimeField(auto_now_add=True, null=True)
     # 有效性(被邀请者是否完整填写信息)
     valid = models.BooleanField(default=False)
     # 有效时间
-    valid_time = models.TimeField(auto_now=True, null=True)
+    valid_time = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         db_table = 'Invitation'
@@ -246,9 +246,13 @@ class Feedback(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     # 用户
     user = models.ForeignKey(User, null=True)
+    # 入口
+    entrance = models.CharField(max_length=16)
+    # 订单id
+    order = models.ForeignKey(Order, null=True)
     # 内容
     content = models.CharField(max_length=2048)
-    # 处理状态
+    # 处理状态 (0 未处理/ 1 处理中/ 2 处理完毕)
     status = models.IntegerField(4, default=0)
 
     class Meta:

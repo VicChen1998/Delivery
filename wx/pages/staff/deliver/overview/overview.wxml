@@ -6,7 +6,7 @@
 
         <view style='margin-top:40rpx;'>
             <block wx:for="{{community_list}}" wx:for-item="community">
-                <button class='community_button' bindtap='to_building_list' data-community_id='{{community.id}}' data-community_name='{{community.name}}'>
+                <button class='community_button right_angle_button lr_no_border_button' bindtap='to_building_list' data-community_id='{{community.id}}' data-community_name='{{community.name}}'>
                     {{community.name}} {{community.pending_count}}/{{community.order_count}}
                 </button>
             </block>

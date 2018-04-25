@@ -388,7 +388,7 @@ Page({
 
     to_feedback: function (e) {
         wx.navigateTo({
-            url: '/pages/feedback/feedback' + '?from=' + e.target.dataset.from,
+            url: '/pages/feedback/feedback' + '?entrance=' + e.target.dataset.entrance,
         })
     },
 

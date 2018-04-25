@@ -1,0 +1,50 @@
+<!--pages/staff/manage/feedback/feedback.wxml-->
+<view class="container">
+
+    <view class='main_content'>
+
+        <view wx:for="{{feedback_list}}" wx:for-item='feedback'>
+
+
+            <view class='order_item' data-index='{{index}}' style='font-size:30rpx'>
+
+                <view style='margin:20rpx;'>
+                    <block wx:if='{{feedback.entrance == "problem_feedback"}}'>
+                        <view class='title' style='font-size:36rpx; margin: 0 auto 10rpx;'>问题反馈</view>
+                    </block>
+                    <block wx:if='{{feedback.entrance == "order_detail"}}'>
+                        <view class='title' style='font-size:36rpx; margin: 0 auto 10rpx;'>售后服务</view>
+                    </block>
+                    <block wx:if='{{feedback.entrance == "suggestion"}}'>
+                        <view class='title' style='font-size:36rpx; margin: 0 auto 10rpx;'>改进建议</view>
+                    </block>
+                    <text>{{feedback.content}}</text>
+                </view>
+
+                <view wx:if='{{feedback.order}}' style='margin:0 20rpx;'>
+                    <view class='title' style='font-size:30rpx; margin: 0 auto 10rpx;'>- - - - - - - - - - - - - - - - - - - - - - - -</view>
+                    <view>快递信息： {{feedback.order.pkg_info}}</view>
+                    <block wx:if='{{feedback.order.comment}}'>
+                        <view>备注： {{feedback.order.comment}}</view>
+                    </block>
+                </view>
+
+                <view style='text-align: right;'>
+                    <text style='margin-right:30rpx;'>{{feedback.user.name}}</text>
+                    <text style='margin-right:30rpx;'>{{feedback.user.phone}}</text>
+                    <text style='margin-right:30rpx;'>{{feedback.user.building}}</text>
+                </view>
+
+                <view style='text-align: right;'>
+                    <text style='margin-right:30rpx;'>{{feedback.time}}</text>
+                </view>
+
+
+            </view>
+
+        </view>
+
+        <view style='width:100%;border-top: 3rpx solid #aaa;'></view>
+
+    </view>
+</view>

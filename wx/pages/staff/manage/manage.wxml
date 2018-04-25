@@ -4,6 +4,10 @@
 
         <input class='deliverer_search_input' placeholder='搜索姓名或手机号，发放免单券' confirm-type='search' bindconfirm='to_search_user' name='keyword'></input>
 
+        <view wx:if='{{feedback_count != 0}}' style='margin: 20rpx auto;'>
+            <button bindtap='to_feedback' class='right_angle_button' style='height:70rpx; line-height:70rpx;'>用户反馈 {{feedback_count}}</button>
+        </view>
+
         <view class='title'>{{date}}</view>
 
         <view style='margin: 0 30rpx; font-size: 32rpx; min-height: 320rpx;'>

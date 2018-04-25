@@ -4,25 +4,57 @@ const app = getApp()
 Page({
 
     data: {
+        entrance: '',
+        order_id: null,
+
+        tip_1: '',
+        tip_2: '',
+        title_1: '',
+        describe_1: '',
+
         imgPaths: []
     },
 
     onLoad: function (options) {
+        this.setData({ entrance: options.entrance })
+
         var title = ''
-        switch (options.from) {
-            case 'after_sale':
-                title = '售后服务'; break
-            case 'order_detail':
-                title = '售后服务'; break
-            case 'problem_feedback':
-                title = '问题反馈'; break
+        switch (options.entrance) {
+            case 'suggestion': {
+                title = '改进建议'
+                this.setData({
+                    tip_1: '请问您对轻骑有什么建议',
+                    tip_2: '建议被采纳可以得到免单券大礼包以示感谢~',
+                    title_1: '请写下您的建议',
+                })
+                break
+            }
+            case 'order_detail': {
+                title = '售后服务'
+                this.setData({
+                    order_id: app.globalData.feedback_order_id,
+                    tip_1: '对此订单有疑问？',
+                    title_1: '请详细描述您遇到的问题',
+                })
+                break
+            }
+            case 'problem_feedback': {
+                title = '问题反馈'
+                this.setData({
+                    tip_1: '十分抱歉给您带来不便',
+                    tip_2: '帮助我们修复问题可以得到免单券以示感谢~',
+                    title_1: '请详细描述您遇到的问题',
+                    describe_1: '比如在哪个页面出错、具体表现、是否有错误提示等',
+                })
+                break
+            }
         }
         wx.setNavigationBarTitle({ title: title })
     },
 
     chooseImage: function (e) {
         wx.chooseImage({
-            count: 9 - this.data.imgPaths.length,
+            count: 6 - this.data.imgPaths.length,
             sizeType: ['compressed'],
             sourceType: ['album'],
             success: res => {
@@ -53,6 +85,14 @@ Page({
 
     submit: function (e) {
 
+        if (e.detail.value.describe.length < 20) {
+            wx.showToast({
+                title: '请至少输入20个字~',
+                icon: 'none'
+            })
+            return false;
+        }
+
         wx.showToast({
             title: '上传中',
             icon: 'loading',
@@ -64,18 +104,28 @@ Page({
             if (app.globalData.userAddress.openid)
                 openid = app.globalData.userAddress.openid
 
+        var data = {
+            'entrance': this.data.entrance,
+            'openid': openid,
+            'content': e.detail.value.describe,
+        }
+
+        if (this.data.entrance == 'order_detail') {
+            data.order_id = this.data.order_id
+        }
+
         wx.request({
             url: app.globalData.host + 'feedback',
             method: 'POST',
             header: { 'content-type': 'application/x-www-form-urlencoded' },
-            data: {
-                'openid': openid,
-                'content': e.detail.value.describe,
-            },
+            data: data,
             success: res => {
                 if (res.data.status == 'success') {
                     this.uploadImage(res.data.feedback_id)
-                    wx.showToast({ title: '提交完成' })
+                    wx.showToast({
+                        title: '提交完成',
+                        duration: 1200,
+                    })
                     setTimeout(e => {
                         wx.navigateTo({
                             url: '/pages/feedback/success',

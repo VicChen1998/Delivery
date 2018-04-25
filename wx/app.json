@@ -23,7 +23,8 @@
                 "manage/manage",
                 "search/search",
                 "manage/search_user/search_user",
-                "manage/top_user/top_user"
+                "manage/top_user/top_user",
+                "manage/feedback/feedback"
             ]
         }
     ],

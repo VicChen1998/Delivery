@@ -59,24 +59,24 @@
         <view class='foot_buttons'>
             <!-- 等待取件/次日取件/未取到 -->
             <block wx:if="{{order.status == 0 || order.status == 2 || order.status == 3}}">
-                <button bindtap='modify'>修改</button>
-                <button bindtap='cancel' type='warn'>退单</button>
+                <button bindtap='modify' class='right_angle_button lr_no_border_button'>修改</button>
+                <button bindtap='cancel' class='right_angle_button lr_no_border_button' type='warn'>退单</button>
             </block>
             <!-- 已取件，等待配送 -->
             <block wx:if="{{order.status == 1}}">
-                <button bindtap='press'>催单</button>
+                <button bindtap='press' class='right_angle_button lr_no_border_button'>催单</button>
             </block>
             <!-- 已送达，请下楼取件 -->
             <block wx:if="{{order.status == 7}}">
-                <button bindtap='receive' type='primary'>确认收货</button>
+                <button bindtap='receive' type='primary' class='right_angle_button lr_no_border_button'>确认收货</button>
             </block>
             <!-- 联系不上 -->
             <block wx:if="{{order.status == 9}}">
-                <button bindtap='receive' type='primary'>确认收货</button>
+                <button bindtap='receive' type='primary' class='right_angle_button lr_no_border_button'>确认收货</button>
             </block>
             <!-- 已完成/已取消/已关闭 -->
             <block wx:if="{{order.status == 13 || order.status == 14 || order.status == 15}}">
-                <button bindtap='after_sale'>售后服务</button>
+                <button bindtap='after_sale' class='right_angle_button lr_no_border_button'>售后服务</button>
             </block>
         </view>
     </view>

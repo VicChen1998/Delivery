@@ -4,7 +4,8 @@ const app = getApp()
 Page({
 
     data: {
-        date: 'null',
+        date: '',
+        feedback_count: 0,
         stat: {},
 
         user_growth: [],
@@ -38,6 +39,15 @@ Page({
             }
         })
 
+        wx.request({
+            url: app.globalData.host + 'get_feedback_count',
+            data: { 'openid': app.globalData.userAddress.openid },
+            success: response => {
+                if (response.data.status == 'success') {
+                    this.setData({ feedback_count: response.data.untreated + response.data.treating })
+                }
+            }
+        })
     },
 
     draw_user_growth: function () {
@@ -132,6 +142,12 @@ Page({
     to_top_user: function (e) {
         wx.navigateTo({
             url: '/pages/staff/manage/top_user/top_user',
+        })
+    },
+
+    to_feedback: function (e) {
+        wx.navigateTo({
+            url: '/pages/staff/manage/feedback/feedback',
         })
     }
 

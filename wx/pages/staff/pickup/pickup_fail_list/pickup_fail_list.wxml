@@ -55,9 +55,9 @@
             </view>
 
             <view style='display:flex;'>
-                <button class='pickup_buttons' style='width:33%' bindtap='cancel' data-order_id='{{order.id}}' data-index='{{index}}' type='warn'>取消订单</button>
-                <button class='pickup_buttons' style='width:33%' bindtap='raise_price' data-order_id='{{order.id}}' data-index='{{index}}'>加价</button>
-                <button class='pickup_buttons' style='width:34%' bindtap='pickup_success' data-order_id='{{order.id}}' data-index='{{index}}' type='primary'>已取到</button>
+                <button class='pickup_buttons' style='width:33%' bindtap='cancel' data-order_id='{{order.id}}' data-index='{{index}}' type='warn' class='right_angle_button'>取消订单</button>
+                <button class='pickup_buttons' style='width:33%' bindtap='raise_price' data-order_id='{{order.id}}' data-index='{{index}}' class='right_angle_button'>加价</button>
+                <button class='pickup_buttons' style='width:34%' bindtap='pickup_success' data-order_id='{{order.id}}' data-index='{{index}}' type='primary' class='right_angle_button'>已取到</button>
             </view>
         </view>
 

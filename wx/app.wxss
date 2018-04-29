@@ -45,43 +45,43 @@ page {
     width: 100%;
 }
 
-.right_angle_button {
+.no_radius {
     border-radius: 0;
 }
 
-.right_angle_button::after {
+.no_radius::after {
     border-radius: 0;
 }
 
-.no_border_button {
+.no_border {
     border: none;
 }
 
-.no_border_button::after {
+.no_border::after {
     border: none;
 }
 
-.lr_no_border_button {
+.lr_no_border {
     border-left: none;
     border-right: none;
 }
 
-.lr_no_border_button::after {
+.lr_no_border::after {
     border-left: none;
     border-right: none;
 }
 
-.tb_no_border_button {
+.tb_no_border {
     border-top: none;
     border-bottom: none;
 }
 
-.tb_no_border_button::after {
+.tb_no_border::after {
     border-top: none;
     border-bottom: none;
 }
 
-.image_s {
+.thumbnail {
     width: 210rpx;
     height: 210rpx;
     margin: 0 20rpx 20rpx 0;

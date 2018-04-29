@@ -31,7 +31,7 @@
 
                 <view style='margin-left: 30rpx;'>
                     <block wx:for='{{feedback.images}}' wx:for-item='img' wx:for-index='imgIndex'>
-                        <image src='{{img}}' mode='aspectFit' class='image_s' bindtap='previewImage' data-index='{{index}}' data-imgindex='{{imgIndex}}' lazy-load='true'></image>
+                        <image src='{{img}}' mode='aspectFit' class='thumbnail' bindtap='previewImage' data-index='{{index}}' data-imgindex='{{imgIndex}}' lazy-load='true'></image>
                     </block>
                 </view>
 

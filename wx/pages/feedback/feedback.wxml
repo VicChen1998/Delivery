@@ -17,10 +17,10 @@
             <view style='margin: 50rpx 0 0 30rpx;'>
                 <view style='margin-bottom:10rpx;'>添加图片</view>
                 <block wx:for='{{imgPaths}}' wx:for-item='path'>
-                    <image src='{{path}}' class='image_s' mode='aspectFit' bindtap='previewImage' bindlongpress='deleteImage' data-index='{{index}}'></image>
+                    <image src='{{path}}' class='thumbnail' mode='aspectFit' bindtap='previewImage' bindlongpress='deleteImage' data-index='{{index}}'></image>
                 </block>
                 <block wx:if='{{imgPaths.length < 6}}'>
-                    <image src='/images/add_img.png' class='image_s' style='border:none' mode='aspectFit' bindtap='chooseImage'></image>
+                    <image src='/images/add_img.png' class='thumbnail' style='border:none' mode='aspectFit' bindtap='chooseImage'></image>
                 </block>
             </view>
 

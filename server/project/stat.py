@@ -109,7 +109,7 @@ def user_growth(request):
         response = {'status': 'fail', 'errMsg': 'permission denied'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    growth = StatUserGrowth.objects.order_by('-date')[:30]
+    growth = StatDay.objects.order_by('-date')[:30]
 
     response = {'status': 'success',
                 'growth': []}
@@ -117,8 +117,9 @@ def user_growth(request):
     for day in growth:
         response['growth'].append({
             'date': str(day.date)[-5:],
-            'new': day.new,
-            'total': day.total
+            'new_user': day.new_user,
+            'total_user': day.total_user,
+            'order_count': day.order_count
         })
 
     return HttpResponse(json.dumps(response), content_type='application/json')

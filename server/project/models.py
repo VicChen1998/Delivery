@@ -276,21 +276,13 @@ class StatDay(models.Model):
     # 日期
     date = models.DateField(primary_key=True)
     # 订单数
-    count = models.IntegerField(65535)
+    order_count = models.IntegerField(65535)
     # 总金额
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    order_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    # 新增用户数
+    new_user = models.IntegerField()
+    # 当前总数
+    total_user = models.IntegerField()
 
     class Meta:
         db_table = 'StatDay'
-
-
-class StatUserGrowth(models.Model):
-    # 日期
-    date = models.DateField(primary_key=True)
-    # 新增用户数
-    new = models.IntegerField(65535)
-    # 当前总数
-    total = models.IntegerField()
-
-    class Meta:
-        db_table = 'StatUserGrowth'

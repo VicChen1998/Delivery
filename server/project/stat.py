@@ -72,8 +72,14 @@ def top_user(request):
         response = {'status': 'fail', 'errMsg': 'permission denied'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    result = Order.objects.filter(status=13).values_list('name', 'building').annotate(count=Count('user_id')).order_by(
-        '-count')[:30]
+    year = datetime.date.today().year
+    month = datetime.date.today().month
+    if 'year' in request.GET and 'month' in request.GET:
+        year = request.GET['year']
+        month = request.GET['month']
+
+    order_list = Order.objects.filter(status=13, date__year=year, date__month=month)
+    result = order_list.values_list('name', 'building').annotate(count=Count('user_id')).order_by('-count')[:30]
 
     response = {'status': 'success',
                 'users': []}

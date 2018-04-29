@@ -223,7 +223,7 @@ Page({
             if (this.data.userAddress.voucher != app.globalData.userAddress.voucher) {
                 this.setData({ userAddress: app.globalData.userAddress })
             } else if (app.globalData.hasOpenSharePage) {
-                app.refreshVoucher(f => {
+                app.refreshVoucher(() => {
                     this.setData({ userAddress: app.globalData.userAddress })
                 })
             }
@@ -232,7 +232,7 @@ Page({
 
     onPullDownRefresh: function () {
         wx.showNavigationBarLoading()
-        app.refreshVoucher(f => {
+        app.refreshVoucher(() => {
             this.setData({ userAddress: app.globalData.userAddress })
             wx.stopPullDownRefresh()
             wx.hideNavigationBarLoading()

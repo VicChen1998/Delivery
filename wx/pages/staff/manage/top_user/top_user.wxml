@@ -1,13 +1,17 @@
 <!--pages/staff/manage/top_user/top_user.wxml-->
 <view class='container'>
-    <view class='main_content' style='margin:30rpx'>
+    <view class='main_content'>
 
-        <view wx:for='{{user_list}}' wx:for-item='user' style='height: 50rpx;'>
-            <view style='width: 10%; float:left;'>{{index+1}}</view>
-            <view style='width: 30%; float:left;'>{{user.name}}</view>
-            <view style='width: 45%; float:left;'>{{user.building}}</view>
-            <view style='width: 15%; float:left;'>{{user.count}}</view>
+        <view wx:for='{{user_list}}' wx:for-item='user' style='height: 50rpx; margin-left:30rpx; display:flex;'>
+            <view style='width: 10%;'>{{index+1}}</view>
+            <view style='width: 35%;'>{{user.name}}</view>
+            <view style='width: 40%;'>{{user.building}}</view>
+            <view style='width: 15%;'>{{user.count}}</view>
         </view>
 
+        <view style='margin-top:30rpx;'>
+            <button class='no_radius' style='width:50%;font-size:30rpx;float:left;' bindtap='last_month'>＜ {{month-1}}月</button>
+            <button class='no_radius' style='width:50%;font-size:30rpx;float:left;' bindtap='next_month'>{{month+1}}月 ＞</button>
+        </view>
     </view>
 </view>

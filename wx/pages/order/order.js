@@ -151,7 +151,7 @@ Page({
                 this.init_voucher()
             }
             else if (app.globalData.hasOpenSharePage) {
-                app.refreshVoucher(f => {
+                app.refreshVoucher(() => {
                     this.setData({ userAddress: app.globalData.userAddress })
                 })
             }
@@ -221,7 +221,7 @@ Page({
 
     onPullDownRefresh: function () {
         wx.showNavigationBarLoading()
-        app.refreshVoucher(f => {
+        app.refreshVoucher(() => {
             this.setData({ userAddress: app.globalData.userAddress })
             this.init_voucher()
             wx.stopPullDownRefresh()

@@ -38,10 +38,8 @@ Page({
         var user_openid = e.target.dataset.openid
         var index = e.target.dataset.index
 
-        var operation_list = ['发放免单券']
-
         wx.showActionSheet({
-            itemList: operation_list,
+            itemList: ['发放免单券', '查看相关订单'],
             success: res => {
                 if (res.tapIndex == 0) {
                     wx.request({
@@ -61,6 +59,11 @@ Page({
                             }
                             wx.showToast({ title: '发放成功' })
                         }
+                    })
+                }
+                else if (res.tapIndex == 1) {
+                    wx.navigateTo({
+                        url: '/pages/staff/search/search' + '?keyword=' + this.data.search_list[index].name,
                     })
                 }
             }

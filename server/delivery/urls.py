@@ -44,6 +44,7 @@ urlpatterns = [
     # 上传数据
     url(r'^upload_userinfo$', user.upload_userinfo),
     url(r'^upload_address$', user.upload_address),
+    url(r'^upload_setting$', user.upload_setting),
 
     # 获取公共数据
     url(r'^resource', getdata.resource),

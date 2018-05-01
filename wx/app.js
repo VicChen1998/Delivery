@@ -3,7 +3,6 @@
 App({
     globalData: {
         host: 'https://www.vicchen.club/',
-        userInfo: null,
         userAddress: null,
         pkg_position_range: null,
         order: null,    // 查看订单详情时用全局数据传递参数
@@ -21,25 +20,6 @@ App({
     onLaunch: function (options) {
 
         console.log(options)
-
-        // 获取用户信息
-        wx.getSetting({
-            success: response => {
-                wx.getUserInfo({
-                    success: response => {
-                        this.globalData.userInfo = response.userInfo
-                        if (this.sendUserInfoToOrderPage)
-                            this.sendUserInfoToOrderPage(response)
-                        if (this.sendUserInfoToRecordPage)
-                            this.sendUserInfoToRecordPage(response)
-                        if (this.sendUserInfoToSettingsPage)
-                            this.sendUserInfoToSettingsPage(response)
-
-                        this.checkIsFirstSignin(options)
-                    }
-                })
-            }
-        })
 
         // 登录
         wx.login({
@@ -79,17 +59,9 @@ App({
     },
 
     checkIsFirstSignin: function (options) {
-        if (this.globalData.userAddress != null && this.globalData.userInfo != null && this.globalData.userAddress.first_signin) {
+        if (this.globalData.userAddress != null && this.globalData.userAddress.first_signin) {
             wx.switchTab({
                 url: '/pages/settings/settings',
-            })
-
-            this.globalData.userInfo.openid = this.globalData.userAddress.openid
-            wx.request({
-                url: this.globalData.host + 'upload_userinfo',
-                method: 'POST',
-                header: { 'content-type': 'application/x-www-form-urlencoded' },
-                data: this.globalData.userInfo,
             })
 
             if ((options.scene == 1011 || options.scene == 1012 || options.scene == 1013 ||
@@ -112,6 +84,23 @@ App({
         }
     },
 
+    uploadUserInfo: function (e) {
+        if (e.detail.errMsg != 'getUserInfo:ok')
+            return false
+        if (!this.globalData.userAddress.openid)
+            return false
+
+        var userInfo = e.detail.userInfo
+        userInfo.openid = this.globalData.userAddress.openid
+
+        wx.request({
+            url: this.globalData.host + 'upload_userinfo',
+            method: 'POST',
+            header: { 'content-type': 'application/x-www-form-urlencoded' },
+            data: userInfo
+        })
+    },
+
     refreshVoucher: function (callback) {
         wx.request({
             url: this.globalData.host + 'get_voucher',
@@ -119,7 +108,7 @@ App({
             success: response => {
                 if (response.data.get_voucher_status == 'success') {
                     this.globalData.userAddress.voucher = response.data.voucher
-                    if(callback){
+                    if (callback) {
                         callback()
                     }
                 }

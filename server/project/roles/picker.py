@@ -37,10 +37,17 @@ def get_pkg_position(request):
                         item['pkg_position_list'] = []
                     pickup_list = Order.objects.filter(pkg_position=position, status__in=[0, 1, 2],
                                                        pickup_time=item['pickup_time'])
+                    pickup_time_unfit = False
+                    for order in pickup_list:
+                        if order.pickup_time_unfit and order.status == 0:
+                            pickup_time_unfit = True
+                            break
+
                     item['pkg_position_list'].append({'id': position.id,
                                                       'name': position.name,
                                                       'order_count': pickup_list.count(),
-                                                      'pending_count': pickup_list.filter(status=0).count()})
+                                                      'pending_count': pickup_list.filter(status=0).count(),
+                                                      'pickup_time_unfit': pickup_time_unfit})
                     break
 
     pkg_position_by_time_list = sorted(pkg_position_by_time_list, key=lambda x: x['pickup_time'])
@@ -71,7 +78,7 @@ def get_pickup_list(request):
 
     pickup_list = Order.objects.filter(pkg_position=pkg_position,
                                        pickup_time=pickup_time,
-                                       status__in=[0, 1, 2]).order_by('status')
+                                       status__in=[0, 1, 2]).order_by('status', '-pickup_time_unfit')
 
     response = {'get_pickup_list_status': 'success',
                 'pkg_position_name': pkg_position.name,

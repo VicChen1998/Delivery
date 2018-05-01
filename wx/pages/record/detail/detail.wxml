@@ -52,6 +52,12 @@
             <text class='order_pkg_info'> {{order.pkg_info}}</text>
         </view>
 
+        <view class='order_detail' wx:if='{{order.putDownstairs || order.pickup_time_unfit}}'>
+            <view style='margin-left: 30rpx'>附加信息:</view>
+            <view wx:if="{{order.pickup_time_unfit}}" style='margin-left: 30rpx'> 没有合适的领取时限</view>
+            <view wx:if="{{order.putDownstairs}}" style='margin-left: 30rpx'> 联系不上时可以放在宿舍楼下的桌上</view>
+        </view>
+
         <view class='order_detail order_last'>
             <text class='order_date'>{{order.date}}</text>
         </view>

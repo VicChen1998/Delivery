@@ -61,7 +61,8 @@ def signin(request):
                 'community': {'id': profile.community.id, 'name': profile.community.name},
                 'building': {'id': profile.building.id, 'name': profile.building.name},
                 'credit': profile.credit,
-                'voucher': profile.voucher
+                'voucher': profile.voucher,
+                'putDownstairs': profile.putDownstairs
                 }
     return HttpResponse(json.dumps(response), content_type='application/json')
 

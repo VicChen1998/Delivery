@@ -15,7 +15,7 @@
     width: 400rpx;
     margin: 0 auto;
     padding: 0 0 0 10rpx;
-    border-bottom: 3rpx solid #aaa;
+    border-bottom: 3rpx solid #ccc;
     text-align: center;
 }
 
@@ -26,7 +26,7 @@ picker {
 }
 
 .input_picker {
-    border-bottom: 3rpx solid #aaa;
+    border-bottom: 3rpx solid #ccc;
 }
 
 .two_picker_item {
@@ -35,10 +35,10 @@ picker {
     display: flex;
 }
 
-.price_comment {
+.comment {
     width: 100%;
-    line-height: 30rpx;
-    font-size: 28rpx;
+    line-height: 28rpx;
+    font-size: 25rpx;
     text-align: center;
     color: #aaa;
 }
@@ -47,12 +47,12 @@ picker {
     width: 80%;
     height: 130rpx;
     padding: 10rpx;
-    margin: 0 auto 20rpx;
+    margin: 20rpx auto 50rpx;
     border: 3rpx solid #ccc;
     font-size: 26rpx;
 }
 
 .order_button {
     width: 35%;
-    margin: 20rpx auto 0;
+    margin: 30rpx auto 0;
 }

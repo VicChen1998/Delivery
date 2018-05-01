@@ -45,6 +45,16 @@ def order(request):
                 profile.save()
                 is_free = True
 
+    pickup_time_unfit = False
+    if 'pickup_time_unfit' in request.POST:
+        if request.POST['pickup_time_unfit'] == 'true':
+            pickup_time_unfit = True
+
+    putDownstairs = False
+    if 'putDownstairs' in request.POST:
+        if request.POST['putDownstairs'] == 'true':
+            putDownstairs = True
+
     Order.objects.create(
         id=order_id,
         date=date,
@@ -62,6 +72,8 @@ def order(request):
         price=Decimal(price),
         is_free=is_free,
         comment=request.POST['comment'],
+        putDownstairs=putDownstairs,
+        pickup_time_unfit=pickup_time_unfit
     )
 
     response = {'order_status': 'success'}
@@ -97,6 +109,16 @@ def modify(request):
     if request.POST['pickup_next_day'] == 'True':
         status = 3
 
+    pickup_time_unfit = False
+    if 'pickup_time_unfit' in request.POST:
+        if request.POST['pickup_time_unfit'] == 'true':
+            pickup_time_unfit = True
+
+    putDownstairs = False
+    if 'putDownstairs' in request.POST:
+        if request.POST['putDownstairs'] == 'true':
+            putDownstairs = True
+
     order.name = request.POST['name']
     order.phone = request.POST['phone']
     order.community = building.community
@@ -105,6 +127,8 @@ def modify(request):
     order.pickup_time = request.POST['pickup_time'][:5]
     order.pkg_info = request.POST['pkg_info']
     order.comment = request.POST['comment']
+    order.pickup_time_unfit = pickup_time_unfit
+    order.putDownstairs = putDownstairs
     order.status = status
     order.save()
 

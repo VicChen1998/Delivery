@@ -4,10 +4,8 @@ const app = getApp()
 
 Page({
     data: {
-        hasUserInfo: false,
         hasUserAddress: false,
         isSetting: false,
-        userInfo: {},
         userAddress: {},
 
         university_range: [],
@@ -146,20 +144,6 @@ Page({
     },
 
     onLoad: function (options) {
-        if (app.globalData.userInfo) {
-            this.setData({
-                userInfo: app.globalData.userInfo,
-                hasUserInfo: true
-            })
-        } else {
-            app.sendUserInfoToSettingsPage = response => {
-                this.setData({
-                    userInfo: app.globalData.userInfo,
-                    hasUserInfo: true
-                })
-            }
-        }
-
         if (app.globalData.userAddress) {
             this.setData({
                 userAddress: app.globalData.userAddress,
@@ -385,6 +369,8 @@ Page({
 
         })
     },
+
+    uploadUserInfo: app.uploadUserInfo,
 
     to_feedback: function (e) {
         wx.navigateTo({

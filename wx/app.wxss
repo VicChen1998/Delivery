@@ -26,6 +26,7 @@ page {
     height: 108rpx;
     margin: 0 30rpx 20rpx;
     border-radius: 50%;
+    overflow: hidden;
     float: left;
 }
 
@@ -102,7 +103,7 @@ page {
 .order_item {
     width: 100%;
     padding: 10rpx 0 0;
-    border-top: 3rpx solid #aaa;
+    border-top: 1rpx solid #aaa;
     position: relative;
 }
 

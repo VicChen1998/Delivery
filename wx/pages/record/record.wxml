@@ -2,10 +2,9 @@
 <view class="container">
 
     <view class='topbar'>
-        <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
-        <image wx:else class="avatar" src="{{userInfo.avatarUrl}}" bindtap='viewtap'></image>
+        <open-data class='avatar' bindtap='toSettings' type='userAvatarUrl'></open-data>
         <block wx:if='{{hasOrder && order_count != 0}}'>
-            <button bindtap='to_QRcode' style='margin: 10rpx 30rpx 0; background: #f0f0f0' class='no_borde'>点击查看支付二维码</button>
+            <button bindtap='to_QRcode' style='margin: 10rpx 30rpx 0; background: #f0f0f0' class='no_border'>点击查看支付二维码</button>
         </block>
     </view>
 
@@ -74,7 +73,7 @@
 
         </view>
 
-        <view wx:if="{{hasOrder && order_count != 0}}" style='width:100%;border-top: 3rpx solid #aaa;'></view>
+        <view wx:if="{{hasOrder && order_count != 0}}" style='width:100%;border-top: 1rpx solid #aaa;'></view>
 
     </view>
 </view>

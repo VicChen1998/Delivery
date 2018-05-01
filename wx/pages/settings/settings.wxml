@@ -1,8 +1,7 @@
 <!--pages/settings.wxml-->
 <view class="container">
     <view class='topbar' style='border-bottom: 2rpx solid #eee' bindtap='to_share'>
-        <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
-        <image wx:else class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        <open-data class='avatar' bindtap='toSettings' type='userAvatarUrl'></open-data>
 
         <view style='display:flex;'>
             <view class='voucher_info'>我有 {{userAddress.voucher}} 张免单券</view>
@@ -62,7 +61,7 @@
             </view>
 
             <button wx:if="{{!isSetting}}" class='settings_button' bindtap='start_set'>修改</button>
-            <button wx:else class='settings_button' form-type='submit' type='primary'>保存</button>
+            <button wx:else class='settings_button' form-type='submit' type='primary' open-type='getUserInfo' bindgetuserinfo='uploadUserInfo'>保存</button>
 
         </form>
 

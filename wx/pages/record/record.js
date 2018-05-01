@@ -4,9 +4,7 @@ const app = getApp()
 Page({
 
     data: {
-        hasUserInfo: false,
         hasUserAddress: false,
-        userInfo: {},
         userAddress: {},
 
         finish_get_order: false,
@@ -25,19 +23,6 @@ Page({
     },
 
     onLoad: function (options) {
-        if (app.globalData.userInfo) {
-            this.setData({
-                userInfo: app.globalData.userInfo,
-                hasUserInfo: true
-            })
-        } else {
-            app.sendUserInfoToRecordPage = response => {
-                this.setData({
-                    userInfo: app.globalData.userInfo,
-                    hasUserInfo: true
-                })
-            }
-        }
 
         if (app.globalData.userAddress) {
             this.setData({
@@ -48,7 +33,7 @@ Page({
             app.sendUserAddressToRecordPage = response => {
                 this.setData({
                     userAddress: app.globalData.userAddress,
-                    hasUserInfo: true
+                    hasUserAddress: true
                 })
             }
         }

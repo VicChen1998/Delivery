@@ -120,6 +120,10 @@ class UserProfile(models.Model):
     # 免单券
     voucher = models.IntegerField(128, default=0)
 
+    # 用户设定
+    # 是否可以放在楼下
+    putDownstairs = models.NullBooleanField(default=None)
+
     class Meta:
         db_table = 'UserProfile'
 
@@ -177,6 +181,10 @@ class Order(models.Model):
     is_free = models.BooleanField(default=False)
     # 备注
     comment = models.CharField(max_length=256, null=True)
+    # 是否可以放在楼下
+    putDownstairs = models.BooleanField(default=False)
+    # 没有合适的领取时限
+    pickup_time_unfit = models.BooleanField(default=False)
     # 取件员
     pickup_by = models.ForeignKey(User, null=True, related_name='pickup_by')
     # 配送员
@@ -236,7 +244,9 @@ class Order(models.Model):
                       'price': '%.2f' % self.price,
                       'has_pay': self.has_pay,
                       'is_free': self.is_free,
-                      'comment': self.comment}
+                      'comment': self.comment,
+                      'putDownstairs': self.putDownstairs,
+                      'pickup_time_unfit': self.pickup_time_unfit}
         return order_dict
 
 

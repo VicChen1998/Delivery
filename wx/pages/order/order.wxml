@@ -2,10 +2,7 @@
 <view class="container">
 
     <view class='topbar'>
-        <block>
-            <image wx:if="{{!hasUserInfo}}" class='avatar' src="/images/avatar.jpg"></image>
-            <image wx:else class="avatar" src="{{userInfo.avatarUrl}}" bindtap='viewtap'></image>
-        </block>
+        <open-data class='avatar' bindtap='toSettings' type='userAvatarUrl'></open-data>
 
         <view class='location' bindtap='toSettings'>
             <image class='location_icon' src="/images/location.png"></image>
@@ -76,10 +73,10 @@
                 </picker>
             </view>
             <view class='input_item' style='height: 40rpx;' wx:if='{{!isModifying}}'>
-                <text class='price_comment'>中小件2-3元，大件3-5元，超大件5-10元</text>
+                <text class='comment'>中小件2-3元，大件3-5元，超大件5-10元</text>
             </view>
             <view class='input_item' style='height: 40rpx;' wx:if='{{isModifying}}'>
-                <text class='price_comment' style='color: #ff0000'>暂不支持修改价格</text>
+                <text class='comment' style='color: #ff0000'>暂不支持修改价格</text>
             </view>
 
             <block wx:if='{{!isModifying}}'>
@@ -91,9 +88,9 @@
                 </view>
             </block>
 
-            <view class='input_item' style='height: 60rpx;'>
+            <!-- <view class='input_item' style='height: 60rpx;'>
                 <text class='input_title'>快递信息</text>
-            </view>
+            </view> -->
 
             <block wx:if="{{isModifying}}">
                 <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递短信吧' class='input_textarea' name='pkg_info' value='{{modifying_order.pkg_info}}'></textarea>
@@ -102,23 +99,48 @@
                 <textarea show-confirm-bar='false' placeholder='请粘贴上您的快递短信吧' class='input_textarea' name='pkg_info' value='{{pkg_info}}' maxlength='128' bindblur='recognize_pkg_info'></textarea>
             </block>
 
-            <view class='input_item'>
-                <text class='input_title'>备注</text>
-                <block wx:if="{{isModifying}}">
-                    <input class='input_value' name='comment' value='{{modifying_order.comment}}'></input>
-                </block>
-                <block wx:else>
-                    <input class='input_value' name='comment' value='{{comment}}'></input>
-                </block>
-            </view>
-
             <view wx:if="{{isModifying}}" style='display:flex;'>
                 <button class='order_button' form-type='submit' data-formtype='modify' type='primary'>确认修改</button>
                 <button class='order_button' form-type='reset' bindtap='cancel_modify'>取消</button>
             </view>
             <block wx:else>
-                <button class='order_button' form-type='submit' data-formtype='submit' type='primary'>一键下单</button>
+                <button class='order_button' form-type='submit' data-formtype='submit' type='primary' open-type='getUserInfo' bindgetuserinfo='uploadUserInfo'>一键下单</button>
             </block>
+
+
+            <view class='comment' style='width:30%; margin: 50rpx auto;' bindtap='scrollToBottom'>更多选项</view>
+
+            <view style='font-size:32rpx; margin:0 0 50rpx 60rpx'>
+                <view class='input_item' style='margin-bottom: 20rpx;'>
+                    <text style='margin-right:20rpx;'>备注</text>
+                    <block wx:if="{{isModifying}}">
+                        <input class='input_value' style='width:75%;margin:0;' name='comment' value='{{modifying_order.comment}}'></input>
+                    </block>
+                    <block wx:else>
+                        <input class='input_value' style='width:75%;margin:0;' name='comment' value='{{comment}}'></input>
+                    </block>
+                </view>
+
+                <checkbox-group bindchange='checkbox_onchange'>
+                    <view class='input_item' style='margin-top:25rpx; flex-direction:column'>
+                        <block wx:if="{{isModifying}}">
+                            <checkbox value='pickup_time_unfit' checked='{{modifying_order.pickup_time_unfit}}'>没有合适的领取时限</checkbox>
+                        </block>
+                        <block wx:else>
+                            <checkbox value='pickup_time_unfit' checked='{{checkbox_value.pickup_time_unfit}}'>没有合适的领取时限</checkbox>
+                        </block>
+                        <text class='comment' style='width:auto; text-align:left; margin-left:60rpx;'>请选择最接近的时间并勾选此项，骑手会多加注意</text>
+                    </view>
+                    <view class='input_item' style='margin-top:40rpx;'>
+                        <block wx:if="{{isModifying}}">
+                            <checkbox value='putDownstairs' checked='{{modifying_order.putDownstairs}}'>联系不上时，可以放在宿舍楼下的桌上</checkbox>
+                        </block>
+                        <block wx:else>
+                            <checkbox value='putDownstairs' checked='{{checkbox_value.putDownstairs}}'>联系不上时，可以放在宿舍楼下的桌上</checkbox>
+                        </block>
+                    </view>
+                </checkbox-group>
+            </view>
         </form>
 
     </view>

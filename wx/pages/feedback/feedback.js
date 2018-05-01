@@ -58,7 +58,6 @@ Page({
             sizeType: ['compressed'],
             sourceType: ['album'],
             success: res => {
-                console.log(res)
                 this.setData({ imgPaths: this.data.imgPaths.concat(res.tempFilePaths) })
             },
         })

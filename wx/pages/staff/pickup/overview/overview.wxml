@@ -10,6 +10,9 @@
                 <view>
                     <block wx:for="{{time_item.pkg_position_list}}" wx:for-item="pkg_position">
                         <button class='half_button no_radius' bindtap='to_pickup_list' data-pkg_position_id='{{pkg_position.id}}' data-pickup_time='{{time_item.pickup_time}}'>
+                            <block wx:if='{{pkg_position.pickup_time_unfit}}' style='color:#f00'>
+                                !
+                            </block>
                             {{pkg_position.name}} {{pkg_position.pending_count}}/{{pkg_position.order_count}}
                         </button>
                     </block>

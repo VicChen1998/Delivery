@@ -1,7 +1,7 @@
 import time
 from datetime import date, datetime, timezone, timedelta
 
-from project.models import Order, StatDay, AccessToken
+from project.models import Order, StatDay, AccessToken, User
 from project.auth import get_access_token
 
 
@@ -49,11 +49,18 @@ def stat_day():
 
     order_list = Order.objects.filter(date=today, status__in=[0, 1, 2, 3, 7, 8, 9, 13])
 
-    amount = 0
+    order_amount = 0
     for order in order_list:
-        amount += order.price
+        order_amount += order.price
 
-    StatDay.objects.create(date=today, count=order_list.count(), amount=amount)
+    new_user = User.objects.filter(date_joined=today).count()
+    totoal_user = User.objects.all().count()
+
+    StatDay.objects.create(date=today,
+                           order_count=order_list.count(),
+                           order_amount=order_amount,
+                           new_user=new_user,
+                           total_user=totoal_user)
 
 
 def check_access_token():

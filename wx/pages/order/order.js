@@ -6,9 +6,7 @@ var util = require('../../utils/util.js')
 
 Page({
     data: {
-        hasUserInfo: false,
         hasUserAddress: false,
-        userInfo: {},
         userAddress: {},
 
         community_range: [{ 'id': '', 'name': '- - -' }],
@@ -23,6 +21,10 @@ Page({
         price_index: 0,
         voucher_range: [],
         voucher_index: 0,
+        checkbox_value: {
+            'pickup_time_unfit': false,
+            'putDownstairs': false,
+        },
 
         pkg_info: '',
         comment: '',
@@ -83,33 +85,25 @@ Page({
 
     onLoad: function (options) {
 
-        if (app.globalData.userInfo) {
-            this.setData({
-                userInfo: app.globalData.userInfo,
-                hasUserInfo: true
-            })
-        } else {
-            app.sendUserInfoToOrderPage = response => {
-                this.setData({
-                    userInfo: app.globalData.userInfo,
-                    hasUserInfo: true
-                })
-            }
-        }
-
         if (app.globalData.userAddress) {
+            this.data.checkbox_value.putDownstairs = app.globalData.userAddress.putDownstairs
             this.setData({
                 userAddress: app.globalData.userAddress,
-                hasUserAddress: true
+                hasUserAddress: true,
+                checkbox_value: this.data.checkbox_value
             })
+
             this.init_community()
             this.init_voucher()
         } else {
             app.sendUserAddressToOrderPage = response => {
+                this.data.checkbox_value.putDownstairs = app.globalData.userAddress.putDownstairs
                 this.setData({
                     userAddress: app.globalData.userAddress,
-                    hasUserAddress: true
+                    hasUserAddress: true,
+                    checkbox_value: this.data.checkbox_value
                 })
+
                 this.init_community()
                 this.init_voucher()
             }
@@ -129,9 +123,9 @@ Page({
 
         wx.request({
             url: app.globalData.host + 'get_notice',
-            data: {'page': '/pages/order/order'},
+            data: { 'page': '/pages/order/order' },
             success: response => {
-                if (response.data.has_notice){
+                if (response.data.has_notice) {
                     wx.showModal({
                         title: response.data.title,
                         content: response.data.content,
@@ -298,9 +292,17 @@ Page({
         })
     },
 
+    checkbox_onchange: function (e) {
+        const options = e.detail.value
+        for (var i in this.data.checkbox_value)
+            this.data.checkbox_value[i] = false
+        for (var i in options)
+            this.data.checkbox_value[options[i]] = true
+    },
+
     recognize_pkg_info: function (e) {
 
-        if(this.data.userAddress.university.id != '0001')
+        if (this.data.userAddress.university.id != '0001')
             return false
 
         var pkg_info = e.detail.value
@@ -344,6 +346,7 @@ Page({
     },
 
     check_order: function (e) {
+
         var formtype = e.detail.target.dataset.formtype
 
         var order_info = {
@@ -380,6 +383,9 @@ Page({
         }
 
         order_info.comment = e.detail.value.comment
+
+        for (var i in this.data.checkbox_value)
+            order_info[i] = this.data.checkbox_value[i]
 
         var voucher_info = this.data.voucher_range[e.detail.value.voucher]
         if (voucher_info == '使用 免单券 ×1')
@@ -430,9 +436,12 @@ Page({
                             url: '/pages/record/record',
                             success: response => { wx.showToast({ title: '下单成功' }) }
                         })
+                        this.data.checkbox_value.putDownstairs = app.globalData.userAddress.putDownstairs
+                        this.data.checkbox_value.pickup_time_unfit = false
                         this.setData({
                             pkg_info: '',
                             comment: '',
+                            checkbox_value: this.data.checkbox_value
                         })
                         if (order_info.use_voucher == 'True') {
                             app.refreshVoucher()
@@ -459,9 +468,12 @@ Page({
                             url: '/pages/record/record',
                             success: response => { wx.showToast({ title: '修改成功' }) }
                         })
+                        this.data.checkbox_value.putDownstairs = app.globalData.userAddress.putDownstairs
+                        this.data.checkbox_value.pickup_time_unfit = false
                         this.setData({
                             pkg_info: '',
                             comment: '',
+                            checkbox_value: this.data.checkbox_value,
                             isModifying: false,
                             modifying_order: {}
                         })
@@ -492,6 +504,15 @@ Page({
         this.setData({
             pkg_position_range: pkg_position_range,
             pkg_position_index: 0,
+        })
+    },
+
+    uploadUserInfo: app.uploadUserInfo,
+
+    scrollToBottom: function () {
+        wx.pageScrollTo({
+            scrollTop: 600,
+            duration: 300
         })
     },
 

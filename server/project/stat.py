@@ -211,8 +211,8 @@ def get_growth_data(request):
     for stat in stat_list:
         data = {
             '日期': str(stat.date)[5:],
-            '订单数量': stat.count,
-            '总金额': float(stat.amount),
+            '订单数量': stat.order_count,
+            '总金额': float(stat.order_amount),
         }
         data_list.append(data)
 

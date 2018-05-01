@@ -85,3 +85,34 @@ def upload_address(request):
 
     response = {'upload_status': 'success'}
     return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def upload_setting(request):
+    if 'openid' not in request.POST:
+        response = {'upload_status': 'fail', 'errMsg': 'expect openid'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if 'key' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect key'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if 'value' not in request.POST:
+        response = {'status': 'fail', 'errMsg': 'expect value'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    user = User.objects.get(username=request.POST['openid'])
+    profile = UserProfile.objects.get(user=user)
+
+    key = request.POST['key']
+    value = request.POST['value']
+
+    if key == 'putDownstairs':
+        if value == 'true':
+            profile.putDownstairs = True
+        elif value == 'false':
+            profile.putDownstairs = False
+        profile.save()
+
+    response = {'status': 'success'}
+    return HttpResponse(json.dumps(response), content_type='application/json')
+

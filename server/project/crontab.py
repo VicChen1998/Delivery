@@ -1,5 +1,6 @@
 import time
 from datetime import date, datetime, timezone, timedelta
+from django.utils.timezone import now
 
 from project.models import Order, StatDay, AccessToken, User
 from project.auth import get_access_token
@@ -53,7 +54,7 @@ def stat_day():
     for order in order_list:
         order_amount += order.price
 
-    new_user = User.objects.filter(date_joined=today).count()
+    new_user = User.objects.filter(date_joined__gte=now() + timedelta(days=-1)).count()
     totoal_user = User.objects.all().count()
 
     StatDay.objects.create(date=today,

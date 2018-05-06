@@ -98,4 +98,6 @@ Page({
         console.log('reach botton')
     },
 
+    onShareAppMessage: app.onShareAppMessage
+
 })

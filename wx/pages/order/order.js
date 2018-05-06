@@ -9,6 +9,9 @@ Page({
         hasUserAddress: false,
         userAddress: {},
 
+        has_notice: false,
+        notice: null,
+
         community_range: [{ 'id': '', 'name': '- - -' }],
         community_index: 0,
         building_range: [{ 'id': '', 'name': '- - -' }],
@@ -126,11 +129,19 @@ Page({
             data: { 'page': '/pages/order/order' },
             success: response => {
                 if (response.data.has_notice) {
-                    wx.showModal({
-                        title: response.data.title,
-                        content: response.data.content,
-                        showCancel: false,
-                    })
+                    if (response.data.type == 'showModal') {
+                        wx.showModal({
+                            title: response.data.title,
+                            content: response.data.content,
+                            showCancel: false,
+                        })
+                    }
+                    if (response.data.type == 'topbar') {
+                        this.setData({
+                            has_notice: true,
+                            notice: response.data.title + '：' + response.data.content
+                        })
+                    }
                 }
             }
         })
@@ -520,6 +531,8 @@ Page({
         wx.switchTab({
             url: '/pages/settings/settings',
         })
-    }
+    },
+
+    onShareAppMessage: app.onShareAppMessage
 
 })

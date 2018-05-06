@@ -144,6 +144,30 @@ class Invitation(models.Model):
         db_table = 'Invitation'
 
 
+class Voucher(models.Model):
+    # 优惠券id
+    id = models.CharField(max_length=32, primary_key=True, unique=True)
+    # 用户
+    user = models.ForeignKey(User)
+    # 标题
+    title = models.CharField(max_length=32)
+    # 来源
+    source = models.IntegerField(8, default=0)
+    # 减免价格
+    value = models.DecimalField(max_digits=4, decimal_places=2)
+    # 生成时间
+    generate_time = models.DateTimeField(auto_now_add=True)
+    # 是否有效
+    valid = models.BooleanField(default=True)
+    # 失效时间
+    invalid_time = models.DateTimeField()
+    # 使用时间
+    use_time = models.DateTimeField(null=True)
+
+    class Meta:
+        db_table = 'Voucher'
+
+
 # 订单
 class Order(models.Model):
     # 订单id 时间和用户id组成
@@ -179,6 +203,8 @@ class Order(models.Model):
     has_pay = models.IntegerField(2, default=0)
     # 是否免单
     is_free = models.BooleanField(default=False)
+    # 优惠券
+    voucher = models.ForeignKey(Voucher, null=True, default=None)
     # 备注
     comment = models.CharField(max_length=256, null=True)
     # 是否可以放在楼下

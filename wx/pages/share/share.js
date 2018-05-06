@@ -25,7 +25,5 @@ Page({
         })
     },
 
-    onShareAppMessage: function (options) {
-        return { path: '/pages/order/order?inviter=' + app.globalData.userAddress.openid }
-    }
+    onShareAppMessage: app.onShareAppMessage
 })

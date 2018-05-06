@@ -55,6 +55,16 @@ def order(request):
         if request.POST['putDownstairs'] == 'true':
             putDownstairs = True
 
+    voucher = None
+    if 'voucher_id' in request.POST:
+        try:
+            voucher = Voucher.objects.get(id=request.POST['voucher_id'])
+        except Voucher.DoesNotExist:
+            response = {'order_status': 'fail', 'errMsg': 'voucher not exist.'}
+            return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+
     Order.objects.create(
         id=order_id,
         date=date,

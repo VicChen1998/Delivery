@@ -394,5 +394,7 @@ Page({
         wx.navigateTo({
             url: '/pages/staff/manage/manage',
         })
-    }
+    },
+    
+    onShareAppMessage: app.onShareAppMessage
 })

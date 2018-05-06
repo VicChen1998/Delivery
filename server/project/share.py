@@ -85,7 +85,7 @@ def get_share_voucher(request):
         response = {'status': 'fail', 'errMsg': 'invalid userAddress'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    if Invitation.objects.filter(inviter=inviter).count() < 5:
+    if Invitation.objects.filter(inviter=inviter, valid=True).count() < 5:
         inviter_profile.voucher += 1
 
     invitee_profile.voucher += 1

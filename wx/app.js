@@ -41,6 +41,11 @@ App({
                         this.checkIsFirstSignin(options)
                     }
                 })
+            },
+            fail: response => {
+                wx.showToast({
+                    title: '登录失败',
+                })
             }
         })
 
@@ -102,18 +107,27 @@ App({
     },
 
     refreshVoucher: function (callback) {
-        wx.request({
-            url: this.globalData.host + 'get_voucher',
-            data: { 'openid': this.globalData.userAddress.openid },
-            success: response => {
-                if (response.data.get_voucher_status == 'success') {
-                    this.globalData.userAddress.voucher = response.data.voucher
-                    if (callback) {
-                        callback()
+        if (this.globalData.userAddress.openid) {
+            wx.request({
+                url: this.globalData.host + 'get_voucher',
+                data: { 'openid': this.globalData.userAddress.openid },
+                success: response => {
+                    if (response.data.get_voucher_status == 'success') {
+                        this.globalData.userAddress.voucher = response.data.voucher
+                        if (callback) {
+                            callback()
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
+    },
+
+    onShareAppMessage: function (options) {
+        return {
+            path: '/pages/order/order?inviter=' + this.globalData.userAddress.openid,
+            imageUrl: this.globalData.host + 'resource?name=logo.jpg'
+        }
     }
 
 })

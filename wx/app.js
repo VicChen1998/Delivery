@@ -114,9 +114,8 @@ App({
                 success: response => {
                     if (response.data.get_voucher_status == 'success') {
                         this.globalData.userAddress.voucher = response.data.voucher
-                        if (callback) {
+                        if (callback)
                             callback()
-                        }
                     }
                 }
             })

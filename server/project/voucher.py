@@ -15,9 +15,11 @@ def give(user, value=1, title=None, source=0, period=90):
     if not title:
         title = str(value) + '元优惠券'
 
-    Voucher.objects.create(id=voucher_id,
-                           user=user,
-                           title=title,
-                           source=source,
-                           value=value,
-                           invalid_time=current_time + timedelta(days=period))
+    voucher = Voucher.objects.create(id=voucher_id,
+                                     user=user,
+                                     title=title,
+                                     source=source,
+                                     value=value,
+                                     invalid_time=current_time + timedelta(days=period))
+
+    return voucher

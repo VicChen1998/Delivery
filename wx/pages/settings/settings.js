@@ -336,7 +336,7 @@ Page({
                                 success: res => {
                                     if (res.data.status == 'success') {
                                         wx.showToast({
-                                            title: '你和邀请者各得到一张免单券！',
+                                            title: '你和邀请者各得到一张优惠券！',
                                             icon: 'none',
                                             duration: 2000
 

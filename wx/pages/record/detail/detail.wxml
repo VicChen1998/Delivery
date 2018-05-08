@@ -52,6 +52,11 @@
             <text class='order_pkg_info'> {{order.pkg_info}}</text>
         </view>
 
+        <view class='order_detail' wx:if='{{order.voucher.title}}'>
+            <text style='margin-left: 30rpx'>优惠券:</text>
+            <text style='margin-left: 30rpx'> {{order.voucher.title}}</text>
+        </view>
+
         <view class='order_detail' wx:if='{{order.putDownstairs || order.pickup_time_unfit}}'>
             <view style='margin-left: 30rpx'>附加信息:</view>
             <view wx:if="{{order.pickup_time_unfit}}" style='margin-left: 30rpx'> 没有合适的领取时限</view>

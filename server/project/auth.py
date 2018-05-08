@@ -5,7 +5,7 @@ import requests
 from django.http import HttpResponse
 
 from delivery.settings import AppID, AppSecret
-from project.models import User, UserProfile, AccessToken
+from project.models import User, UserProfile, Voucher, AccessToken
 
 
 def get_openid(js_code):
@@ -44,6 +44,14 @@ def signin(request):
     if profile.building.id == '0000000000':
         first_signin = True
 
+    voucher = []
+    for v in Voucher.objects.filter(user=user, valid=True).order_by('invalid_time'):
+        voucher.append({
+            'id': v.id,
+            'title': v.title,
+            'describe': v.title + ' 有效期至' + str(v.invalid_time.date())
+        })
+
     permission = {'view_pickup_page': user.has_perm('project.view_pickup_page'),
                   'view_deliver_page': user.has_perm('project.view_deliver_page'),
                   'view_manage_page': user.has_perm('project.view_manage_page')}
@@ -61,7 +69,7 @@ def signin(request):
                 'community': {'id': profile.community.id, 'name': profile.community.name},
                 'building': {'id': profile.building.id, 'name': profile.building.name},
                 'credit': profile.credit,
-                'voucher': profile.voucher,
+                'voucher': voucher,
                 'putDownstairs': profile.putDownstairs
                 }
     return HttpResponse(json.dumps(response), content_type='application/json')

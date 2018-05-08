@@ -1,7 +1,8 @@
 import json
 import time
-from decimal import getcontext, Decimal
+from decimal import Decimal
 
+from django.utils.timezone import now
 from django.http import HttpResponse
 
 from project.models import *
@@ -34,17 +35,6 @@ def order(request):
         response = {'order_status': 'fail', 'errMsg': 'price error'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    is_free = False
-    if 'use_voucher' in request.POST:
-        if request.POST['use_voucher'] == 'True':
-            if profile.voucher == 0:
-                response = {'order_status': 'fail', 'errMsg': 'no voucher'}
-                return HttpResponse(json.dumps(response), content_type='application/json')
-            else:
-                profile.voucher -= 1
-                profile.save()
-                is_free = True
-
     pickup_time_unfit = False
     if 'pickup_time_unfit' in request.POST:
         if request.POST['pickup_time_unfit'] == 'true':
@@ -60,10 +50,21 @@ def order(request):
         try:
             voucher = Voucher.objects.get(id=request.POST['voucher_id'])
         except Voucher.DoesNotExist:
-            response = {'order_status': 'fail', 'errMsg': 'voucher not exist.'}
+            response = {'order_status': 'fail', 'errMsg': 'voucher not exist'}
             return HttpResponse(json.dumps(response), content_type='application/json')
 
+        if voucher.user != user:
+            response = {'order_status': 'fail', 'errMsg': 'not your voucher'}
+            return HttpResponse(json.dumps(response), content_type='application/json')
 
+        if not voucher.valid:
+            voucher = None
+            response = {'order_status': 'fail', 'errMsg': 'voucher invalid'}
+            return HttpResponse(json.dumps(response), content_type='application/json')
+
+        voucher.use_time = now()
+        voucher.valid = False
+        voucher.save()
 
     Order.objects.create(
         id=order_id,
@@ -80,7 +81,7 @@ def order(request):
         pickup_time=request.POST['pickup_time'][:5],
         pkg_info=request.POST['pkg_info'],
         price=Decimal(price),
-        is_free=is_free,
+        voucher=voucher,
         comment=request.POST['comment'],
         putDownstairs=putDownstairs,
         pickup_time_unfit=pickup_time_unfit
@@ -263,7 +264,6 @@ def cancel(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     user = User.objects.get(username=request.POST['openid'])
-    profile = UserProfile.objects.get(user=user)
 
     if order.user.username != user.username:
         response = {'status': 'fail', 'errMsg': 'not your order'}
@@ -276,9 +276,10 @@ def cancel(request):
     order.status = 14
     order.save()
 
-    if order.is_free:
-        profile.voucher += 1
-        profile.save()
+    if order.voucher:
+        order.voucher.valid = True
+        order.voucher.use_time = None
+        order.voucher.save()
 
     response = {'status': 'success'}
     return HttpResponse(json.dumps(response), content_type='application/json')
@@ -309,6 +310,12 @@ def deliverer_cancel(request):
     order.status = 14
     order.errMsg = 'cancel by ' + user.username + ' ' + profile.name + ' ' + profile.phone
     order.save()
+
+    if order.voucher:
+        order.voucher.valid = True
+        order.voucher.use_time = None
+        order.voucher.save()
+
     response = {'status': 'success'}
     return HttpResponse(json.dumps(response), content_type='application/json')
 

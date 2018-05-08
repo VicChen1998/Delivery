@@ -1,0 +1,20 @@
+<!--pages/staff/manage/search_user/give_voucher.wxml-->
+<view class="container">
+    <view class='main_content' style='text-align:center'>
+        <view style='width:100%'>{{name}}</view>
+        <form bindsubmit='give_voucher'>
+            <view style='margin-top:50rpx; display:flex'>
+                <view style='width:30%;'>面 值</view>
+                <input style='width:50%; text-align:center; border-bottom: 3rpx solid #ccc;' value='2' name='value'></input>
+                <view style='width:5%; margin-left:20rpx'>元</view>
+            </view>
+            <view style='margin-top:50rpx; display:flex'>
+                <view style='width:30%;'>有效期</view>
+                <input style='width:50%; text-align:center; border-bottom: 3rpx solid #ccc;' value='90' name='period'></input>
+                <view style='width:5%; margin-left:20rpx'>天</view>
+            </view>
+            <button class='no_radius lr_no_border' style='width:100%; position:absolute; bottom:0;' form-type='submit' type='primary'>确定</button>
+        </form>
+
+    </view>
+</view>

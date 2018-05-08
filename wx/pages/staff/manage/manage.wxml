@@ -2,7 +2,7 @@
 <view class='container'>
     <view class='main_content'>
 
-        <input class='deliverer_search_input' placeholder='搜索姓名或手机号，发放免单券' confirm-type='search' bindconfirm='to_search_user' name='keyword'></input>
+        <input class='deliverer_search_input' placeholder='搜索姓名或手机号，发放优惠券' confirm-type='search' bindconfirm='to_search_user' name='keyword'></input>
 
         <view wx:if='{{feedback_count != 0}}' style='margin: 20rpx auto;'>
             <button bindtap='to_feedback' class='no_radius' style='height:70rpx; line-height:70rpx;'>用户反馈 {{feedback_count}}</button>

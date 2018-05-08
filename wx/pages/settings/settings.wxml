@@ -4,7 +4,7 @@
         <open-data class='avatar' bindtap='toSettings' type='userAvatarUrl'></open-data>
 
         <view style='display:flex;'>
-            <view class='voucher_info'>我有 {{userAddress.voucher}} 张免单券</view>
+            <view class='voucher_info'>我有 {{userAddress.voucher.length}} 张优惠券</view>
             <view class='get_voucher'>获取更多 ></view>
         </view>
     </view>

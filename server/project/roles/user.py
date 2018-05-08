@@ -2,7 +2,7 @@ import json
 
 from django.http import HttpResponse
 
-from project.models import User, UserProfile, Order, Building
+from project.models import User, UserProfile, Voucher, Order, Building
 
 
 # 私密端口 获取个人数据
@@ -30,10 +30,16 @@ def get_voucher(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     user = User.objects.get(username=request.GET['openid'])
-    profile = UserProfile.objects.get(user=user)
+    voucher = []
+    for v in Voucher.objects.filter(user=user, valid=True).order_by('invalid_time'):
+        voucher.append({
+            'id': v.id,
+            'title': v.title,
+            'describe': v.title + ' 有效期至' + str(v.invalid_time.date())
+        })
 
     response = {'get_voucher_status': 'success',
-                'voucher': profile.voucher}
+                'voucher': voucher}
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 

@@ -3,14 +3,15 @@
     <view class='main_content'>
 
         <view class='tip' style='font-size:35rpx;'>邀请好友使用轻骑小程序</view>
-        <view class='tip' style='font-size:35rpx; margin-top:15rpx;'>两个人都可获得一张免单券哦</view>
+        <view class='tip' style='font-size:35rpx; margin-top:15rpx;'>两个人都可获得一张优惠券哦</view>
 
         <image src='{{qrcode_src}}' class='QRcode' mode='widthFix' style='position:relative; right:10rpx; top: 20rpx'></image>
 
         <view style='margin-top:50rpx; width:100%;'>
-            <view class='tip'>1. 邀请好友使用微信扫描<text style='color:red'>↑本二维码↑</text></view>
-            <view class='tip' style='margin-bottom: 10rpx'>并<text style='color:red'>完整填写默认收货信息</text>后才视为有效邀请</view>
-            <view class='tip'>2. 每人<text style='color:red'>最多</text>通过邀请可获得<text style='color:red'>5</text>张免单券</view>
+            <view class='tip'>1. 点击右上角转发给好友</view>
+            <view class='tip'>或邀请好友使用微信扫描<text style='color:red'>↑本二维码↑</text></view>
+            <view class='tip' style='margin-bottom: 10rpx'>2. <text style='color:red'>完整填写默认收货信息</text>后才视为有效邀请</view>
+            <view class='tip'>3. 每人<text style='color:red'>最多</text>通过邀请可获得<text style='color:red'>5</text>张优惠券</view>
 
             <view class='tip' style='margin-top: 30rpx' bindtap='to_invite_record'>查看我的邀请记录 >></view>
         </view>

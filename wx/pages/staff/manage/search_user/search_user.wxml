@@ -21,13 +21,13 @@
 
                 <view style='margin-top:15rpx;'>
                     <text style='margin-right:30rpx;'>{{user.join_date}}加入</text>
-                    <text>现有 {{user.voucher}} 张免单券</text>
+                    <text>现有 {{user.voucher}} 张优惠券</text>
                 </view>
     
                 <view style='margin-top:15rpx;'>
                     <text style='margin-right:30rpx;'>总下单数: {{user.order_count}}</text>
                     <text style='margin-right:30rpx;'>已完成单数: {{user.finished_order_count}}</text>
-                    <text>免单次数: {{user.free_order_count}}</text>
+                    <text>优惠次数: {{user.free_order_count}}</text>
                 </view>
 
                 <view wx:if='{{user.invite_count != 0}}' style='margin-top:15rpx;'>

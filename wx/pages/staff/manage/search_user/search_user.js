@@ -39,26 +39,11 @@ Page({
         var index = e.target.dataset.index
 
         wx.showActionSheet({
-            itemList: ['发放免单券', '查看相关订单'],
+            itemList: ['发放优惠券', '查看相关订单'],
             success: res => {
                 if (res.tapIndex == 0) {
-                    wx.request({
-                        url: app.globalData.host + 'give_voucher',
-                        method: 'POST',
-                        header: { 'content-type': 'application/x-www-form-urlencoded' },
-                        data: {
-                            'openid': app.globalData.userAddress.openid,
-                            'user_openid': user_openid
-                        },
-                        success: response => {
-                            if (response.data.status == 'success') {
-                                this.data.search_list[index].voucher = response.data.current_voucher
-                                this.setData({
-                                    search_list: this.data.search_list
-                                })
-                            }
-                            wx.showToast({ title: '发放成功' })
-                        }
+                    wx.navigateTo({
+                        url: '/pages/staff/manage/search_user/give_voucher' + '?user_openid=' + user_openid + '&name=' + this.data.search_list[index].name,
                     })
                 }
                 else if (res.tapIndex == 1) {

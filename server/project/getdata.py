@@ -58,7 +58,7 @@ def get_notice(request):
             'has_notice': False,
             'type': 'topbar',
             'title': '服务器维护中',
-            'content': '免单券功能停用两天'
+            'content': '免单券功能停用两天，放心丢不了'
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 

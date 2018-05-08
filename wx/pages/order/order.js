@@ -1,5 +1,5 @@
 
-//index.js
+//order.js
 const app = getApp()
 
 var util = require('../../utils/util.js')
@@ -75,14 +75,17 @@ Page({
 
     init_voucher: function () {
 
-        if (this.data.userAddress.voucher == 0) {
-            this.setData({ voucher_range: ['你还没有免单券哦~'] })
+        if (this.data.userAddress.voucher.length == 0) {
+            this.setData({
+                voucher_range: [{ title: '你还没有优惠券哦~', 'describe': '你还没有优惠券哦~' }],
+                voucher_index: 0
+            })
         } else {
-            var range = ['不使用']
-            for (var i = 0; i < this.data.userAddress.voucher; i++)
-                range.unshift('使用 免单券 ×1')
-
-            this.setData({ voucher_range: range })
+            this.data.userAddress.voucher.push({ title: '不使用', 'describe': '不使用' })
+            this.setData({
+                voucher_range: this.data.userAddress.voucher,
+                voucher_index: 0
+            })
         }
     },
 
@@ -152,12 +155,13 @@ Page({
 
         if (this.data.hasUserAddress) {
             if (this.data.userAddress.voucher != app.globalData.userAddress.voucher) {
-                this.setData({ userAddress: app.globalData.userAddress })
+                this.data.userAddress = app.globalData.userAddress
                 this.init_voucher()
             }
             else if (app.globalData.hasOpenSharePage) {
                 app.refreshVoucher(() => {
-                    this.setData({ userAddress: app.globalData.userAddress })
+                    this.data.userAddress = app.globalData.userAddress
+                    this.init_voucher()
                 })
             }
         }
@@ -227,7 +231,7 @@ Page({
     onPullDownRefresh: function () {
         wx.showNavigationBarLoading()
         app.refreshVoucher(() => {
-            this.setData({ userAddress: app.globalData.userAddress })
+            this.data.userAddress = app.globalData.userAddress
             this.init_voucher()
             wx.stopPullDownRefresh()
             wx.hideNavigationBarLoading()
@@ -398,11 +402,11 @@ Page({
         for (var i in this.data.checkbox_value)
             order_info[i] = this.data.checkbox_value[i]
 
-        var voucher_info = this.data.voucher_range[e.detail.value.voucher]
-        if (voucher_info == '使用 免单券 ×1')
-            order_info.use_voucher = 'True'
-        else
-            order_info.use_voucher = 'False'
+        if (formtype == 'submit') {
+            var voucher = this.data.voucher_range[e.detail.value.voucher]
+            if (voucher.title != '不使用' && voucher.title != '你还没有优惠券哦~')
+                order_info.voucher_id = voucher.id
+        }
 
         var date = new Date()
         var current_time = (Array(2).join(0) + date.getHours()).slice(-2) + ':' + date.getMinutes()
@@ -454,8 +458,11 @@ Page({
                             comment: '',
                             checkbox_value: this.data.checkbox_value
                         })
-                        if (order_info.use_voucher == 'True') {
-                            app.refreshVoucher()
+                        if (order_info.voucher_id) {
+                            app.refreshVoucher(() => {
+                                this.data.userAddress = app.globalData.userAddress
+                                this.init_voucher()
+                            })
                         }
                     } else {
                         wx.showToast({ title: 'error: ' + response.data.errMsg, icon: 'none', duration: 3000 })

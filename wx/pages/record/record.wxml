@@ -38,7 +38,7 @@
                         <image src='/images/free.png' class='order_free'></image>
                     </block>
                     <block wx:else>
-                        <text class='order_price'>￥{{order.price}}</text>
+                        <text class='order_price'>￥{{order.final_price}}</text>
                     </block>
                 </view>
 

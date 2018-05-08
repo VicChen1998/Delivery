@@ -115,7 +115,7 @@ Page({
                                 },
                                 success: response => {
                                     if (response.data.status == 'success') {
-                                        this.data.pickup_fail_list[e.target.dataset.index].price += ('+￥' + raise)
+                                        this.data.pickup_fail_list[e.target.dataset.index].final_price += ('+￥' + raise)
                                         this.setData({ pickup_fail_list: this.data.pickup_fail_list })
                                     }
                                 }

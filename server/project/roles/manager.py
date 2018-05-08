@@ -1,8 +1,10 @@
 import json
+from decimal import Decimal
 
 from django.http import HttpResponse
 
-from project.models import User, UserProfile, Invitation, Order
+from project.models import User, UserProfile, Invitation, Order, Voucher
+from project import voucher
 
 
 def search_user(request):
@@ -43,10 +45,10 @@ def search_user(request):
             'gender': profile.gender,
             'join_date': profile.user.date_joined.strftime('%Y-%m-%d'),
             'building_name': profile.building.halfname(),
-            'voucher': profile.voucher,
+            'voucher': Voucher.objects.filter(user_id=profile.user_id, valid=True).count(),
             'order_count': orders.count(),
             'finished_order_count': orders.filter(status=13).count(),
-            'free_order_count': orders.filter(is_free=True, status__in=[0, 1, 2, 3, 7, 8, 9, 13]).count(),
+            'free_order_count': orders.filter(status=13).exclude(voucher=None).count(),
             'invite_count': invitations.count(),
             'valid_invite_count': invitations.filter(valid=True).count()
         })
@@ -72,11 +74,12 @@ def give_voucher(request):
         response = {'status': 'fail', 'errMsg': 'expect user openid'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    user = User.objects.filter(username=request.POST['user_openid'])
-    profile = UserProfile.objects.get(user=user)
+    user = User.objects.get(username=request.POST['user_openid'])
 
-    profile.voucher += 1
-    profile.save()
+    value = Decimal(request.POST['value'])
+    period = int(request.POST['period'])
+    
+    voucher.give(user, value=value, period=period)
 
-    response = {'status': 'success', 'current_voucher': profile.voucher}
+    response = {'status': 'success', 'current_voucher': Voucher.objects.filter(user=user, valid=True).count()}
     return HttpResponse(json.dumps(response), content_type='application/json')

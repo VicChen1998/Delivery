@@ -1,4 +1,4 @@
-<!--index.wxml-->
+<!--order.wxml-->
 <view class="container">
 
     <view class='topbar'>
@@ -86,9 +86,9 @@
 
             <block wx:if='{{!isModifying}}'>
                 <view class='input_item'>
-                    <text class='input_title'>免单券</text>
-                    <picker bindchange='voucher_onchange' value='{{voucher_index}}' range='{{voucher_range}}' name='voucher'>
-                        <text class='input_picker'>{{voucher_range[voucher_index]}}</text>
+                    <text class='input_title'>优惠券</text>
+                    <picker bindchange='voucher_onchange' value='{{voucher_index}}' range='{{voucher_range}}' range-key='describe' name='voucher'>
+                        <text class='input_picker'>{{voucher_range[voucher_index].title}}</text>
                     </picker>
                 </view>
             </block>

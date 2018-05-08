@@ -201,8 +201,6 @@ class Order(models.Model):
     price = models.DecimalField(max_digits=4, decimal_places=2)
     # 是否支付 (0 未支付/ 1 待确认 / 2 已支付)
     has_pay = models.IntegerField(2, default=0)
-    # 是否免单
-    is_free = models.BooleanField(default=False)
     # 优惠券
     voucher = models.ForeignKey(Voucher, null=True, default=None)
     # 备注
@@ -253,6 +251,20 @@ class Order(models.Model):
         elif self.status == -1:
             status_describe = self.errMsg
 
+        voucher = {}
+        final_price = self.price
+        if self.voucher:
+            voucher = {
+                'id': self.voucher.id,
+                'title': self.voucher.title,
+                'value': '%.2f' % self.voucher.value
+            }
+            final_price = self.price - self.voucher.value
+            if final_price < 0:
+                final_price = 0
+
+        is_free = True if final_price == 0 else False
+
         order_dict = {'id': self.id,
                       'date': str(self.date),
                       'status': self.status,
@@ -268,8 +280,10 @@ class Order(models.Model):
                       'community': {'id': self.building.community.id, 'name': self.building.community.name},
                       'building': {'id': self.building.id, 'name': self.building.name},
                       'price': '%.2f' % self.price,
+                      'final_price': '%.2f' % final_price,
                       'has_pay': self.has_pay,
-                      'is_free': self.is_free,
+                      'is_free': is_free,
+                      'voucher': voucher,
                       'comment': self.comment,
                       'putDownstairs': self.putDownstairs,
                       'pickup_time_unfit': self.pickup_time_unfit}

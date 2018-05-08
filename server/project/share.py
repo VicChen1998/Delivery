@@ -5,6 +5,7 @@ import requests
 from django.http import HttpResponse
 
 from project.models import User, UserProfile, AccessToken, Invitation
+from project import voucher
 from delivery.settings import BASE_DIR
 
 
@@ -78,7 +79,6 @@ def get_share_voucher(request):
         response = {'status': 'fail', 'errMsg': 'already give once'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-    inviter_profile = UserProfile.objects.get(user=inviter)
     invitee_profile = UserProfile.objects.get(user=invitee)
 
     if invitee_profile.building.id == '0000000000':
@@ -86,12 +86,9 @@ def get_share_voucher(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     if Invitation.objects.filter(inviter=inviter, valid=True).count() < 5:
-        inviter_profile.voucher += 1
+        voucher.give(inviter, 2)
 
-    invitee_profile.voucher += 1
-
-    inviter_profile.save()
-    invitee_profile.save()
+    voucher.give(invitee, 2)
 
     record.valid = True
     record.save()

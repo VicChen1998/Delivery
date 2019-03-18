@@ -27,4 +27,4 @@
 
 |下单排行|小程序码邀请码|反馈界面|
 |-|-|-|
-|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/rank.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/invite_qrcode.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/feedback.png?raw=true)|
+|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/rank.jpg?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/invite_qrcode.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/feedback.png?raw=true)|

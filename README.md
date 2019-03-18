@@ -17,3 +17,14 @@
 ### 部分功能界面展示
 
 
+|下单界面|订单记录|个人信息|
+|-|-|-|
+|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/order.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/record.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/profile.png?raw=true)|
+
+|取件界面|配送界面|管理界面|
+|-|-|-|
+|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/take.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/deliver.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/manage.png?raw=true)|
+
+|下单排行|小程序码邀请码|反馈界面|
+|-|-|-|
+|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/rank.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/invite_qrcode.png?raw=true)|![image](https://github.com/VicChen1998/Delivery/blob/master/readme_imgs/feedback.png?raw=true)|
